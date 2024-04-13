@@ -13,6 +13,7 @@ function Home() {
       </nav>
     </header>
     <main>
+      {/* First commit to Github */}
       <section className="flex justify-center">
         <h2>Learn how to act, present, and tell stories using AI!</h2>
         <figure className="flex justify-center">
