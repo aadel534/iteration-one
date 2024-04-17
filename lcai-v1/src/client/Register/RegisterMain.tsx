@@ -1,10 +1,11 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import 'tailwindcss/tailwind.css';
-import Register from "./Register";
+import { Register } from "./Register";
 
-ReactDOM.createRoot(document.getElementById("register") as HTMLElement).render(
+ReactDOM.render(
   <React.StrictMode>
     <Register/>
   </React.StrictMode>,
+  document.getElementById("register")
 );

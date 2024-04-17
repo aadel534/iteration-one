@@ -1,5 +1,9 @@
-function Home() {
+import axios from "axios";
 
+function Home() {
+const handleClick = () => {
+ axios.get("http://localhost:3000/register");
+}
   return (
     <>
     <header className="md:flex md:justify-between md:items-center -mt-10 bg-slate-300 pb-10 font-mono">
@@ -21,7 +25,7 @@ function Home() {
         </figure>
       </section>
       <article className="flex justify-center mt-20 font-mono">
-      <button className="bg-slate-400 text-3xl" >JOIN NOW!</button>
+      <button onClick={handleClick} className="bg-slate-400 text-3xl" >JOIN NOW!</button>
       </article>
 
     </main>

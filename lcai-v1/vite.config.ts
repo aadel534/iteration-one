@@ -1,11 +1,9 @@
 import { defineConfig } from "vite";
-import { resolve } from 'path'
+import { resolve } from 'path';
+import reactRefresh from '@vitejs/plugin-react-refresh';
 
-import react from "@vitejs/plugin-react";
-
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [reactRefresh()],
   build: {
     outDir: 'dist',
     rollupOptions: {
@@ -13,11 +11,7 @@ export default defineConfig({
         main: resolve(__dirname, 'src/client/main.tsx'),
         register: resolve(__dirname, 'src/client/Register/RegisterMain.tsx'),
       },
-      output: {
-        entryFileNames: `assets/[name].js`,
-        chunkFileNames: `assets/[name].js`,
-        assetFileNames: `assets/[name].[ext]`
-      }
+      
     },
   },
 });

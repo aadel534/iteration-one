@@ -1,8 +1,9 @@
 import express from "express";
 import ViteExpress from "vite-express";
 import { fileURLToPath } from "url";
-
+import cors from "cors";
 const app = express();
+app.use(cors());
 
 app.get("/register", (req, res) => {
   const filePath = fileURLToPath(
