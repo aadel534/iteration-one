@@ -36,7 +36,7 @@ export function Home() {
           </figure>
           <article className="flex justify-center font-mono mt-20">
           <Link to="register">
-            <button className="text-3xl md:hover:text-yellow-500 md:animate-pulse text-green-500 font-extrabold border-dotted border-2 border-green-600 rounded hover:cursor-pointer">JOIN NOW!</button>
+            <button className="text-3xl hover:text-yellow-500 md:animate-pulse text-green-500 font-extrabold border-dotted border-2 border-green-600 rounded hover:cursor-pointer">JOIN NOW!</button>
           </Link>
         </article>
         </section>
