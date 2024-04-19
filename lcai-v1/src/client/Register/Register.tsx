@@ -5,9 +5,9 @@ export function Register() {
   };
   return (
     <>
-      <header className="md:flex md:justify-between md:items-center -mt-10 bg-white -mb-20 pb-10 font-mono bg-gradient-to-b from-indigo-300">
+      <header className="flex justify-between items-center -mt-10 bg-white mb-20 font-mono   sticky top-0 z-50">
         <Link to="/">
-          <h1 className="pt-10 text-4xl font-mono font-extrabold ml-6 mt-6 hover:text-yellow-500">
+          <h1 className="absolute top-30 text-xl font-mono font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
             <span id="lcaiLogoLeft" className="text-rose-700 pr-4">
               LCAI!
             </span>
@@ -15,14 +15,15 @@ export function Register() {
           </h1>
         </Link>
 
-        <nav className="mt-10 md:mt-20 ">
-          <ul className="md:flex space-x-2  mr-10	text-center ">
-            <li className="text-3xl md:pr-10 uppercase md:capitalize text-yellow-500 ">
-              <NavLink to="/register">Register</NavLink>
+        <nav className="mt-7 mt-28 ">
+          <ul className="flex space-x-2  mr-10	text-center ">
+          <li className="text-xl  uppercase capitalize hover:text-blue-700 pr-10 hover:animate-pulse">
+              <span className="hover:bg-slate-200 rounded">Log In</span>
             </li>
-            <li className="text-3xl uppercase md:capitalize hover:text-yellow-500 ">
-              Log In
+            <li className="text-xl  uppercase capitalize mb-10 hover:animate-pulse text-white">
+              <NavLink to="/register"><span className="bg-blue-700 rounded">Register</span></NavLink>
             </li>
+         
           </ul>
         </nav>
       </header>
@@ -85,7 +86,7 @@ Confirm Password      </label>
         </section>
         <article className="flex justify-center font-mono mt-20">
           <Link to="register">
-            <button className="text-3xl hover:text-yellow-500 md:animate-pulse text-green-500 font-extrabold border-dotted border-2 border-green-600 rounded hover:cursor-pointer">JOIN NOW!</button>
+          <button className="text-3xl hover:animate-pulse md:animate-pulse text-blue-700 font-extrabold border-dotted border-2 border-blue-600 rounded hover:cursor-pointer">JOIN NOW!</button>
           </Link>
         </article>
       <footer className="text-sm text-center mt-60  font-mono">
