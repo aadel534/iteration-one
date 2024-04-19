@@ -5,15 +5,7 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 
-app.get("/register", (req, res) => {
-  const filePath = fileURLToPath(
-    new URL(
-      "/Users/adelayoadebiyi/Documents/Documents/FYP/iteration-one/lcai-v1/src/client/Register/index.html",
-      import.meta.url
-    )
-  );
-  res.sendFile(filePath);
-});
+
 
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000..."),
