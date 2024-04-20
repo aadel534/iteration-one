@@ -29,13 +29,13 @@ export function Register() {
       </header>
       <main className=" -mb-40 font-sans relative">
       
-        <section className="flex justify-end -mt-20 mr-60">
+        <section className="flex justify-end -mt-20 md:mr-60">
 
         <figure className="mr-20 flex items-center mt-10">
-          <img src="model-8.jpg" className="h-80"/>
+          <img src="model-8.jpg" className="hidden md:block h-80"/>
         </figure>
 
-        <form className="w-full max-w-lg  ">
+        <form className="w-full max-w-lg  mr-20 md:mr-0">
         <h1 className="text-center text-2xl mt-20 mb-10">Create Your Account</h1>
 
   <div className="flex flex-wrap -mx-3 mb-6">
