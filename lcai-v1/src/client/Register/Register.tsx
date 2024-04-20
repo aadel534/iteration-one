@@ -5,9 +5,9 @@ export function Register() {
   };
   return (
     <>
-      <header className="flex justify-between items-center -mt-10 bg-white mb-20 font-mono   sticky top-0 z-50">
+      <header className="flex justify-between items-center -mt-10 bg-white mb-20 font-sans   sticky top-0 z-50">
         <Link to="/">
-          <h1 className="absolute top-30 text-xl font-mono font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
+          <h1 className="absolute top-30 text-xl font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
             <span id="lcaiLogoLeft" className="text-rose-700 pr-4">
               LCAI!
             </span>
@@ -27,16 +27,17 @@ export function Register() {
           </ul>
         </nav>
       </header>
-      <main className="bg-gradient-to-t from-indigo-300 -mb-40 font-mono">
-  
-      <h1 className="text-center text-2xl mt-20 mb-10">REGISTER</h1>
+      <main className=" -mb-40 font-sans relative">
+      
+        <section className="flex justify-end -mt-20 mr-60">
 
+        <figure className="mr-20 flex items-center mt-10">
+          <img src="model-8.jpg" className="h-80"/>
+        </figure>
 
+        <form className="w-full max-w-lg  ">
+        <h1 className="text-center text-2xl mt-20 mb-10">Create Your Account</h1>
 
-        <section className="flex justify-center ">
-
-
-        <form className="w-full max-w-lg ">
   <div className="flex flex-wrap -mx-3 mb-6">
     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
       <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
@@ -74,7 +75,11 @@ Confirm Password      </label>
     </div>
   </div>
 
-   
+  <article className="flex justify-center  ">
+          <Link to="register">
+          <button className="text-3xl hover:animate-pulse md:animate-pulse text-blue-700 font-extrabold border-dotted border-2 border-blue-600 rounded hover:cursor-pointer">Sign Up!</button>
+          </Link>
+        </article>
 
 </form>
 
@@ -84,16 +89,13 @@ Confirm Password      </label>
 
        
         </section>
-        <article className="flex justify-center font-mono mt-20">
-          <Link to="register">
-          <button className="text-3xl hover:animate-pulse md:animate-pulse text-blue-700 font-extrabold border-dotted border-2 border-blue-600 rounded hover:cursor-pointer">JOIN NOW!</button>
-          </Link>
-        </article>
-      <footer className="text-sm text-center mt-60  font-mono">
+      
+  
+      </main>
+      <footer className="text-sm text-center mt-60  font-sans">
       &copy; 2024 Adelayo Adebiyi
       
       </footer>
-      </main>
     </>
   );
   
