@@ -1,10 +1,19 @@
 import { NavLink, Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+
 export function Home() {
+
   return (
+    
     <>
-      <header className="flex justify-between items-center -mt-10 bg-white mb-20 font-mono   sticky top-0 z-50">
+     
+      <header className="flex justify-between items-center -mt-10 bg-white  font-sans   sticky top-0 z-50 antialiased">
         <Link to="/">
-          <h1 className="absolute top-30 text-xl font-mono font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
+          <h1 className="absolute top-30 text-xl font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
             <span id="lcaiLogoLeft" className="text-rose-700 pr-4">
               LCAI!
             </span>
@@ -24,15 +33,13 @@ export function Home() {
           </ul>
         </nav>
       </header>
-      <main className=" font-mono">
+      <main className=" font-sans relative antialiased">
         <section className="">
-          <h2 className="ml-6 mt-20 flex justify-center text-3xl text-wrap mb-10 font-extrabold text-white text-black ">
-            Learn how to act, present, and tell stories using AI!
-          </h2>
+        
 
         
           <figure className="flex justify-center mt-20 ">
-          <h1 className="text-4xl font-mono font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
+          <h1 className="text-4xl  font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
             <span id="lcaiLogoLeft" className="text-rose-700 pr-4">
               LCAI!
             </span>
@@ -40,16 +47,40 @@ export function Home() {
           </h1>
           </figure>
           <br></br>
-          <div className='h-screen w-screen bg-[url("facialrecognition.png")] bg-no-repeat' ></div>
 
-                    <article className="flex justify-center font-mono pt-40 -mt-60 pb-40 bg-black pr-50 ">
+          <section className="md:block flex">
+          <h1 className="ml-6 block capitalize absolute  left-20 text-wrap top-100 md:left-0 md:top-80 flex justify-center md:text-5xl text-wrap mb-10 font-extrabold  text-white z-20">
+            Acting, presenting, storytelling...All powered by AI...
+          </h1>
+          <Swiper
+     
+        slidesPerView={1}
+
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        centeredSlides={true}
+
+        navigation={true}
+        modules={[Autoplay, Pagination, Navigation]}
+      >
+              <SwiperSlide><img src="model-1.jpg" className="h-32  md:h-screen md:w-screen -z-10"/></SwiperSlide>
+              <SwiperSlide><img src="model-2.jpg" className="h-32 md:h-screen md:w-screen -z-10"/></SwiperSlide>
+              <SwiperSlide><img src="model-4.jpg" className="h-32 md:h-screen md:w-screen -z-10"/></SwiperSlide>
+              <SwiperSlide><img src="model-6.jpg" className="h-32 md:h-screen md:w-screen -z-10"/></SwiperSlide>
+              <SwiperSlide><img src="model-8.jpg" className="h-32 md:h-screen md:w-screen -z-10"/></SwiperSlide>
+              <SwiperSlide><img src="model-9.jpg" className="h-32 md:h-screen md:w-screen -z-10"/></SwiperSlide>
+              </Swiper>
+          </section>
+                    <article className="flex justify-center pt-40 -mt-100 pb-40 bg-black pr-50 ">
           <Link to="register">
             <button className="text-3xl hover:animate-pulse md:animate-pulse text-blue-700 font-extrabold border-dotted border-2 border-blue-600 rounded hover:cursor-pointer">JOIN NOW!</button>
           </Link>
         </article>
         </section>
       
-        <section className="font-mono text-wrap  relative   bg-white h-96 z-20">
+        <section className="text-wrap  relative   bg-white h-96 z-20">
           
         <h2 className="pb-10 text-center"></h2>
         <ul className="text-center">
@@ -76,7 +107,7 @@ export function Home() {
    
 
       </main>
-      <footer className="text-sm text-center mt-60  font-mono">
+      <footer className="text-sm text-center mt-60  font-sans">
       &copy; 2024 Adelayo Adebiyi
       
       </footer>
