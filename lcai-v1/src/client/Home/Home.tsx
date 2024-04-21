@@ -3,9 +3,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import axios from "axios";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-
+import { useEffect } from "react";
 export function Home() {
+  useEffect(() => {
+    document.title = "Home"; // Set the title to "Sign Up" when component mounts
+  }, []);
+
+  const handleRegisterClick = () => {
+    axios.get("/register")
+    .then(result => {console.log(result)
+    })
+    .catch(err => console.log(err))
+  }
   return (
     <>
       <header className="flex justify-between items-center -mt-10 bg-white  font-sans   sticky top-0 z-50 antialiased">
@@ -25,7 +36,7 @@ export function Home() {
             </li>
             <li className="text-xl  uppercase capitalize mb-10 hover:animate-pulse text-white">
               <NavLink to="/register">
-                <span className="bg-blue-700 rounded">Register</span>
+                <span onClick={handleRegisterClick} className="bg-blue-700 rounded">Register</span>
               </NavLink>
             </li>
           </ul>

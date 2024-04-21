@@ -1,6 +1,9 @@
 import { NavLink, Link } from "react-router-dom";
-
+import { useEffect } from "react";
 export function Dashboard() {
+  useEffect(() => {
+    document.title = "Dashboard"; // Set the title to "Sign Up" when component mounts
+  }, []);
   return (
     <>
      <header className="flex justify-between items-center -mt-10 bg-white  font-sans   sticky top-0 z-50 antialiased">

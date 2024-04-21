@@ -1,18 +1,24 @@
 // Building a Secure MERN Stack Login
 // Source: https://medium.com/@kalanamalshan98/building-a-secure-mern-stack-login-and-signup-app-a-step-by-step-guide-093b87da8ad3
 import axios from "axios";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 export function Register() {
 
-  const [name, setName] = useState()
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  useEffect(() => {
+    document.title = "Sign Up"; // Set the title to "Sign Up" when component mounts
+  }, []);
+
+  const [forename, setForename] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
   const navigate = useNavigate()  
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault()
-    axios.post("http://localhost:3001/register", { name, email, password })
+    axios.post("/register", { forename, surname, email, password, passwordConfirmation, })
     .then(result => {console.log(result)
     navigate("/dashboard")
     })
@@ -67,6 +73,8 @@ export function Register() {
                   id="grid-first-name"
                   type="text"
                   placeholder="Jane"
+                  name="forename"
+                  onChange={(e) => setForename(e.target.value)}
                 />
                 <p className="text-red-500 text-xs italic">
                   Please fill out this field.
@@ -84,21 +92,26 @@ export function Register() {
                   id="grid-last-name"
                   type="text"
                   placeholder="Doe"
+                  name="surname"
+                  onChange={(e) => setSurname(e.target.value)}
+
                 />
               </div>
             </div>
             <div className="mb-4">
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="username"
+                htmlFor="email"
               >
-                Username
-              </label>
+Email              </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                id="username"
+                id="email"
                 type="text"
-                placeholder="Username"
+                placeholder="Email"
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
+
               />
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
@@ -115,6 +128,9 @@ export function Register() {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
                   type="password"
+                  name="password"
+                  onChange={(e) => setPassword(e.target.value)}
+
                   placeholder="******************"
                 />
               </div>
@@ -129,6 +145,9 @@ export function Register() {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
                   type="password"
+                  name="confirmpassword"
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+
                   placeholder="******************"
                 />
               </div>
