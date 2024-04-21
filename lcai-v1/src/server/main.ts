@@ -16,48 +16,50 @@ app.use(express.json());
 //   .catch(err => res.json(err))
 // })
 
-app.post(
-  "/register",
-  (req, res) => {
-    const { forename, surname, email, password, passwordConfirmation } =
-      req.body;
-    // Secure password storage https://www.freecodecamp.org/news/how-to-hash-passwords-with-bcrypt-in-nodejs/
-    const saltRounds:number = 10;
+app.post("/register", async (req, res) => {
+  const { forename, surname, email, password, passwordConfirmation } = req.body;
+  // Secure password storage https://www.freecodecamp.org/news/how-to-hash-passwords-with-bcrypt-in-nodejs/
+  const userExists = await UserModel.findOne({ email });
+  if (userExists) {
+    return res
+      .status(400)
+      .json({ message: "An account already exists with this email!!" });
+  } else {
+    const saltRounds: number = 10;
     let passwordHash = "";
     bcrypt.genSalt(saltRounds, (err, salt) => {
-      if (err){
+      if (err) {
         return;
       }
       bcrypt.hash(password, salt, (err, hash) => {
         if (err) {
           console.log("Error hashing password.");
           return;
-        }
-        else
-        {
+        } else {
           console.log("Hashed password: ", hash);
           passwordHash = hash;
         }
-
       });
     });
-   
 
-    const User = UserModel.create({
+    const User = await UserModel.create({
       firstName: forename,
       lastName: surname,
       email: email,
-      password: passwordHash
-    });
+      password: passwordHash,
+        
+    }
+    );
+    try {
+      User.save();
+      res.status(201).json({ message: "User registered successfully" });
+    } catch (err) {
+      res.status(500).json({ message: "Failed to register user", error: err });
+    }
+
   }
-  // _id: Schema.Types.ObjectId,
-  // firstName: String,
-  // lastName: String,
-  // email: String,
-  // password: String,
-  // createdAt: Date.now,
-  // videos: [VideoSchema]
-);
+  
+});
 
 ViteExpress.listen(app, 3000, () =>
   console.log("Server is listening on port 3000...")
