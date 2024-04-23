@@ -21,7 +21,7 @@ export function Home() {
     <>
       <header className="flex justify-between items-center -mt-10 bg-white  font-sans   sticky top-0 z-50 antialiased">
         <Link to="/">
-          <h1 className="absolute top-30 text-xl font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
+          <h1 className=" absolute top-30 text-xs md:text-xl font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
             <span id="lcaiLogoLeft" className="text-rose-700 pr-4">
               LCAI!
             </span>
@@ -29,7 +29,7 @@ export function Home() {
           </h1>
         </Link>
 
-        <nav className="mt-7 mt-28 ">
+        <nav className="mt-4 md:mt-7  ">
           <ul className="flex space-x-2  mr-10	text-center ">
             <li className="text-xl  uppercase capitalize hover:text-blue-700 pr-10 hover:animate-pulse">
               <span className="hover:bg-slate-200 rounded">Log In</span>
@@ -45,7 +45,7 @@ export function Home() {
       <main className=" font-sans relative antialiased">
         <section className="">
           <figure className="flex justify-center mt-20 ">
-            <h1 className="text-4xl  font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
+            <h1 className="text-3xl md:text-4xl font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
               <span id="lcaiLogoLeft" className="text-rose-700 pr-4">
                 LCAI!
               </span>
