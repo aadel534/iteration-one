@@ -6,13 +6,30 @@ import "swiper/css/navigation";
 import axios from "axios";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useEffect } from "react";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:8080");
+
+
 export function Home() {
   useEffect(() => {
-    document.title = "Home"; // Set the title to "Sign Up" when component mounts
+    // Tab/title
+    document.title = "Home"; 
   }, []);
 
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("User connected to Socket.IO server.");
+    });
+
+    return () => {
+      socket.off("connect");
+    }
+  },[]) 
+
   const handleRegisterClick = () => {
-    axios.get("/register")
+    axios.get("/api/register")
     .then(result => {console.log(result)
     })
     .catch(err => console.log(err))
@@ -35,7 +52,7 @@ export function Home() {
               <span className="hover:bg-slate-200 rounded">Log In</span>
             </li>
             <li className="text-xl  uppercase capitalize mb-10 hover:animate-pulse text-white">
-              <NavLink to="/register">
+              <NavLink to="register">
                 <span onClick={handleRegisterClick} className="bg-blue-700 rounded">Register</span>
               </NavLink>
             </li>

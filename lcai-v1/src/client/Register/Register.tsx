@@ -1,12 +1,14 @@
 // Building a Secure MERN Stack Login
 // Source: https://medium.com/@kalanamalshan98/building-a-secure-mern-stack-login-and-signup-app-a-step-by-step-guide-093b87da8ad3
 import axios from "axios";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
+
 export function Register() {
 
   useEffect(() => {
-    document.title = "Sign Up"; // Set the title to "Sign Up" when component mounts
+    // Tab/Title
+    document.title = "Sign Up";
   }, []);
 
   const [forename, setForename] = useState("");
@@ -14,16 +16,49 @@ export function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [errorState, setErrors] = useState<string[]>([]); 
 
-  const navigate = useNavigate()  
+
+  const navigate = useNavigate()
   const handleSubmit = (e: { preventDefault: () => void; }) => {
-    e.preventDefault()
+
+    // Prevent page refresh
+    e.preventDefault();
+    // Reset the error as there are different validation errors
+    let errorMessages = []; 
+    if (password !== passwordConfirmation) {
+      errorMessages.push("Please ensure both passwords match!");
+    }
+    if (!forename) {
+      errorMessages.push("First name is required.");
+    }
+    if (!surname) {
+      errorMessages.push("Last name is required.");
+    }
+    if (!email) {
+      errorMessages.push("Email is required.");
+    }
+    if (!password) {
+      errorMessages.push("Password is required.");
+    }
+    if (errorMessages.length > 0) {
+      setErrors(errorMessages); // Set all accumulated errors
+      return;
+    }
     axios.post("/register", { forename, surname, email, password, passwordConfirmation, })
-    .then(result => {console.log(result)
-    navigate("/dashboard")
-    })
-    .catch(err => console.log(err))
-}
+      .then(result => {
+        console.log(result);
+        navigate("/dashboard");
+      })
+      .catch(error => {
+        if (error.response) {
+          setErrors([error.response.data.message]); 
+        } else {
+          setErrors(["Unable to connect to server. Please try again later."]);
+        }
+      });
+    
+  }
   return (
     <>
       <header className="flex justify-between items-center -mt-10 bg-white mb-20 font-sans   sticky top-0 z-50">
@@ -59,6 +94,10 @@ export function Register() {
             <h1 className="text-center text-2xl mt-20 mb-10">
               Create Your Account
             </h1>
+            {errorState.length > 0 && errorState.map((err, index) => (
+          <p key={index} className="text-red-500 text-center">{err}</p>
+        
+        ))}
 
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -69,16 +108,14 @@ export function Register() {
                   First Name
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
                   placeholder="Jane"
                   name="forename"
                   onChange={(e) => setForename(e.target.value)}
                 />
-                <p className="text-red-500 text-xs italic">
-                  Please fill out this field.
-                </p>
+             
               </div>
               <div className="w-full md:w-1/2 px-3">
                 <label
@@ -103,7 +140,7 @@ export function Register() {
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 htmlFor="email"
               >
-Email              </label>
+                Email              </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="email"
@@ -154,14 +191,12 @@ Email              </label>
             </div>
 
             <article className="flex justify-center  ">
-              <Link to="register">
                 <button
                   type="submit"
                   className="text-3xl hover:animate-pulse md:animate-pulse text-blue-700 font-extrabold border-dotted border-2 border-blue-600 rounded hover:cursor-pointer"
                 >
                   Sign Up!
                 </button>
-              </Link>
             </article>
           </form>
         </section>
