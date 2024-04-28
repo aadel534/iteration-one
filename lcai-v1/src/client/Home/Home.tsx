@@ -1,14 +1,9 @@
 import { NavLink, Link } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import axios from "axios";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:8080");
+const socket = io("http://localhost:3000");
 
 
 export function Home() {
@@ -71,33 +66,17 @@ export function Home() {
           </figure>
           <br></br>
      
-          <section className="md:block flex md:block">
+          <section className="md:block flex ">
             <h1 className="ml-6 block capitalize absolute  left-20 text-wrap top-60 md:left-0 md:top-80 flex justify-center text-5xl text-wrap mb-10 font-extrabold  text-white z-20">
               Acting, presenting, storytelling...All powered by AI...
             </h1>
-            <Swiper
-              slidesPerView={1}
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
-              }}
-              centeredSlides={true}
-              navigation={true}
-              modules={[Autoplay, Pagination, Navigation]}
-            >
-              <SwiperSlide>
+            
                 <img
                   src="model-4.jpg"
-                  className="h-32 h-screen w-screen -z-10"
+                  className="h-screen w-screen -z-10"
                 />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img
-                  src="model-6.jpg"
-                  className="h-32 h-screen w-screen -z-10"
-                />
-              </SwiperSlide>
-            </Swiper>
+            
+               
           </section>
           <article className="flex justify-center pt-40 -mt-100 pb-40 bg-black pr-50 ">
             <Link to="register">

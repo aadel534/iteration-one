@@ -13,31 +13,46 @@ app.use(express.json());
 import path from 'path';
 import { fileURLToPath } from "url";
 
-app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", "default-src 'self'; img-src 'self' http://localhost:8080;");
-  next();
-});
-app.use(express.static('/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/dist'));
-
-
 
 const httpServer = createServer(app);
-const io = new Server (
+const io = new Server(
   {
     cors: {
-      origin: "*",
+      origin: "http:localhost:3000",
       methods: ["GET", "POST"],
     },
 
   }
 );
 
+
 io.on("connection", (socket) => {
   console.log("User connected");
   socket.on("disconnect", () => {
-  console.log("User disconnected");
+    console.log("User disconnected");
   })
 })
+
+// Enable tailwindcss styles and swiper
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", 
+    "default-src 'self';" +
+    // Include jsDelivr for both CSS and JS
+    "script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net/npm;" +
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/npm;" +
+    "img-src 'self' http://localhost:3000;"
+  );
+  next();
+});
+
+
+// Dynamically generate paths
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, '/../../dist')));
+
+
 
 
 
@@ -50,7 +65,7 @@ mongoose.connect("mongodb+srv://Adelayo:123@lcai.jurezce.mongodb.net/?retryWrite
   });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'dist', 'index.html'));
+  res.sendFile(path.resolve(__dirname, '/../../dist', 'index.html'));
 
 })
 
@@ -99,15 +114,8 @@ app.post("/api/register", async (req, res) => {
   };
 });
 
-// Vite assets must be served (front-end dev)
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('dist'));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-  });
-}
 
-const PORT = 8080;
-httpServer.listen( PORT, () => {
-    console.log(`Server running on http://localhots:${PORT}`);
-  });
+const PORT = 3000;
+httpServer.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

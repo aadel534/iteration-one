@@ -1,9 +1,13 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import reactRefresh from '@vitejs/plugin-react-refresh';
-import { viteSingleFile } from "vite-plugin-singlefile";
-
+import tailwindcss from 'tailwindcss';
 export default defineConfig({
+  css: {
+    postcss: {
+      plugins: [tailwindcss()],
+    },
+  },
   plugins: [reactRefresh()],
   build: {
     outDir: 'dist',
@@ -20,7 +24,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:3000',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, '')
       },
