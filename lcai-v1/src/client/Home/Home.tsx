@@ -1,8 +1,7 @@
 import { NavLink, Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
-import { io } from "socket.io-client";
-const socket = io("http://localhost:3000");
+
 
 
 export function Home() {
@@ -12,23 +11,6 @@ export function Home() {
   }, []);
 
 
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log("User connected to Socket.IO server.");
-    });
-
-    return () => {
-      socket.off("connect");
-    }
-  }, [])
-
-  const handleRegisterClick = () => {
-    axios.get("/api/register")
-      .then(result => {
-        console.log(result)
-      })
-      .catch(err => console.log(err))
-  }
   return (
     <>
       <header className="flex justify-between items-center -mt-10 bg-white  font-sans   sticky top-0 z-50 antialiased">
@@ -48,7 +30,7 @@ export function Home() {
             </li>
             <li className="text-xl  uppercase capitalize mb-10 hover:animate-pulse text-white">
               <NavLink to="register">
-                <span onClick={handleRegisterClick} className="bg-blue-700 rounded">Register</span>
+                <span className="bg-blue-700 rounded">Register</span>
               </NavLink>
             </li>
           </ul>

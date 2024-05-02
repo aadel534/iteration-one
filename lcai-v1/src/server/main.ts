@@ -14,8 +14,17 @@ import path from 'path';
 import { fileURLToPath } from "url";
 
 
+
+// Dynamically generate paths
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, '/../../dist')));
+
+
+
 const httpServer = createServer(app);
-const io = new Server(
+const io = new Server( httpServer,
   {
     cors: {
       origin: "http:localhost:3000",
@@ -36,14 +45,6 @@ io.on("connection", (socket) => {
 
 
 
-// Dynamically generate paths
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, '/../../dist')));
-
-
-
 
 mongoose.connect("mongodb+srv://Adelayo:123@lcai.jurezce.mongodb.net/?retryWrites=true&w=majority&appName=lcai")
   .then(() => {
@@ -53,10 +54,14 @@ mongoose.connect("mongodb+srv://Adelayo:123@lcai.jurezce.mongodb.net/?retryWrite
     console.log("failed to connect");
   });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '/../../dist', 'index.html'));
+// Single page application with single entry point (routes handled by client-side), redirects to home page
+// when user makes a get request to '/register' for example 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', '..', 'dist', 'index.html'));
+  
 
-})
+});
+
 
 app.post("/api/register", async (req, res) => {
   const { forename, surname, email, password, passwordConfirmation } = req.body;

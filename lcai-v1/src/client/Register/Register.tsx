@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 
 export function Register() {
-
   useEffect(() => {
     // Tab/Title
     document.title = "Sign Up";
@@ -16,16 +15,14 @@ export function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [errorState, setErrors] = useState<string[]>([]); 
+  const [errorState, setErrors] = useState<string[]>([]);
 
-
-  const navigate = useNavigate()
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
-
+  const navigate = useNavigate();
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     // Prevent page refresh
     e.preventDefault();
     // Reset the error as there are different validation errors
-    let errorMessages = []; 
+    let errorMessages = [];
     if (password !== passwordConfirmation) {
       errorMessages.push("Please ensure both passwords match!");
     }
@@ -45,20 +42,26 @@ export function Register() {
       setErrors(errorMessages); // Set all accumulated errors
       return;
     }
-    axios.post("/register", { forename, surname, email, password, passwordConfirmation, })
-      .then(result => {
+    axios
+      .post("/register", {
+        forename,
+        surname,
+        email,
+        password,
+        passwordConfirmation,
+      })
+      .then((result) => {
         console.log(result);
         navigate("/dashboard");
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.response) {
-          setErrors([error.response.data.message]); 
+          setErrors([error.response.data.message]);
         } else {
           setErrors(["Unable to connect to server. Please try again later."]);
         }
       });
-    
-  }
+  };
   return (
     <>
       <header className="flex justify-between items-center -mt-10 bg-white mb-20 font-sans   sticky top-0 z-50">
@@ -90,14 +93,19 @@ export function Register() {
             <img src="model-8.jpg" className="hidden md:block h-80" />
           </figure>
 
-          <form onSubmit={handleSubmit} className="w-full max-w-lg  mr-20 md:mr-0">
+          <form
+            onSubmit={handleSubmit}
+            className="w-full max-w-lg  mr-20 md:mr-0"
+          >
             <h1 className="text-center text-2xl mt-20 mb-10">
               Create Your Account
             </h1>
-            {errorState.length > 0 && errorState.map((err, index) => (
-          <p key={index} className="text-red-500 text-center">{err}</p>
-        
-        ))}
+            {errorState.length > 0 &&
+              errorState.map((err, index) => (
+                <p key={index} className="text-red-500 text-center">
+                  {err}
+                </p>
+              ))}
 
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -115,7 +123,6 @@ export function Register() {
                   name="forename"
                   onChange={(e) => setForename(e.target.value)}
                 />
-             
               </div>
               <div className="w-full md:w-1/2 px-3">
                 <label
@@ -131,7 +138,6 @@ export function Register() {
                   placeholder="Doe"
                   name="surname"
                   onChange={(e) => setSurname(e.target.value)}
-
                 />
               </div>
             </div>
@@ -140,7 +146,8 @@ export function Register() {
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 htmlFor="email"
               >
-                Email              </label>
+                Email{" "}
+              </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="email"
@@ -148,7 +155,6 @@ export function Register() {
                 placeholder="Email"
                 name="email"
                 onChange={(e) => setEmail(e.target.value)}
-
               />
             </div>
             <div className="flex flex-wrap -mx-3 mb-6">
@@ -167,7 +173,6 @@ export function Register() {
                   type="password"
                   name="password"
                   onChange={(e) => setPassword(e.target.value)}
-
                   placeholder="******************"
                 />
               </div>
@@ -184,19 +189,18 @@ export function Register() {
                   type="password"
                   name="confirmpassword"
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
-
                   placeholder="******************"
                 />
               </div>
             </div>
 
             <article className="flex justify-center  ">
-                <button
-                  type="submit"
-                  className="text-3xl hover:animate-pulse md:animate-pulse text-blue-700 font-extrabold border-dotted border-2 border-blue-600 rounded hover:cursor-pointer"
-                >
-                  Sign Up!
-                </button>
+              <button
+                type="submit"
+                className="text-3xl hover:animate-pulse md:animate-pulse text-blue-700 font-extrabold border-dotted border-2 border-blue-600 rounded hover:cursor-pointer"
+              >
+                Sign Up!
+              </button>
             </article>
           </form>
         </section>
