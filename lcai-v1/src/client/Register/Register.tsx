@@ -74,7 +74,7 @@ export function Register() {
           </h1>
         </Link>
 
-        <nav className="mt-7 mt-28 ">
+        <nav className="-mt-4 md:mt-7  ">
           <ul className="flex space-x-2  mr-10	text-center ">
             <li className="text-xl  uppercase capitalize hover:text-blue-700 pr-10 hover:animate-pulse">
             <NavLink to="/login">

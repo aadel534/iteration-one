@@ -13,8 +13,7 @@ app.use(express.json());
 import path from 'path';
 import { fileURLToPath } from "url";
 
-
-
+import {PORT, URI} from "../config/index.js";
 // Dynamically generate paths
 
 const __filename = fileURLToPath(import.meta.url);
@@ -46,7 +45,7 @@ io.on("connection", (socket) => {
 
 
 
-mongoose.connect("mongodb+srv://Adelayo:123@lcai.jurezce.mongodb.net/?retryWrites=true&w=majority&appName=lcai")
+mongoose.connect(URI)
   .then(() => {
     console.log("mongodb connected");
   })
@@ -78,18 +77,21 @@ app.post("/api/login", async (req, res) => {
   const userExists = await UserModel.findOne({ email });
   if (!userExists)
     {
-      return res.status(400).json({ message: "There is no user registered with this account." });
+      return res.status(404).json({ message: "There is no user registered with this account." });
 
     }
   else{
     const userDetailsCorrect = await bcrypt.compare(password, userExists.password);
     if (userDetailsCorrect)
       {
-        console.log("Logging in...");
+        return res.status(200).json({message: "Logging in..."});
+        // Generating tokens for login/logout
+        // https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
+
       }
       else
       {
-        return res.status(400).json({ message: "Incorrect password." });
+        return res.status(401).json({ message: "Incorrect password." });
       }
   }
 
@@ -140,7 +142,6 @@ app.post("/api/register", async (req, res) => {
 });
 
 
-const PORT = 3000;
 httpServer.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
