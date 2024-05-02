@@ -11,6 +11,8 @@ export default defineConfig({
   plugins: [reactRefresh()],
   build: {
     outDir: 'dist',
+    emptyOutDir: false, // Prevent Vite from clearing the dist directory
+
     rollupOptions: {
       input: resolve(__dirname, 'src/client/main.tsx'), 
       output: {

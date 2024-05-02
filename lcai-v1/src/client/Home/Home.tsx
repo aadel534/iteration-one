@@ -2,7 +2,6 @@ import { NavLink, Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
-
 const socket = io("http://localhost:3000");
 
 

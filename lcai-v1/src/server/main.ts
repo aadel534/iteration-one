@@ -33,17 +33,7 @@ io.on("connection", (socket) => {
   })
 })
 
-// Enable tailwindcss styles and swiper
-app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", 
-    "default-src 'self';" +
-    // Include jsDelivr for both CSS and JS
-    "script-src 'self' https://cdn.tailwindcss.com https://cdn.jsdelivr.net/npm;" +
-    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/npm;" +
-    "img-src 'self' http://localhost:3000;"
-  );
-  next();
-});
+
 
 
 // Dynamically generate paths
@@ -51,7 +41,6 @@ app.use((req, res, next) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '/../../dist')));
-
 
 
 

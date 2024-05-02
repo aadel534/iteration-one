@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "./Home/Home";
 import { Register } from "./Register/Register";
 import { Dashboard } from "./Dashboard/Dashboard";
-
 function App() {
   return (
     <>
