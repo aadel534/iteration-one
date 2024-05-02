@@ -1,7 +1,8 @@
 // Defining and creating a schema https://mongoosejs.com/docs/guide.html#definition
 
 import mongoose from "mongoose";
-
+// import jwt from 'jsonwebtoken';
+// import {SECRET_ACCESS_TOKEN} from '../middleware/verify.js';
 
 
 const {Schema} = mongoose;
@@ -61,6 +62,15 @@ const userSchema = new Schema({
 
 
 }, { timestamps: true });
+
+// userSchema.methods.generateAccessJWT = function () {
+//    let payload = {
+//       id: this._id,
+//    };
+//    return jwt.sign(payload, SECRET_ACCESS_TOKEN, {
+//       expiresIn: '20m',
+//    });
+// };
 
 const UserModel = mongoose.model("User", userSchema)
 

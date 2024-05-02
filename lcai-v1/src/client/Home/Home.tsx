@@ -16,7 +16,7 @@ export function Home() {
       <header className="flex justify-between items-center -mt-10 bg-white  font-sans   sticky top-0 z-50 antialiased">
         <Link to="/">
           <h1 className=" absolute top-30 text-xs md:text-xl font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
-            <span id="lcaiLogoLeft" className="text-rose-700 pr-4">
+            <span id="lcaiLogoLeft" className="text-red-700 pr-4">
               LCAI!
             </span>
             LightsCameraAI!
@@ -43,7 +43,7 @@ export function Home() {
         <section className="">
           <figure className="flex justify-center mt-20 ">
             <h1 className="text-3xl md:text-4xl font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
-              <span id="lcaiLogoLeft" className="text-rose-700 pr-4">
+              <span id="lcaiLogoLeft" className="text-red-700 pr-4">
                 LCAI!
               </span>
               LightsCameraAI!
