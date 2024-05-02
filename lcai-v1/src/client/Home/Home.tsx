@@ -8,7 +8,7 @@ const socket = io("http://localhost:3000");
 export function Home() {
   useEffect(() => {
     // Tab/title
-    document.title = "Home"; 
+    document.title = "Home";
   }, []);
 
 
@@ -20,13 +20,14 @@ export function Home() {
     return () => {
       socket.off("connect");
     }
-  },[]) 
+  }, [])
 
   const handleRegisterClick = () => {
     axios.get("/api/register")
-    .then(result => {console.log(result)
-    })
-    .catch(err => console.log(err))
+      .then(result => {
+        console.log(result)
+      })
+      .catch(err => console.log(err))
   }
   return (
     <>
@@ -64,18 +65,18 @@ export function Home() {
             </h1>
           </figure>
           <br></br>
-     
+
           <section className="md:block flex ">
             <h1 className="ml-6 block capitalize absolute  left-20 text-wrap top-60 md:left-0 md:top-80 flex justify-center text-5xl text-wrap mb-10 font-extrabold  text-white z-20">
               Acting, presenting, storytelling...All powered by AI...
             </h1>
-            
-                <img
-                  src="model-4.jpg"
-                  className="h-screen w-screen -z-10"
-                />
-            
-               
+
+            <img
+              src="model-4.jpg"
+              className="h-screen w-screen -z-10"
+            />
+
+
           </section>
           <article className="flex justify-center pt-40 -mt-100 pb-40 bg-black pr-50 ">
             <Link to="register">
@@ -115,7 +116,20 @@ export function Home() {
         </section>
         <section className="text-center pt-50   h-96">
           <br></br>
-          <h1 className="text-3xl ">TESTIMONIALS...</h1>
+          <h1 className="text-3xl mb-10">Testimonials...</h1>
+          <h2 className="mb-10">&#x0022;The greatest application ever!&#x0022; -  Leanardio DiCapriosa, five-time Oscare Award Winner</h2>
+          <h2 className="mb-10">&#x0022;Where was this when I was a young girl and needed to practise at 3am!?&#x0022; -  Isha Raye three-time NAACT Award Winner</h2>
+          <h2>&#x0022;This is what technology is all about!&#x0022; - Marcus Zuckerberzge, founder of Facelibrary</h2>
+          <figure className="flex justify-center mt-10">
+
+          </figure>
+        </section>
+        <section className="text-center pt-50 bg-red-700  h-96">
+          <h1 className="text-3xl text-white ">About the founder...</h1>
+          <figure className="flex justify-center">
+            <img src="adelayo.png" />
+
+          </figure>
         </section>
       </main>
       <footer className="text-sm text-center mt-60  font-sans">
