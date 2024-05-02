@@ -26,7 +26,10 @@ export function Home() {
         <nav className="mt-4 md:mt-7  ">
           <ul className="flex space-x-2  mr-10	text-center ">
             <li className="text-xl  uppercase capitalize hover:text-blue-700 pr-10 hover:animate-pulse">
+              <NavLink to="login">
               <span className="hover:bg-slate-200 rounded">Log In</span>
+
+              </NavLink>
             </li>
             <li className="text-xl  uppercase capitalize mb-10 hover:animate-pulse text-white">
               <NavLink to="register">

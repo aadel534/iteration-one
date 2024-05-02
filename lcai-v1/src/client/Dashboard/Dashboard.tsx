@@ -2,7 +2,7 @@ import { NavLink, Link } from "react-router-dom";
 import { useEffect } from "react";
 export function Dashboard() {
   useEffect(() => {
-    document.title = "Dashboard"; // Set the title to "Sign Up" when component mounts
+    document.title = "Dashboard";
   }, []);
   return (
     <>
