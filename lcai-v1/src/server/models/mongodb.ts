@@ -7,9 +7,7 @@ import mongoose from "mongoose";
 const {Schema} = mongoose;
 
 const VideoSchema = new Schema ({
-   _id: {
-      type: Schema.Types.ObjectId,
-   },
+
    photoFilePath: {
       type: String,
       required: true
@@ -25,22 +23,12 @@ const VideoSchema = new Schema ({
       required: false
    },
    
-   createdAt:
-   {
-      type: Date,
-      required: true
-   } 
+  
    
    
 })
 
 const userSchema = new Schema({
-
-   _id: 
-   {
-      type: Schema.Types.ObjectId,
-      required: true
-   },
    firstName: 
    {
       type: String,
@@ -63,11 +51,7 @@ const userSchema = new Schema({
       required: true
    }, 
 
-   createdAt: 
-   {
-      type: Date,
-      required: true
-   },
+
    videos:
    {
       type: [VideoSchema],
@@ -76,7 +60,7 @@ const userSchema = new Schema({
 
 
 
-})
+}, { timestamps: true });
 
 const UserModel = mongoose.model("User", userSchema)
 

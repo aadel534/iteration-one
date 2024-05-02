@@ -64,6 +64,7 @@ app.get('*', (req, res) => {
 
 
 app.post("/api/register", async (req, res) => {
+  console.log("Here");
   const { forename, surname, email, password, passwordConfirmation } = req.body;
   // Secure password storage https://www.freecodecamp.org/news/how-to-hash-passwords-with-bcrypt-in-nodejs/
   if (!forename || !surname || !email || !password || !passwordConfirmation) {

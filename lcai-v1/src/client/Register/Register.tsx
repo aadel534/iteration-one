@@ -43,7 +43,7 @@ export function Register() {
       return;
     }
     axios
-      .post("/register", {
+      .post("/api/register", {
         forename,
         surname,
         email,
