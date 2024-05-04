@@ -4,13 +4,35 @@ import cors from 'cors';
 import path from 'path';
 import { routePaths } from './routes/routes.ts'; 
 import { fileURLToPath } from 'url';
+import {registerUser, loginUser, Logout} from './controllers/userController.js';
+
 const app = express();
-app.use(cors());
-app.use(routePaths);
+// Enable cookies with origin and credentials ---> Source: https://stackoverflow.com/questions/53787770/res-cookie-not-setting-cookie-in-browser
+app.use(cors({origin: true, credentials:true}));
+app.use(express.json());
 
 // Dynamically generate paths
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, '/../../dist')));
+
+
+
+app.post("/api/login", loginUser);
+
+app.post("/api/register", registerUser);
+
+app.get("/logout", Logout);
+
+// Single page application with single entry point (routes handled by client-side), redirects to home page
+// when user makes a get request to '/register' for example 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', '..','..', 'dist', 'index.html'));
+});
+
+
+
 export default app;
+
+
 

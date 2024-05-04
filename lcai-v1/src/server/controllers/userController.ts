@@ -2,8 +2,8 @@ import UserModel from '../models/User.js';
 import bcrypt from 'bcrypt';
 import { emailRegex } from '../utils/emailValidator.js';
 import { Request, Response } from 'express';
-
-
+import Blacklist from '../models/Blacklist.ts';
+// Source: https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
 export async function loginUser (req: Request, res: Response) {
   const { email, password } = req.body;
   if (!emailRegex.test(email)) {
@@ -22,8 +22,23 @@ export async function loginUser (req: Request, res: Response) {
   else {
     const userDetailsCorrect = await bcrypt.compare(password, userExists.password);
     if (userDetailsCorrect) {
+      let options = {
+        // Token expires in 20 minutes
+        maxAge: 20 * 60 * 1000,
+        // Cookie only accessible by web server
+        httpOnly: true,
+        secure: true,
+        sameSite: "none" as "none",
+        domain: "localhost",
+        path: "/"
+      };
+
+      // Generate session token for user
+      const token = userExists.generateAccessJWT();
+      // Set the token response header
+      res.cookie("SessionID", token, options);
+
       return res.status(200).json({ message: "Logging in..." });
-      // Generating tokens for login/logout
       // https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
 
     }
@@ -75,4 +90,36 @@ export async function registerUser(req: Request, res: Response) {
     }
 
   };
+}
+
+// https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
+export async function Logout(req: Request, res: Response) {
+  try {
+        // Retrieve session cookie from request header
+        const authHeader = req.headers['cookie'];
+        // If there's no content
+        if (!authHeader) return res.sendStatus(204);
+        // If there is content, split the cookie string and retrieve jwt token
+        const cookie = authHeader.split('=')[1];
+        const accessToken = cookie.split(";")[0];
+        // check if token is blacklisted
+        const checkIfBlacklisted = await Blacklist.findOne({token: accessToken});
+        if (checkIfBlacklisted) return res.sendStatus(204);
+        // Blacklist token if it's not blacklisted 
+        const newBlackList = new Blacklist({
+          token: accessToken,
+        });
+        await newBlackList.save();
+      // Clear request cookie on client
+      res.setHeader("Clear-Site-Data", "cookies");
+      res.status(200).json({message: "You are logged out!"});
+    
+  }
+  catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error"
+    });
+  }
+  res.end();
 }

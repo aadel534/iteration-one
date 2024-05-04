@@ -74,23 +74,21 @@ export function Register() {
           </h1>
         </Link>
 
-        <nav className="-mt-4 md:mt-7  ">
+        <nav className="mt-4 md:mt-7  ">
           <ul className="flex space-x-2  mr-10	text-center ">
             <li className="text-xl  uppercase capitalize hover:text-blue-700 pr-10 hover:animate-pulse">
-            <NavLink to="/login">
+              <NavLink to="/login">
               <span className="hover:bg-slate-200 rounded">Log In</span>
 
-            </NavLink>
+              </NavLink>
             </li>
             <li className="text-xl  uppercase capitalize mb-10 hover:animate-pulse text-white">
-              <NavLink to="/register">
                 <span className="bg-blue-700 rounded">Register</span>
-              </NavLink>
             </li>
           </ul>
         </nav>
       </header>
-      <main className=" -mb-40 font-sans relative">
+      <main className=" mt-20 -mb-40 font-sans relative">
         <section className="flex justify-end -mt-20 md:mr-60">
           <figure className="mr-20 flex items-center mt-10">
             <img src="model-8.jpg" className="hidden md:block h-80" />

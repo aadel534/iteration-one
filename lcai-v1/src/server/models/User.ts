@@ -1,13 +1,18 @@
 // Defining and creating a schema https://mongoosejs.com/docs/guide.html#definition
 
 import mongoose from "mongoose";
-// import jwt from 'jsonwebtoken';
-// import {SECRET_ACCESS_TOKEN} from '../middleware/verify.js';
+import { SECRET } from "../config/index.ts";
+import jwt from 'jsonwebtoken';
 
 
 const {Schema} = mongoose;
 
-const VideoSchema = new Schema ({
+interface InterfaceVideo {
+   photoFilePath: string;
+   videoFilePath?: string;
+   audioFilePath?: string;
+}
+const VideoSchema = new Schema <InterfaceVideo>({
 
    photoFilePath: {
       type: String,
@@ -28,8 +33,19 @@ const VideoSchema = new Schema ({
    
    
 })
+interface InterfaceUserModel extends mongoose.Model<InterfaceUserDocument>{
+   generateAccessJWT(): string;
+}
 
-const userSchema = new Schema({
+interface InterfaceUserDocument extends mongoose.Document{
+   firstName: string;
+   lastName: string;
+   email: string;
+   password: string;
+   videos?: InterfaceVideo[];
+   generateAccessJWT(): string;
+}
+const userSchema = new Schema<InterfaceUserDocument, InterfaceUserModel>({
    firstName: 
    {
       type: String,
@@ -63,14 +79,14 @@ const userSchema = new Schema({
 
 }, { timestamps: true });
 
-// userSchema.methods.generateAccessJWT = function () {
-//    let payload = {
-//       id: this._id,
-//    };
-//    return jwt.sign(payload, SECRET_ACCESS_TOKEN, {
-//       expiresIn: '20m',
-//    });
-// };
+userSchema.methods.generateAccessJWT = function () {
+   let payload = {
+      id: this._id,
+   };
+   return jwt.sign(payload, SECRET!, {
+      expiresIn: '20m',
+   });
+};
 
 const UserModel = mongoose.model("User", userSchema)
 
