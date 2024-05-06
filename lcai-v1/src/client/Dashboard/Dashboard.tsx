@@ -47,13 +47,26 @@ export function Dashboard() {
         </nav>
       </header>
 
-      <main className=" font-sans relative antialiased">
+      <main className=" font-sans relative antialiased flex justify-center">
     
-          <section className="md:block flex ">
-            <h1 className="mt-20 flex justify-center text-5xl text-wrap ">
+          <section className="md:block ">
+            <h1 className="mt-20 flex  text-5xl text-wrap w-80 text-center">
               Hello {userFirstName}!
             </h1>
-            <section></section>
+            <section>
+              <h2 className="text-2xl  text wrap mt-10 text-center w-80">How to use this website:</h2>
+              <h3 className="text-xl textwrap mt-10 italic font-bold w-80 text-center">Emotion Scanner</h3> 
+              <article className="text-m text-center textwrap w-80 ">
+              <p className="">Use the emotion scanner to have fun
+              with our emotion recognition technology. For example, start off by pulling a "happy" face or a "sad" face
+               and our technology will recognise it. Then practise speeches or monologues to see what your facial
+               expressions are saying about you while you are communicating. Try practising for an interview. 
+               Are you communicating correctly? Do you appear sad for example? Use the emotion scanner as you like
+               to help you improve the way you present yourself to others. </p> 
+              </article>
+             
+
+            </section>
 
        
 
@@ -63,7 +76,7 @@ export function Dashboard() {
 
       
       </main>
-      <footer className="text-sm text-center mt-60  font-sans">
+      <footer className="text-sm text-center mt-96  font-sans">
         &copy; 2024 Adelayo Adebiyi
       </footer>
     </>
