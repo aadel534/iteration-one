@@ -1,19 +1,19 @@
 import { NavLink, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { response } from "express";
+import { useUser } from '../ContextAPI/UserContext'; 
 
 export function Dashboard() {
-  const [userId, setUserId] = useState("");
+  const { userId } =  useUser();
   const [userFirstName, setUserFirstName] = useState("");
   useEffect(() => {
     document.title = "Dashboard";
   }, []);
   useEffect(() =>{
-    axios.post("dashboard")
+    axios.post("/api/dashboard", userId )
     .then(response => {
-      const {userFirstName} = response.data;
-      setUserFirstName(userFirstName);
+      const {firstName} = response.data;
+      setUserFirstName(firstName);
     })
     .catch(error => {
       console.error("Error fetching user information: ", error);
@@ -29,7 +29,7 @@ export function Dashboard() {
             <span id="lcaiLogoLeft" className="text-red-700 pr-4">
               LCAI!
             </span>
-            LightsCameraAI!
+            LightsCameraAI! 
           </h1>
         </Link>
 
@@ -53,6 +53,7 @@ export function Dashboard() {
             <h1 className="mt-20 flex justify-center text-5xl text-wrap ">
               Hello {userFirstName}!
             </h1>
+            <section></section>
 
        
 

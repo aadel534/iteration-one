@@ -121,3 +121,18 @@ export async function Logout(req: Request, res: Response) {
   }
   res.end();
 }
+
+export async function greetUser (req: Request, res: Response) { 
+  const { userId } = req.body;
+  const user = await UserModel.findOne({ userId });
+  if (user) {
+    const firstName = user?.firstName;
+    res.status(200).json({firstName});
+  }
+  else 
+  {
+    res.status(404).json({status: "error", message: "Error finding user details..."})
+  }
+
+
+}
