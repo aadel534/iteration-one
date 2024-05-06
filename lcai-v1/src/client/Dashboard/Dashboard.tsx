@@ -55,8 +55,8 @@ export function Dashboard() {
             </h1>
             <section>
               <h2 className="text-2xl  text wrap mt-10 text-center w-80">How to use this website:</h2>
-              <h3 className="text-xl textwrap mt-10 italic font-bold w-80 text-center">Emotion Scanner</h3> 
               <article className="text-m text-center textwrap w-80 ">
+              <h3 className="text-xl textwrap mt-10 italic font-bold w-80 text-center">Emotion Scanner</h3> 
               <p className="">Use the emotion scanner to have fun
               with our emotion recognition technology. For example, start off by pulling a "happy" face or a "sad" face
                and our technology will recognise it. Then practise speeches or monologues to see what your facial
@@ -65,7 +65,21 @@ export function Dashboard() {
                to help you improve the way you present yourself to others. </p> 
               </article>
              
-
+              <article className="text-m text-center textwrap w-80 ">
+              <h3 className="text-xl textwrap mt-10 italic font-bold w-80 text-center">Create AI Video</h3> 
+              <p className="">
+                Use our third-party APIs to generate fun video content. Upload a clear head shot and audio sample
+                of your (or use a voice sample) and voila! You will receive an AI generated video of yourself 
+                using the prompts you have provided. 
+                
+                Use case example:
+                Unsure about that new song you wrote?
+                Try inserting some original lyrics, e.g. spoken, rapped, sung, and watch and listen to the AI video 
+                that is generated. We will also pass the lyrics to our third-party AI to analyse and give you feedback
+                on your lyrics, so you can see how your lyrics may be received or interpreted by an audience.
+                
+                </p> 
+              </article>
             </section>
 
        
