@@ -2,21 +2,20 @@
 // Source: https://medium.com/@kalanamalshan98/building-a-secure-mern-stack-login-and-signup-app-a-step-by-step-guide-093b87da8ad3
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate  } from "react-router-dom";
+import { useUser } from '../ContextAPI/UserContext'; 
 
 export function Login() {
+    // Import the login function from useUser hook to persist user information across pages through access to userId
+    const { login } = useUser(); 
   useEffect(() => {
     // Tab/Title
     document.title = "Log In";
   }, []);
 
-  const [forename, setForename] = useState("");
-  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [errorState, setErrors] = useState<string[]>([]);
-
   const navigate = useNavigate();
   const handleSubmit = (e: { preventDefault: () => void }) => {
     // Prevent page refresh
@@ -40,6 +39,8 @@ export function Login() {
       }, { withCredentials: true })
       .then((result) => {
         console.log(result);
+        const { userId } = result.data;
+        login(userId);
         navigate("/dashboard");
       })
       .catch((error) => {
@@ -64,10 +65,10 @@ export function Login() {
         <nav className="mt-4 md:mt-7  ">
           <ul className="flex space-x-2  mr-10	text-center ">
             <li className="text-xl  uppercase capitalize hover:text-blue-700 pr-10 hover:animate-pulse">
-              <NavLink to="login">
+             
               <span className="hover:bg-slate-200 rounded">Log In</span>
 
-              </NavLink>
+             
             </li>
             <li className="text-xl  uppercase capitalize mb-10 hover:animate-pulse text-white">
               <NavLink to="/register">

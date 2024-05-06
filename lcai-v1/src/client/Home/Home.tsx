@@ -92,29 +92,14 @@ export function Home() {
           </ul>
         </section>
 
-        <section className="text-center pt-50  h-96 bg-blue-700">
-          <br></br>
-
-          <h1 className="text-3xl text-white">
-            More on facial recognition technology...
-          </h1>
-        </section>
         <section className="text-center pt-50   h-96">
           <br></br>
           <h1 className="text-3xl mb-10">Testimonials...</h1>
           <h2 className="mb-10">&#x0022;The greatest application ever!&#x0022; -  Leanardio DiCapriosa, five-time Oscare Award Winner</h2>
           <h2 className="mb-10">&#x0022;Where was this when I was a young girl and needed to practise at 3am!?&#x0022; -  Isha Raye three-time NAACT Award Winner</h2>
           <h2>&#x0022;This is what technology is all about!&#x0022; - Marcus Zuckerberzge, founder of Facelibrary</h2>
-          <figure className="flex justify-center mt-10">
 
-          </figure>
-        </section>
-        <section className="text-center pt-50 bg-red-700  h-96">
-          <h1 className="text-3xl text-white ">About the founder...</h1>
-          <figure className="flex justify-center">
-            <img src="adelayo.png" />
-
-          </figure>
+      
         </section>
       </main>
       <footer className="text-sm text-center mt-60  font-sans">

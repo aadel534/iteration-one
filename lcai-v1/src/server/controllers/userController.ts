@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { emailRegex } from '../utils/emailValidator.js';
 import { Request, Response } from 'express';
 import Blacklist from '../models/Blacklist.ts';
+import {SECRET} from '../config/index.ts';
 // Source: https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
 export async function loginUser (req: Request, res: Response) {
   const { email, password } = req.body;
@@ -22,23 +23,20 @@ export async function loginUser (req: Request, res: Response) {
   else {
     const userDetailsCorrect = await bcrypt.compare(password, userExists.password);
     if (userDetailsCorrect) {
-      let options = {
-        // Token expires in 20 minutes
-        maxAge: 20 * 60 * 1000,
-        // Cookie only accessible by web server
-        httpOnly: true,
-        secure: true,
-        sameSite: "none" as "none",
-        domain: "localhost",
-        path: "/"
-      };
 
       // Generate session token for user
       const token = userExists.generateAccessJWT();
+      let day = 24 * 60 * 60 * 1000;
       // Set the token response header
-      res.cookie("SessionID", token, options);
+      // Source: https://pankaj-kumar.medium.com/how-to-handle-cookies-in-node-js-express-app-b16a5456fbe0
+      res.cookie("SessionID", token, {
+        maxAge: day,
+        httpOnly:true,
+        path: "/"
+    });
+    
 
-      return res.status(200).json({ message: "Logging in..." });
+      return res.status(200).json({ message: "Logging in...", userId: userExists.id });
       // https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
 
     }

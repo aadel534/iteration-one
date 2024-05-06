@@ -3,7 +3,6 @@ import UserModel from "../models/User.js";
 import jwt from 'jsonwebtoken';
 import { Request, Response } from "express";
 import { SECRET } from "../config/index.ts";
-import { config } from "dotenv";
 export async function Verify(req: Request, res: Response, next: any) {
     try {
         // Get the session cookie from the request header identifying the user

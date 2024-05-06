@@ -1,10 +1,27 @@
 import { NavLink, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { response } from "express";
+
 export function Dashboard() {
+  const [userId, setUserId] = useState("");
+  const [userFirstName, setUserFirstName] = useState("");
   useEffect(() => {
     document.title = "Dashboard";
   }, []);
+  useEffect(() =>{
+    axios.post("dashboard")
+    .then(response => {
+      const {userFirstName} = response.data;
+      setUserFirstName(userFirstName);
+    })
+    .catch(error => {
+      console.error("Error fetching user information: ", error);
+    });
+
+  }, []);
   return (
+
     <>
      <header className="flex justify-between items-center -mt-10 bg-white  font-sans   sticky top-0 z-50 antialiased">
         <Link to="/dashboard">
@@ -30,8 +47,20 @@ export function Dashboard() {
         </nav>
       </header>
 
-    <main>
-        Welcome home!
+      <main className=" font-sans relative antialiased">
+    
+          <section className="md:block flex ">
+            <h1 className="mt-20 flex justify-center text-5xl text-wrap ">
+              Hello {userFirstName}!
+            </h1>
+
+       
+
+
+          </section>
+
+
+      
       </main>
       <footer className="text-sm text-center mt-60  font-sans">
         &copy; 2024 Adelayo Adebiyi
