@@ -4,7 +4,7 @@ import { Home } from "./Home/Home";
 import { Register } from "./Register/Register";
 import { Dashboard } from "./Dashboard/Dashboard";
 import { Login } from "./Login/Login";
-// import AuthenticatedLayout from "./ContextAPI/AuthenticatedLayout";
+import { EmotionScanner } from "./EmotionScanner/EmotionScanner";
 import { UserProvider } from "./ContextAPI/UserContext";
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
 
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/emotionscanner" element={<EmotionScanner/>}/>
 
 
 
