@@ -1,17 +1,17 @@
-# import opencv using cv2
-import cv2  as cv
+
 #Search for files (pattern matching) using glob
 import glob as glob
 import os
-import matplotlib.pyplot as plt
-import numpy as np
 import tensorflow as tf
 from keras import layers, models
 from pathlib import Path
 import time
+import keras
 
-path_train = "public/images/fer-dataset/train"
-path_test = "public/images/fer-dataset/test"
+
+
+path_test = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/datasets/test"
+path_train = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/datasets/train"
 
 # Remove .DS_Store files
 def deleteDStoreFile(file):
@@ -53,10 +53,10 @@ deleteDStoreFile(ds_store_file_7)
 
 #Source: https://martinxpn.medium.com/pathlib-the-oop-approach-of-working-with-file-system-in-python-65-100-days-of-python-7dbf85e9cec2#:~:text=Creating%20Path%20Objects%20With%20pathlib,based%20on%20the%20operating%20system.
 data_dir = Path(path_train) 
-data_dir_2 = Path(path_train)
+test_data_dir = Path(path_test)
 # Set consistent
 #  image sizes and number of images in each training batch
-batch_size = 64
+batch_size = 6000000
 img_height = 48
 img_width = 48
 
@@ -94,7 +94,7 @@ val_ds = tf.keras.utils.image_dataset_from_directory(
 
 
 test_ds = tf.keras.utils.image_dataset_from_directory(
-    data_dir_2,
+    test_data_dir,
     shuffle=True,        
     batch_size=batch_size,
     image_size=(img_height, img_width,),
@@ -106,7 +106,6 @@ test_ds = tf.keras.utils.image_dataset_from_directory(
 class_names = train_ds.class_names
 print(class_names)
 # print(len(train_ds))
-import matplotlib.pyplot as plt
 
 
 # Source: https://www.tensorflow.org/tutorials/load_data/images
@@ -119,6 +118,14 @@ normalized_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))
 # Source: https://www.tensorflow.org/tutorials/load_data/images
 train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+
+
+# Data augmentation
+data_augmentation = tf.keras.Sequential([
+    layers.RandomRotation(0.1),
+    layers.RandomContrast(0.1),
+    layers.RandomBrightness(factor=0.1)
+])
 
 
 
@@ -170,7 +177,7 @@ model.compile(optimizer='RMSprop',
 
 
 
-epochs= 10
+epochs= 100000
 history = model.fit(
   train_ds,
   validation_data=val_ds,
@@ -178,13 +185,16 @@ history = model.fit(
 )
 loss, acc = model.evaluate(test_ds)
 print("Accuracy", acc)
+# Metrics explained
+# Accuracy is the total accuracy for all the predictions made so far as a percentage
+#Loss is the difference between the prediiction and actual value (for every instance that the algortihm has run so far) 
+# as a percentage 
+# Val_Loss is the difference between the prediction and the actual value for each instance of unseen data
+# going through the algorithm during training (forr )
+# Val_accuracy is the accuracy per instance 
 
 
-model.save("./face-recog-model-new", save_format="tf")
-savedModel = tf.keras.models.load_model('./face-recog-model-new')
-# Prepare and preprocess the test data
 import tensorflowjs as tfjs
-tfjs.converters.save_keras_model(savedModel, "./face-recog-model-new-js")
- 
 
- 
+model.export('emotionscanner')
+tfjs.converters.save_keras_model(model, 'emotionscanner_js')
