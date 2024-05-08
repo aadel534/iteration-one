@@ -126,7 +126,7 @@ export function EmotionScanner() {
           const formData = new FormData();
           formData.append("frame", blob)
 
-          const response = await axios.post("http://localhost:8000/api/process_frame", formData, {
+          const response = await axios.post("http://127.0.0.1:8000/api/process_frame/", formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
