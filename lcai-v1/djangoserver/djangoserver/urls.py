@@ -19,5 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('emtionclassifier/', include('emotionclassifier.imageprocessor.urls')),
+    path('emotionclassifier/imageprocessor/', include('emotionclassifier.imageprocessor.urls')),
 ]

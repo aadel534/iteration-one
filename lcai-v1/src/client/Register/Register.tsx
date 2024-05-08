@@ -64,31 +64,32 @@ export function Register() {
   };
   return (
     <>
-      <header className="flex justify-between items-center -mt-10 bg-white mb-20 font-sans   sticky top-0 z-50">
+           <header className="lowercase flex justify-between items-center -mt-16 font-sans font-thin    subpixel-antialiased	 bg-black lowercase sticky top-0 z-20 ">
         <Link to="/">
-          <h1 className="absolute top-30 text-xl font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
-            <span id="lcaiLogoLeft" className="text-red-700 pr-4">
-              LCAI!
+          <h1 className=" absolute top-30 text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 ">
+            <span id="lcaiLogoLeft" className="text-blue-200 pr-4  ">
+              LCAI 
             </span>
             LightsCameraAI!
           </h1>
         </Link>
 
-        <nav className="mt-4 md:mt-7  ">
-          <ul className="flex space-x-2  mr-10	text-center ">
-            <li className="text-xl  uppercase capitalize hover:text-blue-700 pr-10 hover:animate-pulse">
-              <NavLink to="/login">
-              <span className="hover:bg-slate-200 rounded">Log In</span>
+        <nav className="mt-4 md:mt-7 font-thin ">
+          <ul className="flex space-x-2  mr-10	text-center pt-14 ">
+            <li className="text-xl  hover:text-blue-700  ">
+            <NavLink to="/login">
 
+              <span className="hover:bg-slate-200 rounded text-white">Log In</span>
               </NavLink>
+
             </li>
-            <li className="text-xl  uppercase capitalize mb-10 hover:animate-pulse text-white">
-                <span className="bg-blue-700 rounded">Register</span>
+            <li className="text-xl mb-10  text-white md:animate-pulse ">
+                <span className="bg-blue-200 rounded ">Register</span>
             </li>
           </ul>
         </nav>
       </header>
-      <main className=" mt-20 -mb-40 font-sans relative">
+      <main className="font-thin bg-black text-white mt-20 -mb-40 font-sans relative lowercase">
         <section className="flex justify-end -mt-20 md:mr-60">
           <figure className="mr-20 flex items-center mt-10">
             <img src="model-8.jpg" className="hidden md:block h-80" />
@@ -111,13 +112,13 @@ export function Register() {
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label
-                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  className="block tracking-wide  text-xs  mb-2"
                   htmlFor="grid-first-name"
                 >
                   First Name
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                  className="text-black appearance-none block w-full bg-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
                   placeholder="Jane"
@@ -127,13 +128,13 @@ export function Register() {
               </div>
               <div className="w-full md:w-1/2 px-3">
                 <label
-                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  className="block  tracking-wide text-xs mb-2"
                   htmlFor="grid-last-name"
                 >
                   Last Name
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className="text-black appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="text"
                   placeholder="Doe"
@@ -144,13 +145,13 @@ export function Register() {
             </div>
             <div className="mb-4">
               <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                className="block  tracking-wide  text-xs mb-2"
                 htmlFor="email"
               >
                 Email{" "}
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                className="text-black appearance-none block w-full bg-gray-200 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 id="email"
                 type="text"
                 placeholder="Email"
@@ -161,15 +162,15 @@ export function Register() {
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full px-3 mb-4">
                 <label
-                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 "
+                  className="block  tracking-wide  text-xs  mb-2 "
                   htmlFor="grid-password"
                 >
                   Choose a Password
                 </label>
-                <p className="text-gray-600 text-xs italic">Choose wisely!</p>
+                <p className=" text-xs italic">Choose wisely!</p>
 
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className="text-black appearance-none block w-full bg-gray-200  border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
                   type="password"
                   name="password"
@@ -179,13 +180,13 @@ export function Register() {
               </div>
               <div className="w-full px-3">
                 <label
-                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  className="block  tracking-wide  text-xs  mb-2"
                   htmlFor="grid-password"
                 >
-                  Confirm Password{" "}
+                  Confirm Password
                 </label>
                 <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  className="text-black appearance-none block w-full bg-gray-200  border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
                   type="password"
                   name="confirmpassword"
@@ -198,7 +199,7 @@ export function Register() {
             <article className="flex justify-center  ">
               <button
                 type="submit"
-                className="text-3xl hover:animate-pulse md:animate-pulse text-blue-700 font-extrabold border-dotted border-2 border-blue-600 rounded hover:cursor-pointer"
+                className="text-3xl hover:animate-pulse md:animate-bounce text-blue-200  lowercase rounded hover:cursor-pointer"
               >
                 Sign Up!
               </button>
@@ -206,7 +207,7 @@ export function Register() {
           </form>
         </section>
       </main>
-      <footer className="text-sm text-center mt-60  font-sans">
+      <footer className="text-sm text-center pt-60  bg-black font-sans">
         &copy; 2024 Adelayo Adebiyi
       </footer>
     </>

@@ -126,7 +126,7 @@ export function EmotionScanner() {
           const formData = new FormData();
           formData.append("frame", blob)
 
-          const response = await axios.post("http://127.0.0.1:8000/api/process_frame/", formData, {
+          const response = await axios.post("http://127.0.0.1:8000/process_frame/", formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
@@ -190,10 +190,10 @@ export function EmotionScanner() {
   return (
 
     <>
-      <header className="flex justify-between items-center -mt-10 bg-white  font-sans   sticky top-0 z-50 antialiased">
+      <header className="flex justify-between items-center -mt-10 text-white  font-sans   sticky top-0 z-50 subpixel-antialiased">
         <Link to="/dashboard">
-          <h1 className="absolute top-30 text-xl font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
-            <span id="lcaiLogoLeft" className="text-red-700 pr-4">
+          <h1 className="absolute top-30 text-xl font-extrabold ml-6 -mt-6 hover:text-yellow-500  hover:animate-pulse ">
+            <span id="lcaiLogoLeft" className="text-blue-200 pr-4">
               LCAI!
             </span>
             LightsCameraAI!
