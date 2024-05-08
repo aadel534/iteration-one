@@ -194,7 +194,5 @@ print("Accuracy", acc)
 # Val_accuracy is the accuracy per instance 
 
 
-import tensorflowjs as tfjs
 
 model.export('emotionscanner')
-tfjs.converters.save_keras_model(model, 'emotionscanner_js')
