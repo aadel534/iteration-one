@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'emotionclassifier',
+    'django_extensions',
 
 ]
 

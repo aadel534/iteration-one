@@ -6,6 +6,10 @@ import Webcam from 'react-webcam';
 import * as faceapi from "face-api.js";
 import * as tf from "@tensorflow/tfjs";
 
+// Configure CSRF tokens for Django backend
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+axios.defaults.xsrfCookieName = "csrftoken";
+
 export function EmotionScanner() {
   const { firstName } = useUser();
 
@@ -124,9 +128,9 @@ export function EmotionScanner() {
           const imageResponse = await fetch(imageURL);
           const blob = await imageResponse.blob();
           const formData = new FormData();
-          formData.append("frame", blob)
+          formData.append("image", blob)
 
-          const response = await axios.post("http://127.0.0.1:8000/process_frame/", formData, {
+          const response = await axios.post("http://127.0.0.1:8000/image_upload/", formData, {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
