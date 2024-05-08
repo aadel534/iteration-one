@@ -7,7 +7,7 @@ import {registerUser, loginUser, Logout, greetUser} from './controllers/userCont
 import cookieParser from "cookie-parser";
 const app = express();
 // Enable cookies with origin and credentials ---> Source: https://stackoverflow.com/questions/53787770/res-cookie-not-setting-cookie-in-browser
-app.use(cors({origin: "http://localhost:3000", credentials:true}));
+app.use(cors({ credentials:true}));
 app.use(express.json());
 app.use(cookieParser())
 

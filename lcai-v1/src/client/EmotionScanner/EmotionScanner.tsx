@@ -1,15 +1,195 @@
 import { NavLink, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useUser } from '../ContextAPI/UserContext'; 
 import Webcam from 'react-webcam';
+import * as faceapi from "face-api.js";
+import * as tf from "@tensorflow/tfjs";
 
 export function EmotionScanner() {
     const {firstName} = useUser();
 
+    const webcamRef = useRef<Webcam>(null);
+    const [imageState, setImage] = useState();
+    const [modelsLoaded, setModelsLoaded] = useState(false);
+    const [detectionState, setDetection] = useState<faceapi.FaceDetection>();
+    const [FERResult, setFERResult] = useState('');
+    const [start, setStart] = useState(false);
+
+
   useEffect(() => {
     document.title = "Emotion Scanner";
   }, []);
+
+  useEffect(() => {
+
+    const loadModels = async () => {
+
+      await Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri('/faceapi'),
+      ]);
+      console.log('Face detection models loaded successfully');
+      setModelsLoaded(true);
+    };
+
+    loadModels();
+  }, []);
+
+  useEffect(() => {
+    if (start && webcamRef.current) {
+      const captureFrame = async () => {
+        const frame = webcamRef.current?.getScreenshot();
+        if (modelsLoaded && frame) {
+          console.log("Frame captured successfully");
+          try {
+            const image = new Image();
+            image.src = frame; 
+            image.onload = async () => {
+              setImage(imageState);
+              await detectFace(image);
+            };
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        }
+      };
+
+      const detectFace = async (image: HTMLImageElement) => {
+        const detection = await faceapi.detectSingleFace(image, new faceapi.TinyFaceDetectorOptions());
+        if (detection) {
+          setDetection(detection);
+          console.log("Face detected", detection);
+        } else {
+          console.log("No face detected");
+      
+        }
+      };
+
+      const preprocessImage = async (image: HTMLImageElement) => {
+        console.log("Preprocessing image");
+        const tensor = tf.browser.fromPixels(image);
+        // Convert the tensor to grayscale by taking the mean across the color channels
+        const grayscale = tensor.mean(-1);
+        // Expand the dimensions to add a batch dimension
+        const expanded = grayscale.expandDims(0);
+        // Resize the grayscale tensor to the desired shape
+        const reshaped = expanded.reshape([1, 48, 48, 1]);
+        console.log(reshaped);
+        return reshaped;
+      };
+      
+      
+      
+      const classifyFrame = async (detection: faceapi.FaceDetection) => {
+        console.log("Classifying frame...");
+        const regionsToExtract = [
+          new faceapi.Rect(detection.box.x, detection.box.y, detection.box.width, detection.box.height)
+        ];
+
+        if (webcamRef.current?.video) {
+          try {
+            const canvas = await faceapi.extractFaces(webcamRef.current.video, regionsToExtract);
+            if (canvas.length > 0) {
+              const blob = await convertCanvasToBlob(canvas[0]);
+              const image = await faceapi.bufferToImage(blob);
+              renderCroppedImage(image, detection);
+            } else {
+              console.log("No face detected in the webcam feed.");
+            }
+          } catch (error) {
+            console.error('Error during face detection:', error);
+          }
+        } else {
+          console.log("Webcam video feed not available.");
+        }
+      };
+
+      const renderCroppedImage = async (image: HTMLImageElement, detection: faceapi.FaceDetection) => {
+        console.log("Rendering cropped image...");
+        const croppedCanvas = document.createElement('canvas');
+        croppedCanvas.width = 48;
+        croppedCanvas.height = 48;
+        const ctx = croppedCanvas.getContext('2d');
+        if (ctx) {
+            ctx.drawImage(image, detection.box.x, detection.box.y, detection.box.width, detection.box.height, 0, 0, 48, 48);
+            console.log("Cropped image drawn:", croppedCanvas);
+            await predictFromCroppedImage(croppedCanvas);
+      };
+    }
+      const predictFromCroppedImage = async (croppedCanvas: HTMLCanvasElement) => {
+        console.log("Predicting from cropped image...");
+        try {
+            
+            const model = await tf.loadLayersModel("/ai_models/face_recog/emotionscanner_js/model.json");
+            console.log("Model FER loaded.")
+          
+          const image = new Image();
+          image.src = croppedCanvas.toDataURL(); // Convert canvas to data URL
+          image.onload = async () => {
+            const tensor =  await preprocessImage(image);
+            if (tensor){
+              console.log("Tensor created!");
+              try {
+                const prediction = model.predict(tensor);
+                console.log("Prediction:", prediction);
+               handlePrediction(prediction);
+
+              }
+              catch (error){
+                console.error("Error during prediction", error);
+              }
+            } 
+            
+          };
+        } catch (error) {
+          console.error('Error during face classification:', error);
+        }
+      };
+      
+      const handlePrediction = (prediction: any) => {
+        const classNames = ["angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"];
+        const predictionArray = prediction.arraySync()[0];
+        const maxIndex = predictionArray.indexOf(Math.max(...predictionArray));
+        const predictedClass = classNames[maxIndex];
+        console.log("Predicted class:", predictedClass);
+        setFERResult(predictedClass);
+      };
+
+      const convertCanvasToBlob = (canvas: HTMLCanvasElement): Promise<Blob> => {
+        return new Promise((resolve, reject) => {
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(new Error('Failed to convert canvas to blob'));
+              }
+            },
+            'image/jpeg',
+          );
+        });
+      };
+
+
+      captureFrame();
+      if (detectionState) {
+        classifyFrame(detectionState);
+      }
+      const intervalId = setInterval(captureFrame, 1000); // Capture frame every second
+
+      return () => {
+        // Clear interval when component unmounts
+        clearInterval(intervalId);
+      };
+    }
+  }, [start, detectionState]);
+
+
+  
+  const handleClick = () => {
+    setStart(true);
+  };
+
 
   return (
 
@@ -57,17 +237,20 @@ export function EmotionScanner() {
                 Are you communicating correctly? Do you appear sad for example? Use the emotion scanner as you like
                 to help you improve the way you present yourself to others. </p>
 
-                <p className="absolute right-6 w-80 mt-20">The emotion your face is currently projecting is: </p>
+                <p className="absolute right-6 w-80 mt-20">The emotion your face is currently projecting is: {FERResult} </p>
             </article>
 
-            <article className="mt-20">
+            <article className="mt-20 flex justify-center">
                     <Webcam
                 // ref={webcamRef}
+                ref={webcamRef}
                 screenshotFormat="image/jpeg"
                 audio={true}
                 width={600}
                 height={600}
             />
+                  <button className="cursor-pointer shadow bg-red-500 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+ onClick={handleClick}>Start AI!</button>
             </article>
             <article className="text-m mt-20">
          
