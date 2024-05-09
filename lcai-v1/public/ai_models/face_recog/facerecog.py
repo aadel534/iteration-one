@@ -157,7 +157,7 @@ test_ds = prepare(test_ds)
 
 #Source = https://www.tensorflow.org/tutorials/images/data_augmentation
 # My model 
-num_classes = 7
+num_classes = 6
 from tensorflow.keras.models import Sequential
 model = Sequential([
   layers.InputLayer(batch_input_shape=(batch_size, 48, 48, 1)),
@@ -165,11 +165,11 @@ model = Sequential([
     layers.MaxPooling2D((2, 2)),
     layers.Conv2D(64, 3, padding='same', activation='elu'),
     layers.MaxPooling2D((2, 2)),
+    layers.Dense(256, activation='elu'),
     layers.Conv2D(128, 3, padding='same', activation='elu'),
     layers.MaxPooling2D((2, 2)),
-    layers.Dropout(0.5),
     layers.Flatten(),
-    layers.Dense(256, activation='elu'),
+    layers.Dense(64, activation='relu'),
     layers.Dense(num_classes)
 ])
 model.compile(optimizer='RMSprop',
@@ -179,7 +179,7 @@ model.compile(optimizer='RMSprop',
 
 
 
-epochs= 100
+epochs= 300
 history = model.fit(
   train_ds,
   validation_data=val_ds,
