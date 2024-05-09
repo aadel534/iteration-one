@@ -10,7 +10,6 @@ def image_upload(request):
             return JsonResponse({'error': 'No image provided'}, status=400)
         
         result = process_image(image_file)
-        print(JsonResponse({'predictedEmotion': result}))
         return JsonResponse({'predictedEmotion': result}, status=200)
     else:
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)

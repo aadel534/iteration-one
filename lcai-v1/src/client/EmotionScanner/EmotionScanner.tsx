@@ -4,7 +4,6 @@ import axios from "axios";
 import { useUser } from '../ContextAPI/UserContext';
 import Webcam from 'react-webcam';
 import * as faceapi from "face-api.js";
-import * as tf from "@tensorflow/tfjs";
 
 // Configure CSRF tokens for Django backend
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -16,8 +15,7 @@ export function EmotionScanner() {
   const webcamRef = useRef<Webcam>(null);
   const [imageState, setImage] = useState();
   const [modelsLoaded, setModelsLoaded] = useState(false);
-  const [detectionState, setDetection] = useState<faceapi.FaceDetection>();
-  const [FERResult, setFERResult] = useState('');
+  const [FERResult, setFERResult] = useState('Your projected emotion will be displayed here!');
   const [start, setStart] = useState(false);
 
 
@@ -61,26 +59,19 @@ export function EmotionScanner() {
       const detectFace = async (image: HTMLImageElement) => {
         const detection = await faceapi.detectSingleFace(image, new faceapi.TinyFaceDetectorOptions());
         if (detection) {
-          setDetection(detection);
-          console.log("Face detected", detection);
+          if (detection) {
+                      console.log("Face detected", detection);
+
+            classifyFrame(detection);
+
+          }
         } else {
+          setFERResult("Hold on I am trying to detect your face! - AI");
           console.log("No face detected");
 
         }
       };
 
-      const preprocessImage = async (image: HTMLImageElement) => {
-        console.log("Preprocessing image");
-        const tensor = tf.browser.fromPixels(image);
-        // Convert the tensor to grayscale by taking the mean across the color channels
-        const grayscale = tensor.mean(-1);
-        // Expand the dimensions to add a batch dimension
-        const expanded = grayscale.expandDims(0);
-        // Resize the grayscale tensor to the desired shape
-        const reshaped = expanded.reshape([1, 48, 48, 1]);
-        console.log(reshaped);
-        return reshaped;
-      };
 
 
 
@@ -149,14 +140,6 @@ export function EmotionScanner() {
 
 
 
-      const handlePrediction = (prediction: any) => {
-        const classNames = ["angry", "disgust", "fear", "happy", "neutral", "sad", "surprise"];
-        const predictionArray = prediction.arraySync()[0];
-        const maxIndex = predictionArray.indexOf(Math.max(...predictionArray));
-        const predictedClass = classNames[maxIndex];
-        console.log("Predicted class:", predictedClass);
-        setFERResult(predictedClass);
-      };
 
       const convertCanvasToBlob = (canvas: HTMLCanvasElement): Promise<Blob> => {
         return new Promise((resolve, reject) => {
@@ -175,17 +158,15 @@ export function EmotionScanner() {
 
 
       captureFrame();
-      if (detectionState) {
-        classifyFrame(detectionState);
-      }
-      const intervalId = setInterval(captureFrame, 1000); // Capture frame every second
+ 
+      const intervalId = setInterval(captureFrame, 10000); // Capture frame every millisecond
 
       return () => {
         // Clear interval when component unmounts
         clearInterval(intervalId);
       };
     }
-  }, [start, detectionState]);
+  }, [start, webcamRef]);
 
 
 

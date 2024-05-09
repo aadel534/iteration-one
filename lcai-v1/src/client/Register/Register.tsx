@@ -199,7 +199,7 @@ export function Register() {
             <article className="flex justify-center  ">
               <button
                 type="submit"
-                className="text-3xl hover:animate-pulse md:animate-bounce text-blue-200  lowercase rounded hover:cursor-pointer"
+                className="text-3xl font-thin hover:animate-pulse md:animate-bounce text-blue-200  lowercase rounded hover:cursor-pointer"
               >
                 Sign Up!
               </button>

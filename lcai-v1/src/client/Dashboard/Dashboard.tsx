@@ -25,39 +25,40 @@ export function Dashboard() {
 
   }, []);
   return (
-
     <>
-      <header className="flex justify-between items-center -mt-10 bg-white  font-sans   sticky top-0 z-50 antialiased">
-        <Link to="/dashboard">
-          <h1 className="absolute top-30 text-xl font-extrabold ml-6 -mt-6 hover:text-yellow-500 border  border-4 border-red-500 hover:animate-pulse ">
-            <span id="lcaiLogoLeft" className="text-red-700 pr-4">
-              LCAI!
-            </span>
-            LightsCameraAI!
-          </h1>
-        </Link>
+    <header className="lowercase flex justify-between items-center -mt-16 font-sans font-thin  text-white  subpixel-antialiased	 bg-black lowercase sticky top-0 z-20 ">
+    <Link to="/dashboard">
+            <h1 className=" absolute top-6 md:top-30  md:pb-0 text-xs md:text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 ">
+        <span id="lcaiLogoLeft" className="text-blue-200 pr-4  ">
+          LCAI 
+        </span>
+        LightsCameraAI!
+      </h1>
+    </Link>
 
-        <nav className="-mt-4 md:mt-7  ">
-          <ul className="flex space-x-2  mr-10	text-center ">
-            <li className="text-xl  uppercase capitalize hover:text-blue-700 pr-10 hover:animate-pulse">
+    <nav className="mt-4 md:mt-7  ">
+    <ul className="flex space-x-2  mr-10	text-center pt-14 ">
+      <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
               <NavLink to="/emotionscanner">
                 <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
               </NavLink>
             </li>
-            <li className="text-xl  uppercase capitalize hover:text-blue-700 pr-10 hover:animate-pulse">
+            <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse">
               <span className="hover:bg-slate-200 rounded">Settings</span>
             </li>
-            <li className="text-xl  uppercase capitalize mb-10 hover:animate-pulse  hover:text-blue-700 ">
+            <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-700 ">
               <NavLink to="/register">
                 <span className=" hover:bg-slate-200  rounded">Log Out {userFirstName}?</span>
               </NavLink>
             </li>
+      </ul>
 
-          </ul>
-        </nav>
-      </header>
+    </nav>
+    </header>;
+    
+      
 
-      <main className=" font-sans relative antialiased flex justify-center">
+      <main className=" lowercase font-thin font-sans relative  subpixel-antialiased flex justify-center bg-black text-white">
 
         <section className="md:block ">
           <h1 className="mt-20 flex  text-5xl text-wrap w-80 text-center">
@@ -117,9 +118,10 @@ export function Dashboard() {
 
 
       </main>
-      <footer className="text-sm text-center mt-96  font-sans">
+      <footer className="text-sm text-center pt-96  subpixel-antialiased font-sans bg-black text-white font-thin">
         &copy; 2024 Adelayo Adebiyi
       </footer>
     </>
-  );
+  
+);
 }

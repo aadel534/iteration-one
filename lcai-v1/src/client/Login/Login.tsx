@@ -77,7 +77,7 @@ export function Login() {
           </ul>
         </nav>
       </header>
-      <main className="lowercase mt-20 -mb-40 font-sans relative bg-black text-white">
+      <main className="lowercase pt-40 -mb-40 font-sans font-thin relative bg-black text-white">
         <section className="flex justify-end -mt-20 md:mr-60">
           <figure className="mr-20 flex items-center mt-10">
             <img src="model-1.jpg" className="hidden md:block h-80" />
@@ -87,7 +87,7 @@ export function Login() {
             onSubmit={handleSubmit}
             className="w-full max-w-lg  mr-20 md:mr-0"
           >
-            <h1 className="text-center text-2xl mt-20 mb-10">
+          <h1 className="text-center text-2xl mt-20 mb-10">
               Log In To Your Account
             </h1>
             {errorState.length > 0 &&
@@ -138,7 +138,7 @@ export function Login() {
             <article className="flex justify-center  ">
               <button
                 type="submit"
-                className="lowercase text-3xl hover:animate-pulse md:animate-bounce text-blue-200  rounded hover:cursor-pointer"
+                className="lowercase font-thin text-3xl hover:animate-pulse md:animate-bounce text-blue-200  rounded hover:cursor-pointer"
               >
                 Log in
               </button>
