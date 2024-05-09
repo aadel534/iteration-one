@@ -208,8 +208,8 @@ export function EmotionScanner() {
 
       <main className=" font-sans relative subpixel-antialiased font-thin lowercase flex justify-center text-white bg-black">
 
-        <section className="md:block ">
-          <h1 className="mt-20 flex  text-5xl text-wrap w-80 text-center ml-16 text-blue-200">
+        <section className="md:block text-center ">
+          <h1 className="mt-20 text-5xl text-wrap  text-center ml-16 text-blue-200">
             Emotion Scanner
           </h1>
           <article className="text-m ">
@@ -224,7 +224,7 @@ export function EmotionScanner() {
             <p className="absolute right-6 w-80 mt-20 ">{FERResult == "Hold on I am trying to detect your face! - AI" ? "": "The emotion your face is currently projecting is:"} <span className="text-blue-200 animate-pulse">{FERResult}</span> </p>
           </article>
 
-          <article className="mt-20 flex justify-center">
+          <article className="mt-20 flex justify-center ">
             <Webcam
               // ref={webcamRef}
               ref={webcamRef}

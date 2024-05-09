@@ -10,8 +10,8 @@ import keras
 
 
 
-path_test = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/datasets/test"
-path_train = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/datasets/train"
+path_test = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/datasets/FER-2013/test"
+path_train = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/datasets/FER-2013/train"
 
 # Remove .DS_Store files
 def deleteDStoreFile(file):
@@ -56,7 +56,7 @@ data_dir = Path(path_train)
 test_data_dir = Path(path_test)
 # Set consistent
 #  image sizes and number of images in each training batch
-batch_size = 6000000
+batch_size = 64
 img_height = 48
 img_width = 48
 
@@ -120,7 +120,7 @@ train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 
-# Data augmentation
+# Data augmentation - atempt later
 data_augmentation = tf.keras.Sequential([
     layers.RandomRotation(0.1),
     layers.RandomContrast(0.1),
@@ -155,36 +155,64 @@ val_ds = prepare(val_ds)
 test_ds = prepare(test_ds)
 
 
-#Source = https://www.tensorflow.org/tutorials/images/data_augmentation
-# My model 
-num_classes = 6
-from tensorflow.keras.models import Sequential
-model = Sequential([
-  layers.InputLayer(batch_input_shape=(batch_size, 48, 48, 1)),
-    layers.Conv2D(16, 3, padding='same', activation='elu'),
-    layers.MaxPooling2D((2, 2)),
-    layers.Conv2D(64, 3, padding='same', activation='elu'),
-    layers.MaxPooling2D((2, 2)),
-    layers.Dense(256, activation='elu'),
-    layers.Conv2D(128, 3, padding='same', activation='elu'),
-    layers.MaxPooling2D((2, 2)),
-    layers.Flatten(),
-    layers.Dense(64, activation='relu'),
-    layers.Dense(num_classes)
+
+model = tf.keras.Sequential([
+   
+
+   layers.Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)),
+   layers.BatchNormalization(),
+   layers.Conv2D(64, kernel_size=(3, 3), activation='relu'),
+   layers.BatchNormalization(),
+   layers.MaxPooling2D(pool_size=(2, 2)),
+   layers.Dropout(0.25),
+   layers.Conv2D(128, kernel_size=(3, 3), activation='relu'),
+   layers.BatchNormalization(),
+   layers.Conv2D(128, kernel_size=(3, 3), activation='relu'),
+   layers.BatchNormalization(),
+   layers.MaxPooling2D(pool_size=(2, 2)),
+   layers.Dropout(0.25),
+   layers.Conv2D(256, kernel_size=(3, 3), activation='relu'),
+   layers.BatchNormalization(),
+   layers.Conv2D(256, kernel_size=(3, 3), activation='relu'),
+   layers.BatchNormalization(),
+   layers.MaxPooling2D(pool_size=(2, 2)),
+   layers.Dropout(0.25),
+   layers.Flatten(),
+   layers.Dense(256, activation='relu'),
+   layers.BatchNormalization(),
+   layers.Dropout(0.5),
+   layers.Dense(7, activation='softmax'),
 ])
-model.compile(optimizer='RMSprop',
+
+model.compile(optimizer='Adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
+# Train model but prevent overfitting with too many epochs
+from tensorflow.keras.callbacks import ModelCheckpoint
 
-
-
-epochs= 300
-history = model.fit(
-  train_ds,
-  validation_data=val_ds,
-  epochs=epochs
+# Define the callback
+checkpoint_callback = ModelCheckpoint(
+    filepath='model_weights.weights.h5',
+    monitor='val_accuracy',
+    save_best_only=True,
+    save_weights_only=True,
+    mode='max',
+    verbose=1
 )
+
+# Train the model with the callback
+history = model.fit(
+    train_ds,
+    steps_per_epoch=len(train_ds),
+    epochs=50,
+    validation_data=val_ds,
+    validation_steps=len(val_ds),
+    callbacks=[checkpoint_callback]
+)
+# Source: https://www.kaggle.com/code/mohamedchahed/human-emotion-detection
+
+
 loss, acc = model.evaluate(test_ds)
 print("Accuracy", acc)
 # Metrics explained
