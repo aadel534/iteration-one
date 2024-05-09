@@ -1,25 +1,28 @@
 import tensorflow as tf
 from keras.models import load_model
 import numpy as np
+from PIL import Image
+import io
+
+model_path = '/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/ai_models/face_recog/emotionscanner.keras'
+model = load_model(model_path)
+
 
 # model = load_model('/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/ai_models/face_recog/emotionscanner.keras')
 # Frames sent from front-end. React webcam captures the users face and these frames are sent here
-def process_image():
-    # image = tf.keras.preprocessing.image.load_img(image_file, target_size=(48, 48), color_mode='grayscale')
-    
-    # Convert PIL image to numpy array
-    image_array = tf.keras.preprocessing.image.img_to_array(image)
-    image_array = np.expand_dims(image_array, axis=0)  # Add batch dimension
+def process_image(image_file):
 
-    # Normalize the image data
-    image_array /= 255.0
+    image_bytes = io.BytesIO(image_file.read())
+    image = Image.open(image_bytes).convert('L')
+    image = image.resize((48, 48))
 
-    # Make prediction
+    image_array = np.expand_dims(np.array(image), axis=0)
+
+    image_array = image_array.astype('float32') / 255.0
+
     predictions = model.predict(image_array)
-    predicted_class = np.argmax(predictions, axis=1)  
-    
-    class_names = ["anger", "disgust", "happiness", "neutral", "sadness", "surprise"]
-    predicted_class_name = class_names[predicted_class[0]]
-    
-    return predicted_class_name
+    predicted_class = np.argmax(predictions, axis=1)
 
+    class_names = ["anger", "disgust", "happiness", "neutral", "sadness", "surprise"]
+    predictedEmotion = class_names[predicted_class[0]]
+    return predictedEmotion

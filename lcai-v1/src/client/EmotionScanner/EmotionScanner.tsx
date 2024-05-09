@@ -135,10 +135,13 @@ export function EmotionScanner() {
               'Content-Type': 'multipart/form-data'
             }
           });
+        
           setFERResult(response.data.predictedEmotion);
         }
         catch (error) {
           console.error("Error during prediction", error);
+      
+         
         }
       }
 
