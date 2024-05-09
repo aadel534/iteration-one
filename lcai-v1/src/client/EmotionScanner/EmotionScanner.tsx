@@ -202,9 +202,12 @@ export function EmotionScanner() {
             <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
               <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
             </li>
-            <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse">
-              <span className="hover:bg-slate-200 rounded">Settings</span>
-            </li>
+            <NavLink to="/settings">
+
+                        <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse">
+                            <span className="hover:bg-slate-200 rounded">Settings</span>
+                        </li>
+                        </NavLink>
             <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 ">
               <NavLink to="/">
                 <span className=" hover:bg-slate-200  rounded">Log Out {firstName}?</span>

@@ -50,9 +50,12 @@ export function Dashboard() {
                 <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
               </NavLink>
             </li>
-            <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse">
-              <span className="hover:bg-slate-200 rounded">Settings</span>
-            </li>
+            <NavLink to="/settings">
+
+              <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse">
+                <span className="hover:bg-slate-200 rounded">Settings</span>
+              </li>
+            </NavLink>
             <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 ">
               <NavLink to="/register">
                 <span className=" hover:bg-slate-200  rounded">Log Out {userFirstName}?</span>

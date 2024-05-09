@@ -7,6 +7,7 @@ import { Login } from "./Login/Login";
 import { EmotionScanner } from "./EmotionScanner/EmotionScanner";
 import { UserProvider } from "./ContextAPI/UserContext";
 import { AIVideo } from "./AIVideo/AIVideo";
+import { Settings } from "./Settings/Settings";
 function App() {
   return (
     <>
@@ -22,6 +23,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/emotionscanner" element={<EmotionScanner/>}/>
             <Route path="/aivideo" element={<AIVideo/>}/>
+            <Route path="/settings" element={<Settings/>}/>
 
 
 

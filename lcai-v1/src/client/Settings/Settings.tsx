@@ -1,60 +1,13 @@
 import { NavLink, Link } from "react-router-dom";
-import { useEffect, useState, useRef, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useUser } from '../ContextAPI/UserContext';
 
 
 
-export function AIVideo() {
+export function Settings() {
     const { firstName } = useUser();
-// Post to https://api.d-id.com/talks
-const [imageFile, setImageFile] = useState<File | null>(null);
-const [audioFile, setAudioFile] = useState<File | null>(null);
 
-    // Handle image file change
-    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files){
-            setImageFile(event.target.files[0]);
-
-        }
-    };
-
-    // Handle audio file change
-    const handleAudioChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files){
-            if (event.target.files){
-
-        setAudioFile(event.target.files[0]);
-        }
-    }
-    };
-
-    // Handle form submission
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        if (!imageFile || !audioFile) {
-            alert('image and audio file required to generate your ai content!');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('source_url', imageFile);
-        formData.append('script[type]', 'audio');
-        formData.append('script[audio_url]', audioFile);
-        formData.append('Authorization', 'Basic YWRlbGF5by5hZGViaXlpQGdtYWlsLmNvbQ:Tna3pniieKCohohu6q_kB')
-
-        try {
-            const response = await axios.post('https://api.d-id.com/talks', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            console.log('Success:', response.data);
-        } catch (error) {
-            console.error('Error uploading files:', error);
-        }
-    };
 
     return (
 
@@ -85,13 +38,10 @@ const [audioFile, setAudioFile] = useState<File | null>(null);
                                 <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
                             </li>
                         </NavLink>
-                        <NavLink to="/settings">
 
                         <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse">
                             <span className="hover:bg-slate-200 rounded">Settings</span>
                         </li>
-                        </NavLink>
-
                         <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 ">
                             <NavLink to="/">
                                 <span className=" hover:bg-slate-200  rounded">Log Out {firstName}?</span>
@@ -102,7 +52,7 @@ const [audioFile, setAudioFile] = useState<File | null>(null);
                 </nav>
             </header>;
 
-            <main className=" text-white font-sans relative subpixel-antialiased font-thin lowercase flex justify-center text-white bg-black">
+            <main className=" font-sans relative subpixel-antialiased font-thin lowercase flex justify-center text-white bg-black">
 
                 <section className="md:block text-center ">
                     <h1 className="mt-20 text-5xl text-wrap  text-center ml-16 text-blue-200">
