@@ -45,6 +45,7 @@
     "@types/react-dom": "^18.2.16",
     "@types/react-slick": "^0.23.13",
     "@types/ws": "^8.5.10",
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
     "nodemon": "^3.1.0",

@@ -100,13 +100,13 @@ export function Settings() {
 
                 <section className="md:block text-center ">
                     <h1 className="mt-20 text-5xl text-wrap  text-center ml-16 text-blue-200 mb-20">
-                        AI Video Generator
+                      settings
                     </h1>
                     <form onSubmit={handleSubmit} className=" text-center">
                         <label htmlFor="password" className="pr-10">enter a new password </label>
-                        <input name="password" type="password" onChange={handlePasswordChange} accept="image/*" />
+                        <input name="password" type="password" className="text-black" onChange={handlePasswordChange} accept="image/*" />
                         <label htmlFor="passwordconf" className="pr-10 ml-2">confirm password</label>
-                        <input type="passwordconf" className="mr-20" onChange={handlePasswordConfChange} accept="audio/*" />
+                        <input type="password" name="passwordconf"  className="text-black mr-20" onChange={handlePasswordConfChange} accept="audio/*" />
                         <button type="submit" className="mt-4 bg-blue-200 hover:bg-blue-200 text-white font-bold py-2 px-4 rounded">
                             change password
                         </button>

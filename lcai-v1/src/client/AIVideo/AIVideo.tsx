@@ -1,138 +1,127 @@
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { NavLink, Link } from "react-router-dom";
-import { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { useUser } from '../ContextAPI/UserContext';
 
+interface FacePosition {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+}
 
+interface DetectionResponse {
+    code: number;
+    data: {
+        status: string;
+        result: {
+            face_positions: FacePosition[];
+        };
+    };
+}
 
 export function AIVideo() {
     const { firstName } = useUser();
-    // Post to https://api.d-id.com/talks
     const [imageFile, setImageFile] = useState<File | null>(null);
-    const [audioFile, setAudioFile] = useState<File | null>(null);
+    const [imageURL, setImageURL] = useState<string>("");
 
-    // Handle image file change
-    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            setImageFile(event.target.files[0]);
-
-        }
-    };
-
-    // Handle audio file change
-    const handleAudioChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            if (event.target.files) {
-
-                setAudioFile(event.target.files[0]);
+    const handleImageChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+            const fileSize = file.size / 1024 / 1024; // size in MB
+            if (fileSize > 10) { // Check if your API has a file size limit
+                alert('File size exceeds the limit');
+                return;
             }
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (reader.result) {
+                    setImageURL(reader.result.toString());
+                }
+            };
+            reader.readAsDataURL(file);
         }
     };
 
-    // Handle form submission
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        if (!imageFile || !audioFile) {
-            alert('image and audio file required to generate your ai content!');
-            return;
+    const handleDetection = async (): Promise<FacePosition[] | null> => {
+        if (!imageURL) {
+            alert('Image URL must be set for detection');
+            return null;
         }
-
-        const formData = new FormData();
-        formData.append('source_url', imageFile);
-        formData.append('script[type]', 'audio');
-        formData.append('script[audio_url]', audioFile);
 
         try {
-            const response = await axios.post('https://api.d-id.com/talks', formData, {
+            const response = await axios.post<DetectionResponse>('https://api.nero.com/biz/api/task', {
+                type: "FaceAnimation:Detection",
+                body: { image: imageURL }
+            }, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': 'Basic YWRlbGF5by5hZGViaXlpQGdtYWlsLmNvbQ:Tna3pniieKCohohu6q_kB'
-                },
+                    'x-neroai-api-key': 'LYIWDGQ7KSEF39H66WYU5OWA',
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.data.code === 0) {
+                return response.data.data.result.face_positions;
+            }
+            throw new Error('API response code indicates failure');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Failed to detect face positions.');
+            return null;
+        }
+    };
+
+    const handleGeneration = async (facePositions: FacePosition[]): Promise<void> => {
+        try {
+            const response = await axios.post('https://api.nero.com/biz/api/task', {
+                type: "FaceAnimation:Generation",
+                body: {
+                    image: imageURL,
+                    face_positions: facePositions
+                }
+            }, {
+                headers: {
+                    'x-neroai-api-key': 'your API key',
+                    'Content-Type': 'application/json'
+                }
             });
             console.log('Success:', response.data);
         } catch (error) {
-            console.error('Error uploading files:', error);
+            console.error('Error:', error);
+        }
+    };
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+        event.preventDefault();
+        if (!imageFile) {
+            alert('An image file is required to proceed!');
+            return;
+        }
+
+        const positions = await handleDetection();
+        if (positions) {
+            await handleGeneration(positions);
         }
     };
 
     return (
-
         <>
-            <header className="lowercase flex justify-between items-center -mt-16 font-sans font-thin  text-white  subpixel-antialiased	 bg-black lowercase sticky top-0 z-20 ">
-                <Link to="/dashboard">
-                    <h1 className=" absolute top-6 md:top-30  md:pb-0 text-xs md:text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 hover:cursor-pointer ">
-                        <span id="lcaiLogoLeft" className="text-blue-200 pr-4  ">
-                            LCAI
-                        </span>
-                        LightsCameraAI!
-                    </h1>
-                </Link>
-
-
-                <nav className="mt-4 md:mt-7  ">
-                    <ul className="flex space-x-2  mr-10	text-center pt-14 ">
-                        <NavLink to="/savedvideos">
-
-                            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
-
-                                <span className="hover:bg-slate-200 rounded">Saved Videos</span>
-                            </li>
-                        </NavLink>
-                        <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
-
-                            <span className="hover:bg-slate-200 rounded">AI Video Generator</span>
-                        </li>
-
-                        <NavLink to="/emotionscanner">
-
-                            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
-
-                                <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
-                            </li>
-                        </NavLink>
-                        <NavLink to="/settings">
-
-                            <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
-                                <span className="hover:bg-slate-200 rounded">Settings</span>
-                            </li>
-                        </NavLink>
-
-                        <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 hover:cursor-pointer">
-                            <NavLink to="/">
-                                <span className=" hover:bg-slate-200  rounded">Log Out {firstName}?</span>
-                            </NavLink>
-                        </li>
-                    </ul>
-
-                </nav>
-            </header>;
-
-            <main className=" text-white font-sans relative subpixel-antialiased font-thin lowercase flex justify-center text-white bg-black">
-
-                <section className="md:block text-center ">
-                    <h1 className="mt-20 text-5xl text-wrap  text-center ml-16 text-blue-200 mb-20">
+            {/* Header and Navigation Components */}
+            <main className="text-white font-sans subpixel-antialiased font-thin lowercase flex justify-center bg-black">
+                <section className="text-center">
+                    <h1 className="text-5xl text-blue-200 mt-20 mb-20">
                         AI Video Generator
                     </h1>
-                    <form onSubmit={handleSubmit} className="flex justify-center text-center">
-                        <label htmlFor="image" className="pr-10">image </label>
-                        <input name="image" type="file" onChange={handleImageChange} accept="image/*" />
-                        <label htmlFor="audio" className="pr-10">audio</label>
-                        <input type="file" onChange={handleAudioChange} accept="audio/*" />
-                        <button type="submit" className="mt-4 bg-blue-200 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <form onSubmit={handleSubmit} className="flex justify-center">
+                        <label htmlFor="image" className="pr-10">Image:</label>
+                        <input type="file" onChange={handleImageChange} accept="image/*" />
+                        <button type="submit" className="bg-blue-200 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
                             Generate Video
                         </button>
                     </form>
-
                 </section>
-
-
-
-
             </main>
-            <footer className="text-sm text-center pt-96 text-white font-thin bg-black lowercase font-sans">
-                &copy; 2024 Adelayo Adebiyi
-            </footer>
+            {/* Footer Here */}
         </>
     );
 }

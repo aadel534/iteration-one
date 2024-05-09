@@ -2,13 +2,14 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import tailwindcss from 'tailwindcss';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 export default defineConfig({
   css: {
     postcss: {
       plugins: [tailwindcss()],
     },
   },
-  plugins: [reactRefresh()],
+  plugins: [reactRefresh(), basicSsl()],
   build: {
     outDir: 'dist',
     emptyOutDir: false, // Prevent Vite from clearing the dist directory
