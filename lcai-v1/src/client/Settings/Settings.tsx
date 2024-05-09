@@ -1,5 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { useUser } from '../ContextAPI/UserContext';
 
@@ -7,7 +7,43 @@ import { useUser } from '../ContextAPI/UserContext';
 
 export function Settings() {
     const { firstName } = useUser();
+    const {userId} = useUser();
+    const [password, setPassword] = useState<String>("");
+    const [passwordConf, setPasswordConf] = useState<String>("");
 
+
+    const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value) {
+            setPassword(event.target.value);
+
+        }
+    };
+
+    const handlePasswordConfChange = (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value) {
+            setPasswordConf(event.target.value);
+
+        }
+    };
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+    if (password !== passwordConf) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    try {
+      const response = await axios.post('/api/updatePassword', {
+        userId,
+        password: password
+      });
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Error updating password:", error);
+      alert("Failed to update password: " + error);
+    }
+
+    }
 
     return (
 
@@ -25,12 +61,20 @@ export function Settings() {
 
                 <nav className="mt-4 md:mt-7  ">
                     <ul className="flex space-x-2  mr-10	text-center pt-14 ">
+                        <NavLink to="/savedvideos">
 
-                        <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
+                            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
 
-                            <span className="hover:bg-slate-200 rounded">AI Video Generator</span>
-                        </li>
+                                <span className="hover:bg-slate-200 rounded">Saved Videos</span>
+                            </li>
+                        </NavLink>
+                        <NavLink to="/aivideo">
 
+                            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
+
+                                <span className="hover:bg-slate-200 rounded">AI Video Generator</span>
+                            </li>
+                        </NavLink>
                         <NavLink to="/emotionscanner">
 
                             <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
@@ -59,15 +103,15 @@ export function Settings() {
                         AI Video Generator
                     </h1>
                     <form onSubmit={handleSubmit} className="flex justify-center text-center">
-                        <label htmlFor="image" className="pr-10">image </label>
-                        <input name="image" type="file" onChange={handleImageChange} accept="image/*" />
-                        <label htmlFor="audio" className="pr-10">audio</label>
-                        <input type="file" onChange={handleAudioChange} accept="audio/*" />
+                        <label htmlFor="password" className="pr-10">enter a new password </label>
+                        <input name="password" type="password" onChange={handlePasswordChange} accept="image/*" />
+                        <label htmlFor="passwordconf" className="pr-10">confirm password</label>
+                        <input type="passwordconf" onChange={handlePasswordConfChange} accept="audio/*" />
                         <button type="submit" className="mt-4 bg-blue-200 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Generate Video
+                            change password
                         </button>
                     </form>
-                 
+
                 </section>
 
 

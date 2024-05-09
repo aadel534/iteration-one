@@ -136,3 +136,18 @@ export async function greetUser (req: Request, res: Response) {
 
 
 }
+
+export async function updatePassword(req: Request, res: Response) {
+  const {password, userId} = req.body;
+  const user = await UserModel.findOne({userId});
+  if (user) {
+    const saltRounds = 12;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+    await user.updateOne({password: passwordHash});
+    const message = "Password updated";
+  
+    res.status(200).json({message});
+
+  }
+
+}

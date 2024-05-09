@@ -5,56 +5,8 @@ import { useUser } from '../ContextAPI/UserContext';
 
 
 
-export function AIVideo() {
+export function SavedVideos() {
     const { firstName } = useUser();
-    // Post to https://api.d-id.com/talks
-    const [imageFile, setImageFile] = useState<File | null>(null);
-    const [audioFile, setAudioFile] = useState<File | null>(null);
-
-    // Handle image file change
-    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            setImageFile(event.target.files[0]);
-
-        }
-    };
-
-    // Handle audio file change
-    const handleAudioChange = (event: ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            if (event.target.files) {
-
-                setAudioFile(event.target.files[0]);
-            }
-        }
-    };
-
-    // Handle form submission
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        if (!imageFile || !audioFile) {
-            alert('image and audio file required to generate your ai content!');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('source_url', imageFile);
-        formData.append('script[type]', 'audio');
-        formData.append('script[audio_url]', audioFile);
-
-        try {
-            const response = await axios.post('https://api.d-id.com/talks', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': 'Basic YWRlbGF5by5hZGViaXlpQGdtYWlsLmNvbQ:Tna3pniieKCohohu6q_kB'
-                },
-            });
-            console.log('Success:', response.data);
-        } catch (error) {
-            console.error('Error uploading files:', error);
-        }
-    };
 
     return (
 
@@ -112,18 +64,9 @@ export function AIVideo() {
 
                 <section className="md:block text-center ">
                     <h1 className="mt-20 text-5xl text-wrap  text-center ml-16 text-blue-200">
-                        AI Video Generator
+                       Saved Videos
                     </h1>
-                    <form onSubmit={handleSubmit} className="flex justify-center text-center">
-                        <label htmlFor="image" className="pr-10">image </label>
-                        <input name="image" type="file" onChange={handleImageChange} accept="image/*" />
-                        <label htmlFor="audio" className="pr-10">audio</label>
-                        <input type="file" onChange={handleAudioChange} accept="audio/*" />
-                        <button type="submit" className="mt-4 bg-blue-200 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Generate Video
-                        </button>
-                    </form>
-
+                
                 </section>
 
 
