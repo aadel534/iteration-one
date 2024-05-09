@@ -6,6 +6,7 @@ import { Dashboard } from "./Dashboard/Dashboard";
 import { Login } from "./Login/Login";
 import { EmotionScanner } from "./EmotionScanner/EmotionScanner";
 import { UserProvider } from "./ContextAPI/UserContext";
+import { AIVideo } from "./AIVideo/AIVideo";
 function App() {
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/emotionscanner" element={<EmotionScanner/>}/>
+            <Route path="/aivideo" element={<AIVideo/>}/>
 
 
 

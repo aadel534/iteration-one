@@ -150,7 +150,7 @@ def prepare(ds, shuffle=False, augment=False):
 
 
 # Prepare and preprocess data
-train_ds = prepare(train_ds, shuffle=True, augment=True) 
+train_ds = prepare(train_ds, shuffle=True, augment=False) 
 val_ds = prepare(val_ds)
 test_ds = prepare(test_ds)
 
@@ -189,26 +189,12 @@ model.compile(optimizer='Adam',
               metrics=['accuracy'])
 
 # Train model but prevent overfitting with too many epochs
-from tensorflow.keras.callbacks import ModelCheckpoint
-
-# Define the callback
-checkpoint_callback = ModelCheckpoint(
-    filepath='model_weights.weights.h5',
-    monitor='val_accuracy',
-    save_best_only=True,
-    save_weights_only=True,
-    mode='max',
-    verbose=1
-)
-
-# Train the model with the callback
+# 300 selected based on this study Source: https://arxiv.org/pdf/2105.03588.pdf
+epochs= 50
 history = model.fit(
-    train_ds,
-    steps_per_epoch=len(train_ds),
-    epochs=50,
-    validation_data=val_ds,
-    validation_steps=len(val_ds),
-    callbacks=[checkpoint_callback]
+  train_ds,
+  validation_data=val_ds,
+  epochs=epochs
 )
 # Source: https://www.kaggle.com/code/mohamedchahed/human-emotion-detection
 

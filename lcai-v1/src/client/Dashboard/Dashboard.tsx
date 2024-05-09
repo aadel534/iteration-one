@@ -5,7 +5,7 @@ import { useUser } from '../ContextAPI/UserContext';
 
 export function Dashboard() {
   const { userId, navbarname } = useUser();
-  
+
   const [userFirstName, setUserFirstName] = useState("");
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export function Dashboard() {
         const { firstName } = response.data;
         setUserFirstName(firstName);
         navbarname(firstName);
-        
+
       })
       .catch(error => {
         console.error("Error fetching user information: ", error);
@@ -26,19 +26,26 @@ export function Dashboard() {
   }, []);
   return (
     <>
-    <header className="lowercase flex justify-between items-center -mt-16 font-sans font-thin  text-white  subpixel-antialiased	 bg-black lowercase sticky top-0 z-20 ">
-    <Link to="/dashboard">
-            <h1 className=" absolute top-6 md:top-30  md:pb-0 text-xs md:text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 ">
-        <span id="lcaiLogoLeft" className="text-blue-200 pr-4  ">
-          LCAI 
-        </span>
-        LightsCameraAI!
-      </h1>
-    </Link>
+      <header className="lowercase flex justify-between items-center -mt-16 font-sans font-thin  text-white  subpixel-antialiased	 bg-black lowercase sticky top-0 z-20 ">
+        <Link to="/dashboard">
+          <h1 className=" absolute top-6 md:top-30  md:pb-0 text-xs md:text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 ">
+            <span id="lcaiLogoLeft" className="text-blue-200 pr-4  ">
+              LCAI
+            </span>
+            LightsCameraAI!
+          </h1>
+        </Link>
 
-    <nav className="mt-4 md:mt-7  ">
-    <ul className="flex space-x-2  mr-10	text-center pt-14 ">
-      <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
+        <nav className="mt-4 md:mt-7  ">
+          <ul className="flex space-x-2  mr-10	text-center pt-14 ">
+            <NavLink to="/aivideo">
+
+              <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
+
+                <span className="hover:bg-slate-200 rounded">AI Video Generator</span>
+              </li>
+            </NavLink>
+            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
               <NavLink to="/emotionscanner">
                 <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
               </NavLink>
@@ -46,17 +53,17 @@ export function Dashboard() {
             <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse">
               <span className="hover:bg-slate-200 rounded">Settings</span>
             </li>
-            <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-700 ">
+            <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 ">
               <NavLink to="/register">
                 <span className=" hover:bg-slate-200  rounded">Log Out {userFirstName}?</span>
               </NavLink>
             </li>
-      </ul>
+          </ul>
 
-    </nav>
-    </header>;
-    
-      
+        </nav>
+      </header>;
+
+
 
       <main className=" lowercase font-thin font-sans relative  subpixel-antialiased flex justify-center bg-black text-white">
 
@@ -105,7 +112,7 @@ export function Dashboard() {
             <article className="text-m text-center textwrap w-80 ">
               <h3 className="text-xl textwrap mt-10 italic font-bold w-80 text-center">Settings</h3>
               <p>
-                You can choose to update your password, email, and edelete your account here.
+                You can choose to update your password, email, and delete your account here.
               </p>
             </article>
           </section>
@@ -122,6 +129,6 @@ export function Dashboard() {
         &copy; 2024 Adelayo Adebiyi
       </footer>
     </>
-  
-);
+
+  );
 }

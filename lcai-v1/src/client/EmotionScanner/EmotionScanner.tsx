@@ -60,7 +60,7 @@ export function EmotionScanner() {
         const detection = await faceapi.detectSingleFace(image, new faceapi.TinyFaceDetectorOptions());
         if (detection) {
           if (detection) {
-                      console.log("Face detected", detection);
+            console.log("Face detected", detection);
 
             classifyFrame(detection);
 
@@ -126,13 +126,13 @@ export function EmotionScanner() {
               'Content-Type': 'multipart/form-data'
             }
           });
-        
+
           setFERResult(response.data.predictedEmotion);
         }
         catch (error) {
           console.error("Error during prediction", error);
-      
-         
+
+
         }
       }
 
@@ -158,7 +158,7 @@ export function EmotionScanner() {
 
 
       captureFrame();
- 
+
       const intervalId = setInterval(captureFrame, 1); // Capture frame every millisecond
 
       return () => {
@@ -179,32 +179,41 @@ export function EmotionScanner() {
 
     <>
       <header className="lowercase flex justify-between items-center -mt-16 font-sans font-thin  text-white  subpixel-antialiased	 bg-black lowercase sticky top-0 z-20 ">
-    <Link to="/dashboard">
-            <h1 className=" absolute top-6 md:top-30  md:pb-0 text-xs md:text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 ">
-        <span id="lcaiLogoLeft" className="text-blue-200 pr-4  ">
-          LCAI 
-        </span>
-        LightsCameraAI!
-      </h1>
-    </Link>
+        <Link to="/dashboard">
+          <h1 className=" absolute top-6 md:top-30  md:pb-0 text-xs md:text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 ">
+            <span id="lcaiLogoLeft" className="text-blue-200 pr-4  ">
+              LCAI
+            </span>
+            LightsCameraAI!
+          </h1>
+        </Link>
 
-    <nav className="mt-4 md:mt-7  ">
-    <ul className="flex space-x-2  mr-10	text-center pt-14 ">
-      <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
-                <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
+        <nav className="mt-4 md:mt-7  ">
+          <ul className="flex space-x-2  mr-10	text-center pt-14 ">
+            <NavLink to="/aivideo">
+
+              <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
+
+                <span className="hover:bg-slate-200 rounded">AI Video Generator</span>
+              </li>
+            </NavLink>
+
+
+            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
+              <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
             </li>
             <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse">
               <span className="hover:bg-slate-200 rounded">Settings</span>
             </li>
-            <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-700 ">
+            <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 ">
               <NavLink to="/">
                 <span className=" hover:bg-slate-200  rounded">Log Out {firstName}?</span>
               </NavLink>
             </li>
-      </ul>
+          </ul>
 
-    </nav>
-    </header>;
+        </nav>
+      </header>;
 
       <main className=" font-sans relative subpixel-antialiased font-thin lowercase flex justify-center text-white bg-black">
 
@@ -221,7 +230,7 @@ export function EmotionScanner() {
               Are you communicating correctly? Do you appear sad for example? Use the emotion scanner as you like
               to help you improve the way you present yourself to others. </p>
 
-            <p className="absolute right-6 w-80 mt-20 ">{FERResult == "Hold on I am trying to detect your face! - AI" ? "": "The emotion your face is currently projecting is:"} <span className="text-blue-200 animate-pulse">{FERResult}</span> </p>
+            <p className="absolute right-6 w-80 mt-20 ">{FERResult == "Hold on I am trying to detect your face! - AI" ? "" : "The emotion your face is currently projecting is:"} <span className="text-blue-200 animate-pulse">{FERResult}</span> </p>
           </article>
 
           <article className="mt-20 flex justify-center ">
@@ -233,7 +242,7 @@ export function EmotionScanner() {
               width={600}
               height={600}
             />
-            <button className={`${start ? "hidden": "block"} cursor-pointer shadow bg-blue-200 hover:bg-blue-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded `}
+            <button className={`${start ? "hidden" : "block"} cursor-pointer shadow bg-blue-200 hover:bg-blue-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded `}
               onClick={handleClick}>Start AI! </button>
           </article>
           <article className="text-m mt-20">
