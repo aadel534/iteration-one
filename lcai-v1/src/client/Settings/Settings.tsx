@@ -99,15 +99,15 @@ export function Settings() {
             <main className=" font-sans relative subpixel-antialiased font-thin lowercase flex justify-center text-white bg-black">
 
                 <section className="md:block text-center ">
-                    <h1 className="mt-20 text-5xl text-wrap  text-center ml-16 text-blue-200">
+                    <h1 className="mt-20 text-5xl text-wrap  text-center ml-16 text-blue-200 mb-20">
                         AI Video Generator
                     </h1>
-                    <form onSubmit={handleSubmit} className="flex justify-center text-center">
+                    <form onSubmit={handleSubmit} className=" text-center">
                         <label htmlFor="password" className="pr-10">enter a new password </label>
                         <input name="password" type="password" onChange={handlePasswordChange} accept="image/*" />
-                        <label htmlFor="passwordconf" className="pr-10">confirm password</label>
-                        <input type="passwordconf" onChange={handlePasswordConfChange} accept="audio/*" />
-                        <button type="submit" className="mt-4 bg-blue-200 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <label htmlFor="passwordconf" className="pr-10 ml-2">confirm password</label>
+                        <input type="passwordconf" className="mr-20" onChange={handlePasswordConfChange} accept="audio/*" />
+                        <button type="submit" className="mt-4 bg-blue-200 hover:bg-blue-200 text-white font-bold py-2 px-4 rounded">
                             change password
                         </button>
                     </form>

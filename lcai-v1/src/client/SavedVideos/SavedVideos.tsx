@@ -24,33 +24,34 @@ export function SavedVideos() {
 
                 <nav className="mt-4 md:mt-7  ">
                     <ul className="flex space-x-2  mr-10	text-center pt-14 ">
-                        <NavLink to="/savedvideos">
 
                             <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
 
                                 <span className="hover:bg-slate-200 rounded">Saved Videos</span>
                             </li>
-                        </NavLink>
-                        <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
+                        <NavLink to="/aivideo">
+
+                        <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
 
                             <span className="hover:bg-slate-200 rounded">AI Video Generator</span>
                         </li>
+                        </NavLink>
 
                         <NavLink to="/emotionscanner">
 
-                            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
+                            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
 
                                 <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
                             </li>
                         </NavLink>
                         <NavLink to="/settings">
 
-                            <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse">
+                            <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
                                 <span className="hover:bg-slate-200 rounded">Settings</span>
                             </li>
                         </NavLink>
 
-                        <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 ">
+                        <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 hover:cursor-pointer ">
                             <NavLink to="/">
                                 <span className=" hover:bg-slate-200  rounded">Log Out {firstName}?</span>
                             </NavLink>
@@ -73,7 +74,7 @@ export function SavedVideos() {
 
 
             </main>
-            <footer className="text-sm text-center pt-96 text-white font-thin bg-black lowercase font-sans">
+            <footer className="text-sm text-center pt-96 pb-96 text-white font-thin bg-black lowercase font-sans">
                 &copy; 2024 Adelayo Adebiyi
             </footer>
         </>

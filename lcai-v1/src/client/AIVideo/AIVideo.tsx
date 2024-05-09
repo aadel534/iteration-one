@@ -61,7 +61,7 @@ export function AIVideo() {
         <>
             <header className="lowercase flex justify-between items-center -mt-16 font-sans font-thin  text-white  subpixel-antialiased	 bg-black lowercase sticky top-0 z-20 ">
                 <Link to="/dashboard">
-                    <h1 className=" absolute top-6 md:top-30  md:pb-0 text-xs md:text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 ">
+                    <h1 className=" absolute top-6 md:top-30  md:pb-0 text-xs md:text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 hover:cursor-pointer ">
                         <span id="lcaiLogoLeft" className="text-blue-200 pr-4  ">
                             LCAI
                         </span>
@@ -74,7 +74,7 @@ export function AIVideo() {
                     <ul className="flex space-x-2  mr-10	text-center pt-14 ">
                         <NavLink to="/savedvideos">
 
-                            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
+                            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
 
                                 <span className="hover:bg-slate-200 rounded">Saved Videos</span>
                             </li>
@@ -86,19 +86,19 @@ export function AIVideo() {
 
                         <NavLink to="/emotionscanner">
 
-                            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse">
+                            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
 
                                 <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
                             </li>
                         </NavLink>
                         <NavLink to="/settings">
 
-                            <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse">
+                            <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
                                 <span className="hover:bg-slate-200 rounded">Settings</span>
                             </li>
                         </NavLink>
 
-                        <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 ">
+                        <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 hover:cursor-pointer">
                             <NavLink to="/">
                                 <span className=" hover:bg-slate-200  rounded">Log Out {firstName}?</span>
                             </NavLink>
@@ -111,7 +111,7 @@ export function AIVideo() {
             <main className=" text-white font-sans relative subpixel-antialiased font-thin lowercase flex justify-center text-white bg-black">
 
                 <section className="md:block text-center ">
-                    <h1 className="mt-20 text-5xl text-wrap  text-center ml-16 text-blue-200">
+                    <h1 className="mt-20 text-5xl text-wrap  text-center ml-16 text-blue-200 mb-20">
                         AI Video Generator
                     </h1>
                     <form onSubmit={handleSubmit} className="flex justify-center text-center">
