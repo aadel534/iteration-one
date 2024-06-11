@@ -10,175 +10,175 @@ axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 export function EmotionScanner() {
-  const { firstName } = useUser();
+  // const { firstName } = useUser();
 
-  const webcamRef = useRef<Webcam>(null);
-  const [imageState, setImage] = useState();
-  const [modelsLoaded, setModelsLoaded] = useState(false);
-  const [FERResult, setFERResult] = useState('Your projected emotion will be displayed here!');
-  const [start, setStart] = useState(false);
-
-
-  useEffect(() => {
-    document.title = "Emotion Scanner";
-  }, []);
-
-  useEffect(() => {
-
-    const loadModels = async () => {
-
-      await Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri('/faceapi'),
-      ]);
-      console.log('Face detection models loaded successfully');
-      setModelsLoaded(true);
-    };
-
-    loadModels();
-  }, []);
-
-  useEffect(() => {
-    if (start && webcamRef.current) {
-      const captureFrame = async () => {
-        const frame = webcamRef.current?.getScreenshot();
-        if (modelsLoaded && frame) {
-          console.log("Frame captured successfully");
-          try {
-            const image = new Image();
-            image.src = frame;
-            image.onload = async () => {
-              setImage(imageState);
-              await detectFace(image);
-            };
-          } catch (error) {
-            console.error('Error:', error);
-          }
-        }
-      };
-
-      const detectFace = async (image: HTMLImageElement) => {
-        const detection = await faceapi.detectSingleFace(image, new faceapi.TinyFaceDetectorOptions());
-        if (detection) {
-          if (detection) {
-            console.log("Face detected", detection);
-
-            classifyFrame(detection);
-
-          }
-        } else {
-          setFERResult("Hold on I am trying to detect your face! - AI");
-          console.log("No face detected");
-
-        }
-      };
+  // const webcamRef = useRef<Webcam>(null);
+  // const [imageState, setImage] = useState();
+  // const [modelsLoaded, setModelsLoaded] = useState(false);
+  // const [FERResult, setFERResult] = useState('Your projected emotion will be displayed here!');
+  // const [start, setStart] = useState(false);
 
 
+  // useEffect(() => {
+  //   document.title = "Emotion Scanner";
+  // }, []);
 
+  // useEffect(() => {
 
-      const classifyFrame = async (detection: faceapi.FaceDetection) => {
-        console.log("Classifying frame...");
-        const regionsToExtract = [
-          new faceapi.Rect(detection.box.x, detection.box.y, detection.box.width, detection.box.height)
-        ];
+  //   const loadModels = async () => {
 
-        if (webcamRef.current?.video) {
-          try {
-            const canvas = await faceapi.extractFaces(webcamRef.current.video, regionsToExtract);
-            if (canvas.length > 0) {
-              const blob = await convertCanvasToBlob(canvas[0]);
-              const image = await faceapi.bufferToImage(blob);
-              renderCroppedImage(image, detection);
-            } else {
-              console.log("No face detected in the webcam feed.");
-            }
-          } catch (error) {
-            console.error('Error during face detection:', error);
-          }
-        } else {
-          console.log("Webcam video feed not available.");
-        }
-      };
+  //     await Promise.all([
+  //       faceapi.nets.tinyFaceDetector.loadFromUri('/faceapi'),
+  //     ]);
+  //     console.log('Face detection models loaded successfully');
+  //     setModelsLoaded(true);
+  //   };
 
-      const renderCroppedImage = async (image: HTMLImageElement, detection: faceapi.FaceDetection) => {
-        console.log("Rendering cropped image...");
-        const croppedCanvas = document.createElement('canvas');
-        croppedCanvas.width = 48;
-        croppedCanvas.height = 48;
-        const ctx = croppedCanvas.getContext('2d');
-        if (ctx) {
-          ctx.drawImage(image, detection.box.x, detection.box.y, detection.box.width, detection.box.height, 0, 0, 48, 48);
-          console.log("Cropped image drawn:", croppedCanvas);
-          await predictFromCroppedImage(croppedCanvas);
-        };
-      }
-      const predictFromCroppedImage = async (croppedCanvas: HTMLCanvasElement) => {
-        console.log("Predicting from cropped image...");
-        try {
-          const image = new Image();
-          const imageURL = croppedCanvas.toDataURL('image/jpeg');
-          const imageResponse = await fetch(imageURL);
-          const blob = await imageResponse.blob();
-          const formData = new FormData();
-          formData.append("image", blob)
+  //   loadModels();
+  // }, []);
 
-          const response = await axios.post("http://127.0.0.1:8000/image_upload/", formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          });
+  // useEffect(() => {
+  //   if (start && webcamRef.current) {
+  //     const captureFrame = async () => {
+  //       const frame = webcamRef.current?.getScreenshot();
+  //       if (modelsLoaded && frame) {
+  //         console.log("Frame captured successfully");
+  //         try {
+  //           const image = new Image();
+  //           image.src = frame;
+  //           image.onload = async () => {
+  //             setImage(imageState);
+  //             await detectFace(image);
+  //           };
+  //         } catch (error) {
+  //           console.error('Error:', error);
+  //         }
+  //       }
+  //     };
 
-          setFERResult(response.data.predictedEmotion);
-        }
-        catch (error) {
-          console.error("Error during prediction", error);
+  //     const detectFace = async (image: HTMLImageElement) => {
+  //       const detection = await faceapi.detectSingleFace(image, new faceapi.TinyFaceDetectorOptions());
+  //       if (detection) {
+  //         if (detection) {
+  //           console.log("Face detected", detection);
 
+  //           classifyFrame(detection);
 
-        }
-      }
+  //         }
+  //       } else {
+  //         setFERResult("Hold on I am trying to detect your face! - AI");
+  //         console.log("No face detected");
+
+  //       }
+  //     };
 
 
 
 
+  //     const classifyFrame = async (detection: faceapi.FaceDetection) => {
+  //       console.log("Classifying frame...");
+  //       const regionsToExtract = [
+  //         new faceapi.Rect(detection.box.x, detection.box.y, detection.box.width, detection.box.height)
+  //       ];
+
+  //       if (webcamRef.current?.video) {
+  //         try {
+  //           const canvas = await faceapi.extractFaces(webcamRef.current.video, regionsToExtract);
+  //           if (canvas.length > 0) {
+  //             const blob = await convertCanvasToBlob(canvas[0]);
+  //             const image = await faceapi.bufferToImage(blob);
+  //             renderCroppedImage(image, detection);
+  //           } else {
+  //             console.log("No face detected in the webcam feed.");
+  //           }
+  //         } catch (error) {
+  //           console.error('Error during face detection:', error);
+  //         }
+  //       } else {
+  //         console.log("Webcam video feed not available.");
+  //       }
+  //     };
+
+  //     const renderCroppedImage = async (image: HTMLImageElement, detection: faceapi.FaceDetection) => {
+  //       console.log("Rendering cropped image...");
+  //       const croppedCanvas = document.createElement('canvas');
+  //       croppedCanvas.width = 48;
+  //       croppedCanvas.height = 48;
+  //       const ctx = croppedCanvas.getContext('2d');
+  //       if (ctx) {
+  //         ctx.drawImage(image, detection.box.x, detection.box.y, detection.box.width, detection.box.height, 0, 0, 48, 48);
+  //         console.log("Cropped image drawn:", croppedCanvas);
+  //         await predictFromCroppedImage(croppedCanvas);
+  //       };
+  //     }
+  //     const predictFromCroppedImage = async (croppedCanvas: HTMLCanvasElement) => {
+  //       console.log("Predicting from cropped image...");
+  //       try {
+  //         const image = new Image();
+  //         const imageURL = croppedCanvas.toDataURL('image/jpeg');
+  //         const imageResponse = await fetch(imageURL);
+  //         const blob = await imageResponse.blob();
+  //         const formData = new FormData();
+  //         formData.append("image", blob)
+
+  //         const response = await axios.post("http://127.0.0.1:8000/image_upload/", formData, {
+  //           headers: {
+  //             'Content-Type': 'multipart/form-data'
+  //           }
+  //         });
+
+  //         setFERResult(response.data.predictedEmotion);
+  //       }
+  //       catch (error) {
+  //         console.error("Error during prediction", error);
 
 
-      const convertCanvasToBlob = (canvas: HTMLCanvasElement): Promise<Blob> => {
-        return new Promise((resolve, reject) => {
-          canvas.toBlob(
-            (blob) => {
-              if (blob) {
-                resolve(blob);
-              } else {
-                reject(new Error('Failed to convert canvas to blob'));
-              }
-            },
-            'image/jpeg',
-          );
-        });
-      };
-
-
-      captureFrame();
-
-      const intervalId = setInterval(captureFrame, 1); // Capture frame every millisecond
-
-      return () => {
-        // Clear interval when component unmounts
-        clearInterval(intervalId);
-      };
-    }
-  }, [start, webcamRef]);
+  //       }
+  //     }
 
 
 
-  const handleClick = () => {
-    setStart(true);
-  };
+
+
+
+  //     const convertCanvasToBlob = (canvas: HTMLCanvasElement): Promise<Blob> => {
+  //       return new Promise((resolve, reject) => {
+  //         canvas.toBlob(
+  //           (blob) => {
+  //             if (blob) {
+  //               resolve(blob);
+  //             } else {
+  //               reject(new Error('Failed to convert canvas to blob'));
+  //             }
+  //           },
+  //           'image/jpeg',
+  //         );
+  //       });
+  //     };
+
+
+  //     captureFrame();
+
+  //     const intervalId = setInterval(captureFrame, 1); // Capture frame every millisecond
+
+  //     return () => {
+  //       // Clear interval when component unmounts
+  //       clearInterval(intervalId);
+  //     };
+  //   }
+  // }, [start, webcamRef]);
+
+
+
+  // const handleClick = () => {
+  //   setStart(true);
+  // };
 
 
   return (
 
     <>
-      <header className="lowercase flex justify-between items-center -mt-16 font-sans font-thin  text-white  subpixel-antialiased	 bg-black lowercase sticky top-0 z-20 ">
+      {/* <header className="lowercase flex justify-between items-center -mt-16 font-sans font-thin  text-white  subpixel-antialiased	 bg-black lowercase sticky top-0 z-20 ">
         <Link to="/dashboard">
           <h1 className=" absolute top-6 md:top-30  md:pb-0 text-xs md:text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 ">
             <span id="lcaiLogoLeft" className="text-blue-200 pr-4  ">
@@ -269,6 +269,8 @@ export function EmotionScanner() {
       <footer className="text-sm text-center pt-96 text-white font-thin bg-black lowercase font-sans">
         &copy; 2024 Adelayo Adebiyi
       </footer>
-    </>
+      /*/}
+    </> 
+
   );
 }
