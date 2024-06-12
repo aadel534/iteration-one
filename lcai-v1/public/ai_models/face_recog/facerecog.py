@@ -155,42 +155,59 @@ val_ds = prepare(val_ds)
 test_ds = prepare(test_ds)
 
 
-
-model = tf.keras.Sequential([
+# FER-2013 MODEL
+# model = tf.keras.Sequential([
    
 
-   layers.Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)),
-   layers.BatchNormalization(),
-   layers.Conv2D(64, kernel_size=(3, 3), activation='relu'),
-   layers.BatchNormalization(),
-   layers.MaxPooling2D(pool_size=(2, 2)),
-   layers.Dropout(0.25),
-   layers.Conv2D(128, kernel_size=(3, 3), activation='relu'),
-   layers.BatchNormalization(),
-   layers.Conv2D(128, kernel_size=(3, 3), activation='relu'),
-   layers.BatchNormalization(),
-   layers.MaxPooling2D(pool_size=(2, 2)),
-   layers.Dropout(0.25),
-   layers.Conv2D(256, kernel_size=(3, 3), activation='relu'),
-   layers.BatchNormalization(),
-   layers.Conv2D(256, kernel_size=(3, 3), activation='relu'),
-   layers.BatchNormalization(),
-   layers.MaxPooling2D(pool_size=(2, 2)),
-   layers.Dropout(0.25),
-   layers.Flatten(),
-   layers.Dense(256, activation='relu'),
-   layers.BatchNormalization(),
-   layers.Dropout(0.5),
-   layers.Dense(7, activation='softmax'),
-])
+#    layers.Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(48,48,1)),
+#    layers.BatchNormalization(),
+#    layers.Conv2D(64, kernel_size=(3, 3), activation='relu'),
+#    layers.BatchNormalization(),
+#    layers.MaxPooling2D(pool_size=(2, 2)),
+#    layers.Dropout(0.25),
+#    layers.Conv2D(128, kernel_size=(3, 3), activation='relu'),
+#    layers.BatchNormalization(),
+#    layers.Conv2D(128, kernel_size=(3, 3), activation='relu'),
+#    layers.BatchNormalization(),
+#    layers.MaxPooling2D(pool_size=(2, 2)),
+#    layers.Dropout(0.25),
+#    layers.Conv2D(256, kernel_size=(3, 3), activation='relu'),
+#    layers.BatchNormalization(),
+#    layers.Conv2D(256, kernel_size=(3, 3), activation='relu'),
+#    layers.BatchNormalization(),
+#    layers.MaxPooling2D(pool_size=(2, 2)),
+#    layers.Dropout(0.25),
+#    layers.Flatten(),
+#    layers.Dense(256, activation='relu'),
+#    layers.BatchNormalization(),
+#    layers.Dropout(0.5),
+#    layers.Dense(7, activation='softmax'),
+# ])
 
-model.compile(optimizer='Adam',
+# model.compile(optimizer='Adam',
+#               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+#               metrics=['accuracy'])
+# epochs= 50
+
+# ***** MY MODEL *****
+
+model = tf.keras.Sequential([
+    layers.Conv2D(16, 3, padding='same', activation='elu'),
+    layers.MaxPooling2D((2, 2)),
+    layers.Conv2D(64, 3, padding='same', activation='elu'),
+    layers.MaxPooling2D((2, 2)),
+    layers.Dense(256, activation='elu'),
+    layers.Conv2D(128, 3, padding='same', activation='elu'),
+    layers.MaxPooling2D((2, 2)),
+    layers.Flatten(),
+    layers.Dense(64, activation='relu'),
+    layers.Dense(7)
+])
+model.compile(optimizer='RMSprop',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
+epochs = 10
 
-# Train model but prevent overfitting with too many epochs
-# 300 selected based on this study Source: https://arxiv.org/pdf/2105.03588.pdf
-epochs= 50
 history = model.fit(
   train_ds,
   validation_data=val_ds,
