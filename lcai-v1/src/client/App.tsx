@@ -22,7 +22,6 @@ function App() {
 
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/emotionscanner" element={<EmotionScanner/>}/>
             <Route path="/aivideo" element={<AIVideo/>}/>
             <Route path="/settings" element={<Settings/>}/>
             <Route path="/savedvideos" element={<SavedVideos/>}/>

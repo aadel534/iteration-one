@@ -1,4 +1,3 @@
-// Import the Express application and configure the HTTP server startup
 import app from './app.js';
 import {PORT, URI} from './config/index.ts';
 import { createServer } from 'http';

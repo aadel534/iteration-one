@@ -1,0 +1,38 @@
+section:first-of-type {
+    border-top-left-radius: none;
+}
+section:first-of-type h2 {
+    position: absolute;
+    top: 30vh;
+    width: 100vw;
+    color: gold;
+    text-align: center;
+}
+
+section:first-of-type article:first-of-type {
+    position: absolute;
+    top: 5vh !important;
+    text-align: center;
+    width: 80vw !important;
+    background-color: transparent !important;
+
+}
+section:first-of-type article:first-of-type p {
+    font-size: 3vh !important;
+    color: white !important;
+}
+
+section:first-of-type figure:first-of-type {
+    text-align: center;
+    position: absolute;
+    top:80vh;
+    border: 1vw solid gold;
+    border-radius: 5%;
+    background-color: black;
+}
+section:first-of-type figure:first-of-type button {
+    position:absolute;
+    top: 0vh;
+    background-color: gold !important;
+    color: black !important;
+}

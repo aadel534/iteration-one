@@ -1,16 +1,25 @@
 import { NavLink, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useUser } from '../ContextAPI/UserContext';
-
+import dashboardcss from './Dashboard.module.css';
+import Webcam from 'react-webcam';
+import * as faceapi from '@vladmandic/face-api';
+import { model } from "mongoose";
 export function Dashboard() {
-  const { userId, navbarname } = useUser();
+  // Configure CSRF tokens for Django backend
+  axios.defaults.xsrfCookieName = 'csrftoken';
+  axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
+  // Show user's first name on navigation and greeting
+  const { userId, navbarname } = useUser();
   const [userFirstName, setUserFirstName] = useState("");
 
+  // Set title text
   useEffect(() => {
     document.title = "Dashboard";
   }, []);
+  // Set the user's name
   useEffect(() => {
     axios.post("/api/dashboard", userId)
       .then(response => {
@@ -24,120 +33,215 @@ export function Dashboard() {
       });
 
   }, []);
+
+  const webcamRef = useRef<Webcam>(null);
+  const [imageState, setImage] = useState();
+  const [modelsLoaded, setModelsLoaded] = useState(false);
+  const [FERResult, setFERResult] = useState('Your projected emotion will be displayed here!');
+  const [start, setStart] = useState(false);
+
+  useEffect(() => {
+    const loadModels = async () => {
+      await Promise.all(
+        [
+          faceapi.nets.tinyFaceDetector.loadFromUri('/faceapi'),
+        ]
+      );
+      console.log("Face detection models loaded successfully!");
+      setModelsLoaded(true);
+
+  };
+  loadModels();
+}, []);
+
+useEffect(() => {
+    if (start && webcamRef.current) {
+      const captureFrame = async () => {
+        const frame = webcamRef.current?.getScreenshot();
+        if (modelsLoaded && frame) {
+          console.log("Frame captured successfully");
+          try {
+            const image = new Image();
+            image.src = frame;
+            image.onload = async () => {
+              setImage(imageState);
+              await detectFace(image);
+            };
+          } catch (error) {
+            console.error('Error:', error);
+          }
+        }
+      };
+
+      const detectFace = async (image: HTMLImageElement) => {
+        const detection = await faceapi.detectSingleFace(image, new faceapi.TinyFaceDetectorOptions());
+        if (detection) {
+          if (detection) {
+            console.log("Face detected", detection);
+
+            classifyFrame(detection);
+
+          }
+        } else {
+          setFERResult("Hold on I am trying to detect your face! - AI");
+          console.log("No face detected");
+
+        }
+      };
+
+
+
+
+      const classifyFrame = async (detection: faceapi.FaceDetection) => {
+        console.log("Classifying frame...");
+        const regionsToExtract = [
+          new faceapi.Rect(detection.box.x, detection.box.y, detection.box.width, detection.box.height)
+        ];
+
+        if (webcamRef.current?.video) {
+          try {
+            const canvas = await faceapi.extractFaces(webcamRef.current.video, regionsToExtract);
+            if (canvas.length > 0) {
+              const blob = await convertCanvasToBlob(canvas[0]);
+              const image = await faceapi.bufferToImage(blob);
+              renderCroppedImage(image, detection);
+            } else {
+              console.log("No face detected in the webcam feed.");
+            }
+          } catch (error) {
+            console.error('Error during face detection:', error);
+          }
+        } else {
+          console.log("Webcam video feed not available.");
+        }
+      };
+
+      const renderCroppedImage = async (image: HTMLImageElement, detection: faceapi.FaceDetection) => {
+        console.log("Rendering cropped image...");
+        const croppedCanvas = document.createElement('canvas');
+        croppedCanvas.width = 48;
+        croppedCanvas.height = 48;
+        const ctx = croppedCanvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(image, detection.box.x, detection.box.y, detection.box.width, detection.box.height, 0, 0, 48, 48);
+          console.log("Cropped image drawn:", croppedCanvas);
+          await predictFromCroppedImage(croppedCanvas);
+        };
+      }
+      const predictFromCroppedImage = async (croppedCanvas: HTMLCanvasElement) => {
+        console.log("Predicting from cropped image...");
+        try {
+          const image = new Image();
+          const imageURL = croppedCanvas.toDataURL('image/jpeg');
+          const imageResponse = await fetch(imageURL);
+          const blob = await imageResponse.blob();
+          const formData = new FormData();
+          formData.append("image", blob)
+
+          const response = await axios.post("http://127.0.0.1:8000/image_upload/", formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+
+          setFERResult(response.data.predictedEmotion);
+        }
+        catch (error) {
+          console.error("Error during prediction", error);
+
+
+        }
+      }
+
+
+
+
+
+
+      const convertCanvasToBlob = (canvas: HTMLCanvasElement): Promise<Blob> => {
+        return new Promise((resolve, reject) => {
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(new Error('Failed to convert canvas to blob'));
+              }
+            },
+            'image/jpeg',
+          );
+        });
+      };
+
+
+      captureFrame();
+
+      const intervalId = setInterval(captureFrame, 1); // Capture frame every millisecond
+
+      return () => {
+        // Clear interval when component unmounts
+        clearInterval(intervalId);
+      };
+    }
+  }, [start, webcamRef]);
+
+
+
+  const handleClick = () => {
+    setStart(true);
+    console.log("handleClick function called!")
+  };
+
   return (
     <>
-      <header className="lowercase flex justify-between items-center -mt-16 font-sans font-thin  text-white  subpixel-antialiased	 bg-black lowercase sticky top-0 z-20 ">
-        <Link to="/dashboard">
-          <h1 className=" absolute top-6 md:top-30  md:pb-0 text-xs md:text-xl md:text-xl  ml-6  hover:text-yellow-500 text-white  md:pt-6 hover:cursor-pointer">
-            <span id="lcaiLogoLeft" className="text-blue-200 pr-4  ">
-              LCAI
-            </span>
-            LightsCameraAI!
+       <header>
+        <nav>
+        <NavLink to="/dashboard">
+          <h1>
+            LC<span>AI</span>!
           </h1>
-        </Link>
-
-        <nav className="mt-4 md:mt-7  ">
-          <ul className="flex space-x-2  mr-10	text-center pt-14 ">
-            <NavLink to="/savedvideos">
-
-              <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
-
-                <span className="hover:bg-slate-200 rounded">saved videos</span>
-              </li>
-            </NavLink>
-            <NavLink to="/aivideo">
-
-              <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
-
-                <span className="hover:bg-slate-200 rounded">AI Video Generator</span>
-              </li>
-            </NavLink>
-            <li className="text-xl hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
-              <NavLink to="/emotionscanner">
-                <span className="hover:bg-slate-200 rounded">Emotion Scanner</span>
-              </NavLink>
-            </li>
-            <NavLink to="/settings">
-
-              <li className="text-xl   hover:text-blue-200 pr-10 hover:animate-pulse hover:cursor-pointer">
-                <span className="hover:bg-slate-200 rounded">Settings</span>
-              </li>
-            </NavLink>
-            <li className="text-xl   mb-10 hover:animate-pulse  hover:text-blue-200 hover:cursor-pointer">
-              <NavLink to="/register">
-                <span className=" hover:bg-slate-200  rounded">Log Out {userFirstName}?</span>
-              </NavLink>
-            </li>
-          </ul>
+          <h1>Lights, Camera, AI!</h1>
+          </NavLink>
 
         </nav>
-      </header>;
+      </header>
 
 
+      <main>
 
-      <main className=" lowercase font-thin font-sans relative  subpixel-antialiased flex justify-center bg-black text-white">
-
-        <section className="md:block ">
-          <h1 className="mt-20 flex  text-5xl text-wrap w-80 text-center">
+        <section className={dashboardcss.section}>
+          <h2>
             Hello {userFirstName}!
-          </h1>
-          <section>
-            <h2 className="text-2xl  text wrap mt-10 text-center w-80">How to use this website:</h2>
-            <article className="text-m text-center textwrap w-80 ">
-              <h3 className="text-xl textwrap mt-10 italic font-bold w-80 text-center">Emotion Scanner</h3>
-              <p className="">Use the emotion scanner to have fun
-                with our emotion recognition technology. For example, start off by pulling a "happy" face or a "sad" face
-                and our technology will recognise it. Then practise speeches or monologues to see what your facial
-                expressions are saying about you while you are communicating. Try practising for an interview.
-                Are you communicating correctly? Do you appear sad for example? Use the emotion scanner as you like
-                to help you improve the way you present yourself to others. </p>
-            </article>
-
-            <article className="text-m text-center textwrap w-80 ">
-              <h3 className="text-xl textwrap mt-10 italic font-bold w-80 text-center">Create AI Video</h3>
-              <p className="">
-                Use our third-party APIs to generate fun video content. Upload a clear head shot and audio sample
-                of your (or use a voice sample) and voila! You will receive an AI generated video of yourself
-                using the prompts you have provided.
-
-                Use case example:
-                Unsure about that new song you wrote?
-                Try inserting some original lyrics, e.g. spoken, rapped, sung, and watch and listen to the AI video
-                that is generated. We will also pass the lyrics to our third-party AI to analyse and give you feedback
-                on your lyrics, so you can see how your lyrics may be received or interpreted by an audience.
-
-              </p>
-            </article>
-
-            <article className="text-m text-center textwrap w-80 ">
-              <h3 className="text-xl textwrap mt-10 italic font-bold w-80 text-center">Saved Videos</h3>
-              <p>
-                Your AI videos and feedback for them - they feedback to those cool lyrics and that cool
-                video you created - You can choose to save them after creating them. If you do not, they will be lost forever!
-                You can choose to delete them here if you'd like also. A maximum of five videos can be saved at a time.
-                But don't worry, you can download them also!
-              </p>
-            </article>
-
-            <article className="text-m text-center textwrap w-80 ">
-              <h3 className="text-xl textwrap mt-10 italic font-bold w-80 text-center">Settings</h3>
-              <p>
-                You can choose to update your password, email, and delete your account here.
-              </p>
-            </article>
-          </section>
+          </h2>
+          <article>
+          <p>Our emotion recognition technology below is designed to recognise and detect
+            your emotions in real-time. Please click on the button below to start the 
+            emotion recognition process. Please note that our current technology 
+            only detects the following emotions: anger, disgust, fear, happiness, neutrality,
+            sadness, and surprise.
+             </p>
+           
+          </article>
 
 
-
-
+          <figure>
+          <Webcam
+              ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              audio={false}
+              width={600}
+              height={600}
+              mirrored={true}
+            />
+            <figcaption> <p style={{fontSize: "3vh", color: "red", textAlign:"left", top: "-2vh", left:"-3vw"}}>
+              {FERResult == "Hold on I am trying to detect your face! - AI" ? "" : "The emotion your face is currently projecting is: "}
+               <span>{FERResult}</span> </p></figcaption>
+            <button onClick={handleClick}>Start Emotion AI!</button>
+          </figure>
+         
         </section>
-
-
-
       </main>
-      <footer className="text-sm text-center pt-96  subpixel-antialiased font-sans bg-black text-white font-thin">
-        &copy; 2024 Adelayo Adebiyi
-      </footer>
+    
     </>
 
   );

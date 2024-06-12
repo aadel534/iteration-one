@@ -1,4 +1,3 @@
-// Set up configuration for the app without starting the server
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
