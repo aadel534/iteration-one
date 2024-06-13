@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import io
 
-model_path = '/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/ai_models/face_recog/emotionscanner.keras'
+model_path = '/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/ai_models/face_recog/originalemotionrecogniser.keras'
 model = load_model(model_path)
 
 

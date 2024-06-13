@@ -206,7 +206,7 @@ model = tf.keras.Sequential([
 model.compile(optimizer='RMSprop',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
-epochs = 10
+epochs = 50
 
 history = model.fit(
   train_ds,
@@ -229,4 +229,4 @@ print("Accuracy", acc)
 
 
 # model.export('emotionscanner')
-keras.saving.save_model(model, 'emotionscanner.keras')
+keras.saving.save_model(model, 'originalemotionrecogniser.keras')
