@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "./Home.css";
+import homecss from "./Home.module.css";
 import FaceRecognition from '../../../public/images/face-recognition.svg';
 import Sparkles from '../../../public/images/sparkles.svg';
 import {NavLink} from "react-router-dom";
@@ -39,15 +39,15 @@ export function Home () {
         </nav>
       </header>
       <main>
-        <section>
+        <section className={homecss.section}>
             <h1>Emotional AI for Emotional Intelligence</h1>
             <p>Real-time emotion recognition software</p>
          
-            <figure className="emotions">
-                <img src={FaceRecognition} alt="facerecog" />
+            <figure  >
+                <img  src={FaceRecognition} alt="facerecog" />
 
             </figure>
-            <figure>
+            <figure >
               <img src={Sparkles}/>
             </figure>
 
