@@ -10,53 +10,16 @@ import keras
 
 
 
-path_test = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/datasets/FER-2013/test"
-path_train = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/datasets/FER-2013/train"
+path_test = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/datasets/emotions/test"
+path_train = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/datasets/emotions/train"
 
-# Remove .DS_Store files
-def deleteDStoreFile(file):
-    # Source: https://blog.boot.dev/python/file-exists-python/
-    if file.exists():
-    # Source: https://blog.enterprisedna.co/delete-files-from-python/#:~:text=Using%20pathlib%2C%20you%20can%20delete,method%20to%20remove%20the%20file.
-        file.unlink()
-ds_store_file_1 = Path("../datasets/train/angry/.DS_Store")
-ds_store_file_2 = Path("../datasets/train/disgust/.DS_Store")
-ds_store_file_3 = Path("../datasets/train/fear/.DS_Store")
-ds_store_file_4 = Path("../datasets/train/happy/.DS_Store")
-ds_store_file_5 = Path("../datasets/train/neutral/.DS_Store")
-ds_store_file_6 = Path("../datasets/train/sad/.DS_Store")
-ds_store_file_7 = Path("../datasets/train/surprise/.DS_Store")
-
-deleteDStoreFile(ds_store_file_1)
-deleteDStoreFile(ds_store_file_2)
-deleteDStoreFile(ds_store_file_3)
-deleteDStoreFile(ds_store_file_4)
-deleteDStoreFile(ds_store_file_5)
-deleteDStoreFile(ds_store_file_6)
-deleteDStoreFile(ds_store_file_7)
-
-ds_store_file_1 = Path("../datasets/test/angry/.DS_Store")
-ds_store_file_2 = Path("../datasets/test/disgust/.DS_Store")
-ds_store_file_3 = Path("../datasets/test/fear/.DS_Store")
-ds_store_file_4 = Path("../datasets/test/happy/.DS_Store")
-ds_store_file_5 = Path("../datasets/test/neutral/.DS_Store")
-ds_store_file_6 = Path("../datasets/test/sad/.DS_Store")
-ds_store_file_7 = Path("../datasets/test/surprise/.DS_Store")
-
-deleteDStoreFile(ds_store_file_1)
-deleteDStoreFile(ds_store_file_2)
-deleteDStoreFile(ds_store_file_3)
-deleteDStoreFile(ds_store_file_4)
-deleteDStoreFile(ds_store_file_5)
-deleteDStoreFile(ds_store_file_6)
-deleteDStoreFile(ds_store_file_7)
 
 #Source: https://martinxpn.medium.com/pathlib-the-oop-approach-of-working-with-file-system-in-python-65-100-days-of-python-7dbf85e9cec2#:~:text=Creating%20Path%20Objects%20With%20pathlib,based%20on%20the%20operating%20system.
 data_dir = Path(path_train) 
 test_data_dir = Path(path_test)
 # Set consistent
 #  image sizes and number of images in each training batch
-batch_size = 64
+batch_size = 300
 img_height = 48
 img_width = 48
 
@@ -150,7 +113,7 @@ def prepare(ds, shuffle=False, augment=False):
 
 
 # Prepare and preprocess data
-train_ds = prepare(train_ds, shuffle=True, augment=False) 
+train_ds = prepare(train_ds, shuffle=True, augment=True) 
 val_ds = prepare(val_ds)
 test_ds = prepare(test_ds)
 
@@ -206,7 +169,7 @@ model = tf.keras.Sequential([
 model.compile(optimizer='RMSprop',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
-epochs = 50
+epochs = 300
 
 history = model.fit(
   train_ds,
