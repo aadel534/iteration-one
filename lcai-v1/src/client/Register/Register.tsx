@@ -1,10 +1,9 @@
-// Building a Secure MERN Stack Login
-// Source: https://medium.com/@kalanamalshan98/building-a-secure-mern-stack-login-and-signup-app-a-step-by-step-guide-093b87da8ad3
-import axios from "axios";
+import signup from "./Register.module.css";
 import React, { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-import signup from './Register.module.css';
-export function Register() {
+import axios from "axios";
+
+export function Register(){
   useEffect(() => {
     // Tab/Title
     document.title = "Sign Up";
@@ -62,9 +61,10 @@ export function Register() {
         }
       });
   };
-  return (
+return (
+
     <>
-            <header className={signup.nav}>
+   <header className={signup.nav}>
         <nav >
         <NavLink to="/">
           <h1>
@@ -100,7 +100,7 @@ export function Register() {
             {errorState.length > 0 &&
             <ul className={signup.errorList}>
             {errorState.map((err, index) => (
-              <li key={index} className={signup.errorItem}>
+              <li key={index} style={{color: "red"}}>
                 {err}
               </li>
             ))}
@@ -177,7 +177,7 @@ export function Register() {
           </form>
         </section>
       </main>
-    
     </>
-  );
+)
+    
 }

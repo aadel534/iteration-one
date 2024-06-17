@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import homecss from "./Home.module.css";
-import FaceRecognition from '../../../public/images/face-recognition.svg';
-import Sparkles from '../../../public/images/sparkles.svg';
+import "./Home.css";
+import FaceRecognition from "/images/face-recognition.svg";
+import Sparkles from "/images/sparkles.svg";
 import {NavLink} from "react-router-dom";
 
-export function Home () {
+export function Home() {
   useEffect(() => {
     document.title = "LCAI! | Convey emotions with AI";
   }, []);
@@ -39,15 +39,15 @@ export function Home () {
         </nav>
       </header>
       <main>
-        <section className={homecss.section}>
+        <section>
             <h1>Emotional AI for Emotional Intelligence</h1>
             <p>Real-time emotion recognition software</p>
          
-            <figure  >
-                <img  src={FaceRecognition} alt="facerecog" />
+            <figure className="emotions">
+                <img src={FaceRecognition} alt="facerecog" />
 
             </figure>
-            <figure >
+            <figure>
               <img src={Sparkles}/>
             </figure>
 
@@ -93,3 +93,4 @@ export function Home () {
     </>
   );
 };
+

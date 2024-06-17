@@ -1,60 +1,57 @@
-// Building a Secure MERN Stack Login
-// Source: https://medium.com/@kalanamalshan98/building-a-secure-mern-stack-login-and-signup-app-a-step-by-step-guide-093b87da8ad3
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate  } from "react-router-dom";
 import { useUser } from '../ContextAPI/UserContext'; 
-import logincss from './Login.module.css';
+import logincss from "./Login.module.css";
 
 export function Login() {
-    // Import the login function from useUser hook to persist user information across pages through access to userId
-    const { login } = useUser(); 
-  useEffect(() => {
-    // Tab/Title
-    document.title = "Log In";
-  }, []);
+  const { login } = useUser(); 
+useEffect(() => {
+document.title = "LCAI! | Log in";
+}, []);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorState, setErrors] = useState<string[]>([]);
-  const navigate = useNavigate();
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    // Prevent page refresh
-    e.preventDefault();
-    // Reset the error as there are different validation errors
-    let errorMessages = [];
-    if (!email) {
-      errorMessages.push("Email is required.");
-    }
-    if (!password) {
-      errorMessages.push("Password is required.");
-    }
-    if (errorMessages.length > 0) {
-      setErrors(errorMessages); // Set all accumulated errors
-      return;
-    }
-    axios
-      .post("/api/login", {
-        email,
-        password,
-      }, { withCredentials: true })
-      .then((result) => {
-        console.log(result);
-        const { userId } = result.data;
-        login(userId);
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        if (error.response) {
-          setErrors([error.response.data.message]);
-        } else {
-          setErrors(["Unable to connect to server. Please try again later."]);
-        }
-      });
-  };
-  return (
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [errorState, setErrors] = useState<string[]>([]);
+const navigate = useNavigate();
+const handleSubmit = (e: { preventDefault: () => void }) => {
+  // Prevent page refresh
+  e.preventDefault();
+  // Reset the error as there are different validation errors
+  let errorMessages = [];
+  if (!email) {
+    errorMessages.push("Email is required.");
+  }
+  if (!password) {
+    errorMessages.push("Password is required.");
+  }
+  if (errorMessages.length > 0) {
+    setErrors(errorMessages); // Set all accumulated errors
+    return;
+  }
+  axios
+    .post("/api/login", {
+      email,
+      password,
+    }, { withCredentials: true })
+    .then((result) => {
+      console.log(result);
+      const { userId } = result.data;
+      login(userId);
+      navigate("/dashboard");
+    })
+    .catch((error) => {
+      if (error.response) {
+        setErrors([error.response.data.message]);
+      } else {
+        setErrors(["Unable to connect to server. Please try again later."]);
+      }
+    });
+};
+
+return (
     <>
-         <header>
+   <header className={logincss.nav}>
         <nav>
         <NavLink to="/">
           <h1>
@@ -64,20 +61,16 @@ export function Login() {
           </NavLink>
 
           <ul>
-          <NavLink
-            to="/login">
             <li className="login-link">
-              <span>Log in</span>
+              <NavLink to="/login" style= {{textDecoration: "none"}}>
+              <span >Log in</span>
+              </NavLink>
             </li>
-            </NavLink>
-            <NavLink 
-            to="/register">
             <li className="signup-link">
-              <span>Sign up</span>
+              <NavLink to="/register">
+              <span >Sign up</span>
+              </NavLink>
             </li>
-            </NavLink>
-
-            
           </ul>
         </nav>
       </header>
@@ -94,7 +87,7 @@ export function Login() {
             {errorState.length > 0 &&
             <ul className={logincss.errorList}>
             {errorState.map((err, index) => (
-              <li key={index} className={logincss.error}>
+              <li key={index} style={{color:"red"}}>
                 {err}
               </li>
             ))}
@@ -137,5 +130,6 @@ export function Login() {
         </section>
       </main>
     </>
-  );
+)
+    
 }
