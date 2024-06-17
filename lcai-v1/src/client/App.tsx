@@ -4,7 +4,6 @@ import { Home} from "./Home/Home";
 import { Register } from "./Register/Register";
 import { Dashboard } from "./Dashboard/Dashboard";
 import { Login } from "./Login/Login";
-import { EmotionScanner } from "./EmotionScanner/EmotionScanner";
 import { UserProvider } from "./ContextAPI/UserContext";
 import { AIVideo } from "./AIVideo/AIVideo";
 import { Settings } from "./Settings/Settings";

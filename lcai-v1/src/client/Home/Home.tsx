@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import "./Home.css";
-import FaceRecognition from '../../../public/images/face-recognition.svg';
-import Sparkles from '../../../public/images/sparkles.svg';
+import FaceRecognition from "/images/face-recognition.svg";
+import Sparkles from "/images/sparkles.svg";
 import {NavLink} from "react-router-dom";
 
-export function Home () {
+export function Home() {
   useEffect(() => {
     document.title = "LCAI! | Convey emotions with AI";
   }, []);
