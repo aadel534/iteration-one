@@ -4,7 +4,7 @@ import tensorflow as tf
 from keras.models import load_model
 
 # Load your trained model
-model = load_model('./originalemotionrecogniser.keras')
+model = load_model('/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/ai_models/face_recog/originalemotionrecogniser.keras')
 
 # Define the emotion classes
 emotion_classes = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise']
