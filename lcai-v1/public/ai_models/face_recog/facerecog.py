@@ -44,7 +44,8 @@ train_ds = tf.keras.utils.image_dataset_from_directory(
   seed=123,
   image_size=(img_height, img_width),
   batch_size=batch_size,
-  color_mode="grayscale")
+  color_mode="grayscale"
+  )
 
 val_ds = tf.keras.utils.image_dataset_from_directory(
   data_dir,
