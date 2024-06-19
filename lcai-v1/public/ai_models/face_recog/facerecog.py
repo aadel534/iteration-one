@@ -20,7 +20,7 @@ data_dir = Path(path_train)
 test_data_dir = Path(path_test)
 # Set consistent
 #  image sizes and number of images in each training batch
-batch_size = 300
+batch_size = 64
 img_height = 48
 img_width = 48
 
@@ -138,14 +138,13 @@ model = tf.keras.Sequential([
 model.compile(optimizer='RMSprop',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
-epochs = 300
+epochs = 1000
 
 history = model.fit(
   train_ds,
   validation_data=val_ds,
   epochs=epochs
 )
-# Source: https://www.kaggle.com/code/mohamedchahed/human-emotion-detection
 
 
 loss, acc = model.evaluate(test_ds)
