@@ -78,8 +78,8 @@ export function Dashboard() {
           <p>Our emotion recognition technology below is designed to recognise and detect
             your emotions in real-time. Please click on the button below to start the 
             emotion recognition process. Please note that our current technology 
-            only detects the following emotions: happiness, neutrality, disgust, and surprise. Future iterations
-            will include anger, fear, sadness, and confusion.
+            only detects the following emotions: happiness, neutrality, disgust, surprise, and anger. Future iterations
+            will include fear, sadness, and confusion.
             sadness, and surprise.
              </p>
            
