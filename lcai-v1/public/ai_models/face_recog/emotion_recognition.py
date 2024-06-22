@@ -55,9 +55,12 @@ while True:
     # Convert face image to grayscale as the model takes grayscale images
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
+    # Source: https://www.geeksforgeeks.org/face-detection-using-python-and-opencv-with-webcam/
     # Detect faces in the frame
+    # Scale factor increases image size
+    # 5 used as a defalt value for numbeer of overlappping detected rectangles required to find the face
+    # the average is the final face detection increasing accuracy of the detection
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
-
     for (x, y, w, h) in faces:
         # Extract the face 
         face_roi = frame[y:y+h, x:x+w]
@@ -65,11 +68,14 @@ while True:
         # Preprocess the face
         preprocessed_face = preprocess_face(face_roi)
 
+        # Source: https://keras.io/api/models/model_training_apis/#predict-method
         # Make prediction using model
         prediction = model.predict(preprocessed_face)
+        # Source: https://stackoverflow.com/questions/58671758/kerashow-to-map-prediction-to-labels map prediction to label
         emotion_index = np.argmax(prediction)
         emotion_label = emotion_classes[emotion_index]
 
+        # Source: https://www.geeksforgeeks.org/face-detection-using-python-and-opencv-with-webcam/
         # Draw rectangle around  face and label the emotion
         cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
         cv2.putText(frame, emotion_label, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
