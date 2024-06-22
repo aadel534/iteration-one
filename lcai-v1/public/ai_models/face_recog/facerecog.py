@@ -129,7 +129,7 @@ model.compile(optimizer='RMSprop',
               metrics=['accuracy'])
 
 # Train the model for a specified number of epochs
-epochs = 1000
+epochs = 50
 history = model.fit(
   train_ds,
   validation_data=val_ds,
@@ -138,7 +138,7 @@ history = model.fit(
 
 # Evaluate the model on the test dataset
 loss, acc = model.evaluate(test_ds)
-print("Test Accuracy", acc)
+print("Accuracy", acc)
 print("Test Loss:", loss)
 
 

@@ -7,7 +7,6 @@ import { Login } from "./Login/Login";
 import { UserProvider } from "./ContextAPI/UserContext";
 import { AIVideo } from "./AIVideo/AIVideo";
 import { Settings } from "./Settings/Settings";
-import { SavedVideos } from "./SavedVideos/SavedVideos";
 function App() {
   return (
     <>
@@ -21,9 +20,7 @@ function App() {
 
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/aivideo" element={<AIVideo/>}/>
             <Route path="/settings" element={<Settings/>}/>
-            <Route path="/savedvideos" element={<SavedVideos/>}/>
 
 
 

@@ -32,34 +32,10 @@ app.post("/api/dashboard", Verify, greetUser);
 app.post("/api/updatePassword", Verify, updatePassword)
 app.get("/api/logout", Logout);
 
-app.get("/", async (req, res) => {
-  try {
-      const authHeader = req.headers["cookie"];
-      if (authHeader) {
-          const cookie = authHeader.split("=")[1];
-          jwt.verify(cookie, SECRET!, async (err: any, decoded: any) => {
-              if (!err) {
-                  const { id } = decoded;
-                  const user = await UserModel.findById(id).select("-password");
-                  if (user) {
-                      return res.redirect("/dashboard");
-                  }
-              }
-          });
-      }
-      res.sendFile(path.join(__dirname, '..', '..', '..', 'dist', 'index.html'));
-  } catch (err) {
-      res.status(500).json({
-          status: "error",
-          code: 500,
-          message: "Internal server error",
-      });
-  }
-});
-
 app.post('/api/start_emotion_recognition', (req: Request, res: Response) => {
   const scriptPath = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/ai_models/face_recog/emotion_recognition.py";
-  
+    //   Source: https://stackoverflow.com/questions/73408125/trying-to-run-a-python-script-from-nodejs-and-cant-figure-out-the-argument-list
+    // Execute python script from express
   exec(`python3 ${scriptPath}`, (error, stdout, stderr) => {
       if (error) {
           console.error(`Error: ${error.message}`);
