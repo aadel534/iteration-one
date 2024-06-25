@@ -84,12 +84,14 @@ const userSchema = new Schema<InterfaceUserDocument, InterfaceUserModel>({
 
 //Source: https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
 userSchema.methods.generateAccessJWT = function () {
+   if (SECRET){
    let payload = {
       id: this._id,
    };
-   return jwt.sign(payload, SECRET!, {
+   return jwt.sign(payload, SECRET, {
       expiresIn: '1h',
    });
+}
 };
 
 const UserModel = mongoose.model("User", userSchema)

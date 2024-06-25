@@ -56,7 +56,6 @@ export function Register() {
         passwordConfirmation,
       })
       .then((result) => {
-        console.log(result);
         navigate("/dashboard");
       })
       .catch((error) => {

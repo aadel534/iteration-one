@@ -19,7 +19,10 @@ export function Dashboard() {
   // Source: https://axios-http.com/docs/post_example
   // Set the user's name on dashboard
   useEffect(() => {
-    axios.post("/api/dashboard", userId)
+    axios.post("/api/dashboard", userId,
+    { withCredentials: true }
+
+    )
       .then(response => {
         const { firstName } = response.data;
         setUserFirstName(firstName);
@@ -30,7 +33,7 @@ export function Dashboard() {
         console.error("Error fetching user information: ", error);
       });
 
-  }, [userId]);
+  }, []);
 
   const startEmotionAI = async () => {
     try {
@@ -44,11 +47,10 @@ export function Dashboard() {
 
   // Logout user
   const handleLogout = async () => {
-    console.log(userId);
     try {
       await axios.post('/api/logout');
       logout();
-      window.location.href = '/';
+      // window.location.href = '/';
     } catch (error) {
       console.error('Logout failed', error);
     }

@@ -40,8 +40,12 @@ export async function loginUser(req: Request, res: Response) {
       res.cookie("SessionID", token, {
         maxAge: day,
         httpOnly: true,
+        // using https
+        secure: true,
+        sameSite: "strict",
         path: "/"
       });
+
 
 
       return res.status(200).json({ message: "Logging in...", userId: userExists.id });
@@ -104,14 +108,13 @@ export async function registerUser(req: Request, res: Response) {
 export async function Logout(req: Request, res: Response) {
   try {
     // Retrieve session cookie from request header
-    const authHeader = req.headers['authorization'];
-    const accessToken = authHeader && authHeader.split(' ')[1];
+    const accessToken = req.cookies.sessionId;
     if (!accessToken) return res.sendStatus(204);
     // If there is content, split the cookie string and retrieve jwt token
     // check if token is blacklisted
     const checkIfBlacklisted = await Blacklist.findOne({ token: accessToken });
     if (checkIfBlacklisted) return res.sendStatus(204);
-    // Blacklist token if it's not blacklisted 
+    //else nlacklist token if it's not already blacklisted
     const newBlackList = new Blacklist({
       token: accessToken,
     });
@@ -120,7 +123,7 @@ export async function Logout(req: Request, res: Response) {
     res.clearCookie('token', {
       httpOnly: true,
       secure: true,   // Set to true if using HTTPS
-      sameSite: 'strict' // This can be 'lax' or 'strict' depending on your CSRF protection strategy
+      sameSite: 'lax' 
   });
     res.status(200).json({ message: "You are logged out!" });
 
@@ -139,6 +142,8 @@ export async function greetUser(req: Request, res: Response) {
   const user = await UserModel.findOne({ userId });
   if (user) {
     const firstName = user?.firstName;
+    
+
     res.status(200).json({ firstName });
   }
   else {

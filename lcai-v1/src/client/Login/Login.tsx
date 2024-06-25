@@ -42,7 +42,7 @@ export function Login() {
         password,
       }, { withCredentials: true })
       .then((result) => {
-        console.log(result);
+        (result);
         // Store userid retrieved from database in UserContext
         const { userId } = result.data;
         login(userId);
