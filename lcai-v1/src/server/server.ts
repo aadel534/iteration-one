@@ -1,14 +1,26 @@
 import app from './app.js';
 import {PORT, URI} from './config/index.ts';
-import { createServer } from 'http';
+import { createServer } from 'https';
 import { Socket, Server } from 'socket.io';
 import mongoose from 'mongoose';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const httpServer = createServer(app);
-const io = new Server(httpServer,
+
+
+import { readFileSync } from 'fs';
+
+const sslOptions = {
+  key: readFileSync("/Users/adelayoadebiyi/Documents/GitHub/iteration-one/certificates/localhost.key"),
+  cert: readFileSync("/Users/adelayoadebiyi/Documents/GitHub/iteration-one/certificates/localhost.cert")
+};
+
+
+const httpsServer = createServer(sslOptions, app);
+const io = new Server(httpsServer,
   {
     cors: {
-      origin: "http://localhost:3000",
+      origin: "https://localhost:3000",
       methods: ["GET", "POST"],
     },
   }
@@ -33,6 +45,6 @@ mongoose.connect(URI)
   });
 
 
-httpServer.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+httpsServer.listen(PORT, () => {
+    console.log(`Server running on https://localhost:${PORT}`);
   });

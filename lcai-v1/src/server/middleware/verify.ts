@@ -1,4 +1,4 @@
-// https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
+// Source: https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
 import UserModel from "../models/User.js";
 import jwt from 'jsonwebtoken';
 import { Request, Response } from "express";
@@ -28,7 +28,7 @@ export async function Verify(req: Request, res: Response, next: any) {
                 // No user found with this ID
                 return res.status(404).json({ message: "User not found" });
             }
-            // Put he data object into req.user
+            // Put the data object into req.user
             req.user = user.toObject({ versionKey: false });
             next();
         });

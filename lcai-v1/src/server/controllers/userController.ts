@@ -1,11 +1,17 @@
 import UserModel from '../models/User.js';
+// For password encryption
 import bcrypt from 'bcrypt';
 import { emailRegex } from '../utils/emailValidator.js';
 import { Request, Response } from 'express';
+// For session expiry
 import Blacklist from '../models/Blacklist.ts';
-import {SECRET} from '../config/index.ts';
+
+// Source Mongoosejs.com documentation
+
+
+
 // Source: https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
-export async function loginUser (req: Request, res: Response) {
+export async function loginUser(req: Request, res: Response) {
   const { email, password } = req.body;
   if (!emailRegex.test(email)) {
     return res.status(400).json({ message: "That is not a valid email address." });
@@ -21,6 +27,8 @@ export async function loginUser (req: Request, res: Response) {
     return res.status(404).json({ message: "There is no user registered with this account." });
   }
   else {
+    // Source: // https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
+
     const userDetailsCorrect = await bcrypt.compare(password, userExists.password);
     if (userDetailsCorrect) {
 
@@ -31,10 +39,10 @@ export async function loginUser (req: Request, res: Response) {
       // Source: https://pankaj-kumar.medium.com/how-to-handle-cookies-in-node-js-express-app-b16a5456fbe0
       res.cookie("SessionID", token, {
         maxAge: day,
-        httpOnly:true,
+        httpOnly: true,
         path: "/"
-    });
-    
+      });
+
 
       return res.status(200).json({ message: "Logging in...", userId: userExists.id });
       // https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
@@ -44,7 +52,7 @@ export async function loginUser (req: Request, res: Response) {
       return res.status(401).json({ message: "Incorrect password." });
     }
   };
-} 
+}
 
 export async function registerUser(req: Request, res: Response) {
   const { forename, surname, email, password, passwordConfirmation } = req.body;
@@ -70,6 +78,8 @@ export async function registerUser(req: Request, res: Response) {
   if (userExists) {
     return res.status(400).json({ message: "An account already exists with this email!" });
   } else {
+    // Source: https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
+
     if (password == passwordConfirmation) {
       const saltRounds = 12;
       const passwordHash = await bcrypt.hash(password, saltRounds);
@@ -93,25 +103,25 @@ export async function registerUser(req: Request, res: Response) {
 // https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
 export async function Logout(req: Request, res: Response) {
   try {
-        // Retrieve session cookie from request header
-        const authHeader = req.headers['cookie'];
-        // If there's no content
-        if (!authHeader) return res.sendStatus(204);
-        // If there is content, split the cookie string and retrieve jwt token
-        const cookie = authHeader.split('=')[1];
-        const accessToken = cookie.split(";")[0];
-        // check if token is blacklisted
-        const checkIfBlacklisted = await Blacklist.findOne({token: accessToken});
-        if (checkIfBlacklisted) return res.sendStatus(204);
-        // Blacklist token if it's not blacklisted 
-        const newBlackList = new Blacklist({
-          token: accessToken,
-        });
-        await newBlackList.save();
-      // Clear request cookie on client
-      res.setHeader("Clear-Site-Data", "cookies");
-      res.status(200).json({message: "You are logged out!"});
-    
+    // Retrieve session cookie from request header
+    const authHeader = req.headers['cookie'];
+    // If there's no content
+    if (!authHeader) return res.sendStatus(204);
+    // If there is content, split the cookie string and retrieve jwt token
+    const cookie = authHeader.split('=')[1];
+    const accessToken = cookie.split(";")[0];
+    // check if token is blacklisted
+    const checkIfBlacklisted = await Blacklist.findOne({ token: accessToken });
+    if (checkIfBlacklisted) return res.sendStatus(204);
+    // Blacklist token if it's not blacklisted 
+    const newBlackList = new Blacklist({
+      token: accessToken,
+    });
+    await newBlackList.save();
+    // Clear request cookie on client
+    res.setHeader("Clear-Site-Data", "cookies");
+    res.status(200).json({ message: "You are logged out!" });
+
   }
   catch (err) {
     res.status(500).json({
@@ -122,16 +132,15 @@ export async function Logout(req: Request, res: Response) {
   res.end();
 }
 
-export async function greetUser (req: Request, res: Response) { 
+export async function greetUser(req: Request, res: Response) {
   const { userId } = req.body;
   const user = await UserModel.findOne({ userId });
   if (user) {
     const firstName = user?.firstName;
-    res.status(200).json({firstName});
+    res.status(200).json({ firstName });
   }
-  else 
-  {
-    res.status(404).json({status: "error", message: "Error finding user details..."})
+  else {
+    res.status(404).json({ status: "error", message: "Error finding user details..." })
   }
 
 
@@ -171,8 +180,8 @@ export async function deleteAccount(req: Request, res: Response) {
     return res.status(401).json({ message: "Old password is incorrect." });
   }
   try {
-   await UserModel.findByIdAndDelete(userId);
-  res.status(200).json({ message: "Account deleted successfully." });
+    await UserModel.findByIdAndDelete(userId);
+    res.status(200).json({ message: "Account deleted successfully." });
   }
   catch {
     res.status(200).json({ message: "Error deleting account." });
