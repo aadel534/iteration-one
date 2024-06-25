@@ -26,7 +26,7 @@ export function Dashboard() {
     )
       .then(response => {
         const { firstName } = response.data;
-        setUserFirstName(firstName);
+        setUserFirstName(capitalise(firstName));
         navbarname(firstName);
 
       })
@@ -58,7 +58,10 @@ export function Dashboard() {
       console.error('Logout failed', error);
     }
   }
-
+  const capitalise = (name:string) => {
+    if (!name) return '';
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+  }
   return (
     <>
   
