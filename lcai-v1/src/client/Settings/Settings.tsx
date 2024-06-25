@@ -25,7 +25,7 @@ export function Settings() {
   // Handle the logout functionality
   const handleLogout = async () => {
     try {
-      await axios.post('/api/logout');
+      await axios.get('/api/logout');
       logout();
       window.location.href = '/';
     } catch (error) {
