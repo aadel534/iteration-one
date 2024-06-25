@@ -1,87 +1,99 @@
-import { NavLink, Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useUser } from '../ContextAPI/UserContext';
 import dashboardcss from "../Dashboard/Dashboard.module.css";
+import signup from "../Register/Register.module.css";
+import Modal from 'react-modal';
+
+
+// Settings component for user to change password or delete account
 export function Settings() {
+  const { userId, navbarname } = useUser(); 
+  const [userFirstName, setUserFirstName] = useState<string>(""); 
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalAction, setModalAction] = useState("");
 
-  // Show user's first name on navigation and greeting
-  const { userId, navbarname } = useUser();
-  const [userFirstName, setUserFirstName] = useState("");
-  const [status, setStatus] = useState('');
-
-  // Set title text
   useEffect(() => {
-    document.title = "Dashboard";
+    document.title = "Settings";
   }, []);
-  // Set the user's name
-  useEffect(() => {
-    axios.post("/api/dashboard", userId)
-      .then(response => {
-        const { firstName } = response.data;
-        setUserFirstName(firstName);
-        navbarname(firstName);
 
-      })
-      .catch(error => {
-        console.error("Error fetching user information: ", error);
-      });
+  
+  // Handle the logout functionality
+  const handleLogout = async () => {
+    try {
+      await axios.post('/api/logout');
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Logout failed', error);
+    }
+  };
 
-  }, []);
+  // Handle change password button 
+  const handleChangePassword = () => {
+    setModalAction("changePassword");
+    openModal();
+  };
+
+  // Handle delete account 
+  const handleDeleteAccount = () => {
+    setModalAction("deleteAccount");
+
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  }
+  const closeModal = () => {
+    setIsOpen(false);
+  }
+
 
   return (
     <>
       <header>
         <nav>
           <NavLink to="/dashboard">
-            <h1>
-              LC<span>AI</span>!
-            </h1>
+            <h1>LC<span>AI</span>!</h1>
             <h1>Lights, Camera, AI!</h1>
           </NavLink>
           <ul>
-
-            <NavLink to="/">
-              <li className="login-link">
-                <span>Logout {userFirstName}?</span>
-
-              </li>
-            </NavLink>
+            <li className="login-link" onClick={handleLogout} style={{ cursor: 'pointer' }}>
+              <span>Logout {userFirstName}?</span>
+            </li>
             <NavLink to="/settings">
               <li style={{ marginRight: "10vw" }} className="signup-link">
-                <span >Settings</span>
-
+                <span>Settings</span>
               </li>
             </NavLink>
           </ul>
-
         </nav>
       </header>
-
-
       <main>
-
         <section className={dashboardcss.section}>
-          <h2>
-            Hello {userFirstName}!
-          </h2>
+          <h2>Settings</h2>
+          <form className={signup.form} onSubmit={(e) => e.preventDefault()}>
+            <label htmlFor="change-password">Enter new password:</label>
+            <input type="password" name="change-password" />
+            <button type="button" style={{position: "absolute", top: "20vh"}} onClick={handleChangePassword}>
+              Change Password
+            </button>
+            <Modal
+        isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+        contentLabel="Confirm with your password">
+                    <form className={signup.form} onSubmit={(e) => e.preventDefault()}>
+                      </form>
 
-          <form>
-            <label htmlFor="change-password">Change your password: </label>
-            <input type="password" name="change-password"/>
-            <label htmlFor="old-password">Enter old password:</label>
-            <input type="password" name="old-password"/>
 
+          </Modal>
+                 <button type="button" style={{position: "absolute", top: "40vh", backgroundColor:"red", color: "white"}}  onClick={handleDeleteAccount}>
+              Delete Account
+            </button>
           </form>
-
-
-
-
-
         </section>
       </main>
-
+  
     </>
-
   );
 }
