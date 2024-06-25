@@ -43,14 +43,14 @@ export function Dashboard() {
   };
 
   // Logout user
-const handleLogout = async () => {
-  try {
-    await axios.post('/api/logout');
-    window.location.href = '/';
-  } catch (error) {
-    console.error('Logout failed', error);
+  const handleLogout = async () => {
+    try {
+      await axios.post('/api/logout');
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Logout failed', error);
+    }
   }
-}
 
   return (
     <>
@@ -64,11 +64,11 @@ const handleLogout = async () => {
             <h1>Lights, Camera, AI!</h1>
           </NavLink>
 
-            <li className={dashboardcss.linkLogout}>
-              <form action="/api/logout" method="POST">
-                  <span className={dashboardcss.logout} onClick={handleLogout}>Logout {userFirstName}?</span>
-              </form>
-            </li>
+          <li className={dashboardcss.linkLogout}>
+            <form action="/api/logout" method="POST">
+              <span className={dashboardcss.logout} onClick={handleLogout}>Logout {userFirstName}?</span>
+            </form>
+          </li>
 
           <NavLink to="/settings">
             <li style={{ marginRight: "10vw" }} className={dashboardcss.linkSettings}>
@@ -94,7 +94,7 @@ const handleLogout = async () => {
               will include fear, sadness, and confusion.
               sadness, and surprise.
             </p>
-            <p style={{position: "absolute", top:"80vh"}}>Help: Press 'q' to exit the emotion AI.</p>
+            <p style={{ position: "absolute", top: "80vh" }}>Help: Press 'q' to exit the emotion AI.</p>
 
 
           </article>

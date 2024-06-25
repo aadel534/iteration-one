@@ -53,6 +53,7 @@ export function Settings() {
     setIsOpen(false);
   }
 
+  // Call different api endpoints depending on the action by the user
   const handleModalSubmit = () => {
     if (modalAction === "changePassword") {
       axios.post("/api/changepassword", {
@@ -79,6 +80,7 @@ export function Settings() {
         .then(response => {
           setModalAction("");
           closeModal();
+          // Navigate to homepage
           navigate("/");
         })
         .catch(error => {

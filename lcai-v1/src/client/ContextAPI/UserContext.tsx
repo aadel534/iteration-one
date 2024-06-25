@@ -23,13 +23,13 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUserId(userId);
   };
 
-    // E.g. to display "Hello Adelayo!"  on dashboard
+  // E.g. to display "Hello Adelayo!"  on dashboard
   const navbarname = (firstName: string) => {
     setNavBarName(firstName);
 
   }
 
- 
+
   // Create object with these attributes and methods
   const contextValue: UserContextValue = { userId, firstName, navbarname, login };
 
