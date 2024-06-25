@@ -11,11 +11,13 @@ export function Dashboard() {
   const [userFirstName, setUserFirstName] = useState("");
   const [status, setStatus] = useState('');
 
+  // Source: https://react.dev/reference/react/useEffect
   // Set title text
   useEffect(() => {
     document.title = "Dashboard";
   }, []);
-  // Set the user's name
+  // Source: https://axios-http.com/docs/post_example
+  // Set the user's name on dashboard
   useEffect(() => {
     axios.post("/api/dashboard", userId)
       .then(response => {
@@ -40,6 +42,7 @@ export function Dashboard() {
     }
   };
 
+  // Logout user
 const handleLogout = async () => {
   try {
     await axios.post('/api/logout');
@@ -52,6 +55,7 @@ const handleLogout = async () => {
   return (
     <>
       <header>
+        {/* Spurce: https://reactrouter.com/en/main/components/nav-link */}
         <nav>
           <NavLink to="/dashboard">
             <h1>
@@ -97,7 +101,7 @@ const handleLogout = async () => {
 
 
           <figure>
-
+            {/* Call function to start webcam and expression detection */}
             <button onClick={startEmotionAI}>Start Emotion AI!</button>
           </figure>
 
