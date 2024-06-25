@@ -9,6 +9,7 @@ import Modal from 'react-modal';
 
 // Settings component for user to change password or delete account
 export function Settings() {
+  const { userId, navbarname } = useUser();
 
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalAction, setModalAction] = useState("");
