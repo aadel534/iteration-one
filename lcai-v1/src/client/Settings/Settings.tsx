@@ -9,7 +9,7 @@ import Modal from 'react-modal';
 
 // Settings component for user to change password or delete account
 export function Settings() {
-  const { userId, navbarname } = useUser();
+  const { userId, navbarname, logout } = useUser();
   const [userFirstName, setUserFirstName] = useState<string>("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalAction, setModalAction] = useState("");
@@ -26,6 +26,7 @@ export function Settings() {
   const handleLogout = async () => {
     try {
       await axios.post('/api/logout');
+      logout();
       window.location.href = '/';
     } catch (error) {
       console.error('Logout failed', error);

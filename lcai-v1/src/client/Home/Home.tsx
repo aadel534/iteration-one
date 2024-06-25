@@ -3,12 +3,10 @@ import "./Home.css";
 import FaceRecognition from "/images/face-recognition.svg";
 import Sparkles from "/images/sparkles.svg";
 import { Link, NavLink } from "react-router-dom";
-
 export function Home() {
   useEffect(() => {
     document.title = "LCAI! | Convey emotions with AI";
   }, []);
-
   return (
     <>
       <header>
@@ -19,7 +17,7 @@ export function Home() {
             <h1>
               LC<span>AI</span>!
             </h1>
-            <h1>Lights, Camera, AI!</h1>
+            <h1>Lights, Camera, AI!`</h1>
           </NavLink>
 
           <ul>

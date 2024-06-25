@@ -7,7 +7,7 @@ export function Dashboard() {
 
 
   // Show user's first name on navigation and greeting
-  const { userId, navbarname } = useUser();
+  const { userId, navbarname, logout } = useUser();
   const [userFirstName, setUserFirstName] = useState("");
   const [status, setStatus] = useState('');
 
@@ -30,7 +30,7 @@ export function Dashboard() {
         console.error("Error fetching user information: ", error);
       });
 
-  }, []);
+  }, [userId]);
 
   const startEmotionAI = async () => {
     try {
@@ -44,8 +44,10 @@ export function Dashboard() {
 
   // Logout user
   const handleLogout = async () => {
+    console.log(userId);
     try {
       await axios.post('/api/logout');
+      logout();
       window.location.href = '/';
     } catch (error) {
       console.error('Logout failed', error);
@@ -54,6 +56,7 @@ export function Dashboard() {
 
   return (
     <>
+  
       <header>
         {/* Spurce: https://reactrouter.com/en/main/components/nav-link */}
         <nav>

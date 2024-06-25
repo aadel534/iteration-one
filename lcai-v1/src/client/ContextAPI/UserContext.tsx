@@ -6,6 +6,7 @@ interface UserContextValue {
   firstName: string | null;
   login: (userId: string) => void;
   navbarname: (firstName: string) => void;
+  logout: () => void;
 }
 
 // Source: https://react.dev/reference/react/createContext
@@ -29,9 +30,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   }
 
-
+  const logout = () => {
+    setUserId(null);
+    setNavBarName(null);
+  };
   // Create object with these attributes and methods
-  const contextValue: UserContextValue = { userId, firstName, navbarname, login };
+  const contextValue: UserContextValue = { userId, firstName, navbarname, login, logout };
 
   // Source: // Source: https://react.dev/reference/react/createContext
   // Share the contextValue object with children of UserContext.Provider

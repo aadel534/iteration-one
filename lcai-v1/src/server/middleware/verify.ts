@@ -5,39 +5,37 @@ import { Request, Response } from "express";
 import { SECRET } from "../config/index.ts";
 export async function Verify(req: Request, res: Response, next: any) {
     try {
-        // Get the session cookie from the request header identifying the user
-        const authHeader = req.headers["cookie"];
-        // if there is no cookie from the request header, the user is unauthorized...send the response
-        if (!authHeader) return res.sendStatus(401);
-        // If there is a cookie from the request header, split the cookie string to retrieve the jwt (jsonwebtoken)
-        const cookie = authHeader.split("=")[1];
-
-        // Check if the token has been tampered with or if it has expired/check cookie's integrity
-        jwt.verify(cookie, SECRET!, async (err: any, decoded: any) => {
+        // Source: https://www.youtube.com/watch?v=mbsmsi7l3r4&t=717s
+// Source: https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
+       const authHeader = req.headers['authorization'];
+       const token = authHeader && authHeader.split(' ')[1];
+       if (token == null) return res.sendStatus(401).json({message: "Authentication failed."});
+       if (SECRET){
+        jwt.verify(token, SECRET, async (err, decoded) => {
             if (err) {
-                return res
-                    .status(401) //if token altered or expired, it is unauthorised
-                    .json({ message: "This session has expired. Please log in again!" })
+                return res.status(401).json({
+                    message: "Authentication failed: Invalid or expired token."
+                });
             }
+            if (typeof decoded === 'object' && 'id' in decoded) {
+                const userId = decoded.id as string;
 
-            // Get user id when thte token is decoded
-            const { id } = decoded;
-            // Find the user in the database according to id without including the password
-            const user = await UserModel.findById(id).select("-password");
+            // Retrieve user details from the database using the decoded user ID
+            const user = await UserModel.findById(userId).select("-password");
             if (!user) {
-                // No user found with this ID
-                return res.status(404).json({ message: "User not found" });
+                return res.status(404).json({ message: "User not found." });
             }
-            // Put the data object into req.user
-            req.user = user.toObject({ versionKey: false });
-            next();
+            req.user = user;
+        }
         });
-    } catch (err) {
+        
+       }
+ 
+       
+    }catch (err) {
+        console.error("Verification error:", err);
         res.status(500).json({
-            status: "error",
-            code: 500,
-            data: [],
-            message: "Internal server error",
-        })
+            message: "Internal server error during authentication."
+        });
     }
 }

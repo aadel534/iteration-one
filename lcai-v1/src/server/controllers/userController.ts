@@ -104,12 +104,10 @@ export async function registerUser(req: Request, res: Response) {
 export async function Logout(req: Request, res: Response) {
   try {
     // Retrieve session cookie from request header
-    const authHeader = req.headers['cookie'];
-    // If there's no content
-    if (!authHeader) return res.sendStatus(204);
+    const authHeader = req.headers['authorization'];
+    const accessToken = authHeader && authHeader.split(' ')[1];
+    if (!accessToken) return res.sendStatus(204);
     // If there is content, split the cookie string and retrieve jwt token
-    const cookie = authHeader.split('=')[1];
-    const accessToken = cookie.split(";")[0];
     // check if token is blacklisted
     const checkIfBlacklisted = await Blacklist.findOne({ token: accessToken });
     if (checkIfBlacklisted) return res.sendStatus(204);
@@ -119,7 +117,11 @@ export async function Logout(req: Request, res: Response) {
     });
     await newBlackList.save();
     // Clear request cookie on client
-    res.setHeader("Clear-Site-Data", "cookies");
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: true,   // Set to true if using HTTPS
+      sameSite: 'strict' // This can be 'lax' or 'strict' depending on your CSRF protection strategy
+  });
     res.status(200).json({ message: "You are logged out!" });
 
   }
