@@ -90,6 +90,8 @@ const handleLogout = async () => {
               will include fear, sadness, and confusion.
               sadness, and surprise.
             </p>
+            <p style={{position: "absolute", top:"80vh"}}>Help: Press 'q' to exit the emotion AI.</p>
+
 
           </article>
 

@@ -29,7 +29,7 @@ app.post("/api/login", loginUser);
 
 app.post("/api/register", registerUser);
 app.post("/api/dashboard", Verify, greetUser);
-app.post("/api/updatePassword", Verify, updatePassword)
+app.post("/api/changepassword", Verify, updatePassword)
 app.get("/api/logout", Logout);
 
 app.post('/api/start_emotion_recognition', (req: Request, res: Response) => {
