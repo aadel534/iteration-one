@@ -139,21 +139,18 @@ export async function logout(req: Request, res: Response) {
   }
   res.end();
 }
-
 export async function greetUser(req: Request, res: Response) {
   const { userId } = req.body;
-  const user = await UserModel.findOne({ userId });
-  if (user) {
-    const firstName = user?.firstName;
-    
-
-    res.status(200).json({ firstName });
-  }
-  else {
-    res.status(404).json({ status: "error", message: "Error finding user details..." })
+  console.log('Fetching user details for:', userId);
+  const user = await UserModel.findById(userId);
+  
+  if (!user) {
+    console.log('User not found:', userId);
+    return res.status(404).json({ message: "User not found." });
   }
 
-
+  console.log('User found:', user.firstName);
+  res.status(200).json({ firstName: user.firstName });
 }
 
 export async function updatePassword(req: Request, res: Response) {

@@ -19,7 +19,8 @@ export function Dashboard() {
   // Source: https://axios-http.com/docs/post_example
   // Set the user's name on dashboard
   useEffect(() => {
-    axios.post("/api/dashboard", userId,
+    if (userId) {
+    axios.post("/api/dashboard", {userId: userId},
     { withCredentials: true }
 
     )
@@ -33,7 +34,7 @@ export function Dashboard() {
         console.error("Error fetching user information: ", error);
       });
 
-  }, []);
+  }}, []);
 
   const startEmotionAI = async () => {
     try {
