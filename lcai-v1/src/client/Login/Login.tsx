@@ -6,7 +6,15 @@ import logincss from "./Login.module.css";
 
 export function Login() {
   // Retrieve login method shared to the component through the UserContext
-  const { login } = useUser();
+  const { userId, login } = useUser();
+  useEffect(() => {
+    if (userId) {
+      console.log("userid", userId);
+      navigate('/dashboard');
+    }
+   
+  }, [userId]);
+
   useEffect(() => {
     document.title = "LCAI! | Log in";
   }, []);
@@ -44,9 +52,9 @@ export function Login() {
       .then((result) => {
         (result);
         // Store userid retrieved from database in UserContext
-        const { userId } = result.data;
-        login(userId);
-        navigate("/dashboard");
+        const { userIdResponse } = result.data;
+
+        login(userIdResponse);
       })
       // Handle error
       .catch((error) => {

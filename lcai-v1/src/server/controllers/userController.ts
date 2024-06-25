@@ -47,7 +47,7 @@ export async function loginUser(req: Request, res: Response) {
 
 
 
-      return res.status(200).json({ message: "Logging in...", userId: userExists.id });
+      return res.status(200).json({ message: "Logging in...", userIdResponse: userExists.id });
       // https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
 
     }
