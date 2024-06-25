@@ -15,6 +15,8 @@ export function Register(){
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [errorState, setErrors] = useState<string[]>([]);
+  const [consent, setConsent] = useState(false);
+
 
   const navigate = useNavigate();
   const handleSubmit = (e: { preventDefault: () => void }) => {
@@ -36,6 +38,9 @@ export function Register(){
     }
     if (!password) {
       errorMessages.push("Password is required.");
+    }
+    if (!consent) {
+      errorMessages.push("You must consent to the processing of your data.");
     }
     if (errorMessages.length > 0) {
       setErrors(errorMessages); // Set all accumulated errors
@@ -169,6 +174,10 @@ return (
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
                   placeholder="******************"
                 />
+                   <div>
+              <input id="consent-checkbox" style={{position: "absolute", left:"25vw"}} type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+              <label htmlFor="consent-checkbox" style={{fontSize: "1vw"}}>I agree to the processing of my personal data in accordance with the <Link to="/privacy-policy">privacy policy</Link>.</label>
+            </div>
               <button
                 type="submit"
               >

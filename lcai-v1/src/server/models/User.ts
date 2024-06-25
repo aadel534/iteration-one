@@ -79,6 +79,7 @@ const userSchema = new Schema<InterfaceUserDocument, InterfaceUserModel>({
 
 }, { timestamps: true });
 
+//Source: https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
 userSchema.methods.generateAccessJWT = function () {
    let payload = {
       id: this._id,
