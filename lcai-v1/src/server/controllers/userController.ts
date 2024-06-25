@@ -43,7 +43,6 @@ export async function loginUser(req: Request, res: Response) {
         // using https
         secure: true,
         sameSite: "strict",
-        path: "/"
       });
 
 
@@ -105,10 +104,10 @@ export async function registerUser(req: Request, res: Response) {
 }
 
 // https://dev.to/m_josh/build-a-jwt-login-and-logout-system-using-expressjs-nodejs-hd2
-export async function Logout(req: Request, res: Response) {
+export async function logout(req: Request, res: Response) {
   try {
     // Retrieve session cookie from request header
-    const accessToken = req.cookies.sessionId;
+    const accessToken = req.cookies.SessionID;
     if (!accessToken) return res.sendStatus(204);
     // If there is content, split the cookie string and retrieve jwt token
     // check if token is blacklisted
@@ -120,11 +119,15 @@ export async function Logout(req: Request, res: Response) {
     });
     await newBlackList.save();
     // Clear request cookie on client
-    res.clearCookie('token', {
+    res.cookie('SessionID', '', {
       httpOnly: true,
-      secure: true,   // Set to true if using HTTPS
-      sameSite: 'lax' 
-  });
+      secure: true,   
+      sameSite: 'strict', 
+      maxAge: 0,
+
+    });
+
+  console.log
     res.status(200).json({ message: "You are logged out!" });
 
   }

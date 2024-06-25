@@ -37,7 +37,9 @@ export function Dashboard() {
 
   const startEmotionAI = async () => {
     try {
-      const response = await axios.post('/api/start_emotion_recognition');
+      const response = await axios.post('/api/start_emotion_recognition',     
+      { withCredentials: true }
+    );
       setStatus(response.data.status);
     } catch (error) {
       setStatus('Error starting emotion AI');
@@ -48,9 +50,9 @@ export function Dashboard() {
   // Logout user
   const handleLogout = async () => {
     try {
-      await axios.post('/api/logout');
+      await axios.get('/api/logout');
       logout();
-      // window.location.href = '/';
+      window.location.href = '/';
     } catch (error) {
       console.error('Logout failed', error);
     }
@@ -70,9 +72,7 @@ export function Dashboard() {
           </NavLink>
 
           <li className={dashboardcss.linkLogout}>
-            <form action="/api/logout" method="POST">
               <span className={dashboardcss.logout} onClick={handleLogout}>Logout {userFirstName}?</span>
-            </form>
           </li>
 
           <NavLink to="/settings">

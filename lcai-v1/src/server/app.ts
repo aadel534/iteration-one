@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
-import { registerUser, loginUser, Logout, greetUser, updatePassword, deleteAccount } from './controllers/userController.ts';
+import { registerUser, loginUser, logout, greetUser, updatePassword, deleteAccount } from './controllers/userController.ts';
 import cookieParser from "cookie-parser";
 import { Request, Response } from 'express';
 
@@ -30,8 +30,8 @@ app.post("/api/login", loginUser);
 app.post("/api/register", registerUser);
 app.post("/api/dashboard", Verify, greetUser);
 app.post("/api/changepassword", Verify, updatePassword)
-app.post("/api/deleteAccount", Verify, deleteAccount)
-app.get("/api/logout", Logout);
+app.post("/api/deleteaccount", Verify, deleteAccount)
+app.get("/api/logout", logout);
 
 
 app.post('/api/start_emotion_recognition', (req: Request, res: Response) => {
