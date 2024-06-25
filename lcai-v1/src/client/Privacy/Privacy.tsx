@@ -66,9 +66,9 @@ We are committed to ensuring the security of your personal information. We use t
 
 Your Data Protection Rights are detailed as follows.
 
-You have the right to: access Your Data  and you can request copies of your personal data;
-rectify Your Data and you can request that we correct any information you believe is inaccurate or complete information you believe is incomplete, and you may
-erase your Data by requesting that we erase your personal data.
+You have the right to: access Your data  and you can request copies of your personal data;
+rectify Your data and you can request that we correct any information you believe is inaccurate or complete information you believe is incomplete, and you may
+erase your data by requesting that we erase your personal data.
 </p>
         
 
