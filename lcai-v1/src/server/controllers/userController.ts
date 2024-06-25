@@ -157,3 +157,25 @@ export async function updatePassword(req: Request, res: Response) {
   await user.updateOne({ password: newPasswordHash });
   res.status(200).json({ message: "Password updated successfully." });
 }
+
+
+export async function deleteAccount(req: Request, res: Response) {
+  const { oldPassword, userId } = req.body;
+  const user = await UserModel.findById(userId);
+  if (!user) {
+    return res.status(404).json({ message: `User not found. ${userId}` });
+  }
+
+  const isOldPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
+  if (!isOldPasswordCorrect) {
+    return res.status(401).json({ message: "Old password is incorrect." });
+  }
+  try {
+   await UserModel.findByIdAndDelete(userId);
+  res.status(200).json({ message: "Account deleted successfully." });
+  }
+  catch {
+    res.status(200).json({ message: "Error deleting account." });
+
+  }
+}

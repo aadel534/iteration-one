@@ -1,13 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
-import {registerUser, loginUser, Logout, greetUser, updatePassword} from './controllers/userController.ts';
+import {registerUser, loginUser, Logout, greetUser, updatePassword, deleteAccount} from './controllers/userController.ts';
 import cookieParser from "cookie-parser";
 import { Request, Response } from 'express';
-import { SECRET } from "./config/index.ts";
-import UserModel from "./models/User.js";
-import jwt from 'jsonwebtoken';
-import bodyParser from 'body-parser';
+
 import { exec } from 'child_process';
 import path from 'path';
 import { Verify } from './middleware/verify.ts';
@@ -30,7 +27,9 @@ app.post("/api/login", loginUser);
 app.post("/api/register", registerUser);
 app.post("/api/dashboard", Verify, greetUser);
 app.post("/api/changepassword", Verify, updatePassword)
+app.post("/api/deleteAccount",  Verify, deleteAccount)
 app.get("/api/logout", Logout);
+
 
 app.post('/api/start_emotion_recognition', (req: Request, res: Response) => {
   const scriptPath = "/Users/adelayoadebiyi/Documents/GitHub/iteration-one/lcai-v1/public/ai_models/face_recog/emotion_recognition.py";

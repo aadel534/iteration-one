@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useUser } from '../ContextAPI/UserContext';
@@ -16,6 +16,7 @@ export function Settings() {
   const [successPasswordChange, setSuccessPasswordChange] = useState<string | null>(null);
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
+  const navigate = useNavigate();
   useEffect(() => {
     document.title = "Settings";
   }, []);
@@ -39,10 +40,11 @@ export function Settings() {
 
   // Handle delete account 
   const handleDeleteAccount = () => {
-    setSuccessPasswordChange("Password successfully changed.");
     setModalAction("deleteAccount");
+    openModal();
 
-  };
+
+  }
 
   const openModal = () => {
     setIsOpen(true);
@@ -61,6 +63,7 @@ export function Settings() {
 
       }).then(response => {
         setSuccessPasswordChange("Password successfully changed.");
+        setModalAction("");
 
         closeModal();
 
@@ -71,12 +74,19 @@ export function Settings() {
       })
 
   }
-  // if (modalAction === "deleteAccount"){
-  //   axios.post("/api/deleteaccount", userId){
-  //     closeModal();
-  //   }
-  // }
+  else if (modalAction === "deleteAccount"){
+    axios.post("/api/deleteaccount", {oldPassword, userId})
+    .then(response => {
+      setModalAction("");
+      closeModal();
+      navigate("/");
+    })
+    .catch(error => {
+      console.error("Error deleting account ", error);
+    })
+
 }
+  }
   return (
     <>
       <header>
@@ -131,4 +141,5 @@ export function Settings() {
   
     </>
   );
+
 }
