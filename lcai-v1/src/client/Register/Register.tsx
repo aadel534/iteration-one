@@ -175,8 +175,8 @@ return (
                   placeholder="******************"
                 />
                    <div>
-              <input id="consent-checkbox" style={{position: "absolute", left:"25vw"}} type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
-              <label htmlFor="consent-checkbox" style={{fontSize: "1vw"}}>I agree to the processing of my personal data in accordance with the <Link to="/privacy-policy">privacy policy</Link>.</label>
+              <input id="consent-checkbox" style={{position: "absolute", left:"25vw", width: "10vw"}} type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+              <label htmlFor="consent-checkbox" style={{fontSize: "1vw"}}>I agree to the processing of my personal data in accordance with the <Link to="/privacy">privacy policy</Link>.</label>
             </div>
               <button
                 type="submit"

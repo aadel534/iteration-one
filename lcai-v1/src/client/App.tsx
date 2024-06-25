@@ -5,8 +5,8 @@ import { Register } from "./Register/Register";
 import { Dashboard } from "./Dashboard/Dashboard";
 import { Login } from "./Login/Login";
 import { UserProvider } from "./ContextAPI/UserContext";
-import { AIVideo } from "./AIVideo/AIVideo";
 import { Settings } from "./Settings/Settings";
+import {Privacy} from "./Privacy/Privacy";
 function App() {
   return (
     <>
@@ -21,6 +21,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/settings" element={<Settings/>}/>
+            <Route path="/privacy" element={<Privacy/>}/>
 
 
 

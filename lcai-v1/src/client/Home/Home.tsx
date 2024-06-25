@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import "./Home.css";
 import FaceRecognition from "/images/face-recognition.svg";
 import Sparkles from "/images/sparkles.svg";
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 export function Home() {
   useEffect(() => {
@@ -85,7 +85,8 @@ export function Home() {
                 </p>
           </article>
           <form>
-          <button type="submit">Sign up</button>
+
+          <button type="submit" ><Link style={{color:"gold", textDecoration:"none"}} to="/register">Sign up</Link></button>
 
           </form>
         </section>
