@@ -30,10 +30,81 @@ section:first-of-type figure:first-of-type {
     border-radius: 5%;
     background-color: black;
 }
-section:first-of-type figure:first-of-type button {
+
+ 
+.linkLogout{
+    list-style-type: none;
+  color: white;
+  font-family: sans-serif;
+  font-size: 3vh;
+  text-align: right;
+  padding-right: 5vw;
+  top: 5vh;
+  right: 0;
+  position: absolute;
+  cursor: pointer;
+  }
+  .linkSettings{
+    list-style-type: none;
+  color: white;
+  font-family: sans-serif;
+  font-size: 3vh;
+  text-align: right;
+  padding-right: 5vw;
+  top: 5vh;
+  right: 10vw;
+  position: absolute;
+  cursor: pointer;
+  }
+  @media (min-width: 1024px){
+  .settings {
+    position: absolute;
+    left: -10vw;
+    top: -1vh;
+    background-color: #025492;
+    color: gold;
+    border-radius: 1vh;
+    padding: 1vh;
+  }
+  
+  .logout {
+    background-color: gold;
+    color: black;
+    padding: 1vh;
+    border-radius: 1vh;
+  }
+  section:first-of-type figure:first-of-type button {
     position:absolute;
     top: 0vh;
     background-color: gold !important;
     color: black !important;
     left:40vw !important;
+}
+}
+@media (max-width: 1023px){
+    .settings {
+        position: absolute;
+        left: -30vw;
+        top: -1vh;
+        background-color: #025492;
+        color: gold;
+        border-radius: 1vh;
+        padding: 1vh;
+      }
+      
+      .logout {
+        background-color: gold;
+        color: black;
+        padding: 1vh;
+        border-radius: 1vh;
+      }
+      section:first-of-type figure:first-of-type button {
+        position:absolute;
+        top: 5vh;
+        background-color: gold !important;
+        color: black !important;
+        left:30vw !important;
+    }
+
+
 }

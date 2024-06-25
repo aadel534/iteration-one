@@ -3,13 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useUser } from '../ContextAPI/UserContext';
 import dashboardcss from './Dashboard.module.css';
-import Webcam from 'react-webcam';
-import * as faceapi from '@vladmandic/face-api';
-import { model } from "mongoose";
 export function Dashboard() {
-  // Configure CSRF tokens for Django backend
-  axios.defaults.xsrfCookieName = 'csrftoken';
-  axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
 
   // Show user's first name on navigation and greeting
   const { userId, navbarname } = useUser();
@@ -35,12 +30,6 @@ export function Dashboard() {
 
   }, []);
 
-  const webcamRef = useRef<Webcam>(null);
-  const [imageState, setImage] = useState();
-  const [modelsLoaded, setModelsLoaded] = useState(false);
-  const [FERResult, setFERResult] = useState('Your projected emotion will be displayed here!');
-  const [start, setStart] = useState(false);
-
   const startEmotionAI = async () => {
     try {
         const response = await axios.post('/api/start_emotion_recognition');
@@ -64,6 +53,18 @@ export function Dashboard() {
           <h1>Lights, Camera, AI!</h1>
           </NavLink>
 
+          <NavLink to="/">
+              <li className={dashboardcss.linkLogout}>
+                <span className={dashboardcss.logout}>Logout {userFirstName}?</span>
+
+              </li>
+            </NavLink>
+            <NavLink to="/settings">
+              <li style={{ marginRight: "10vw" }} className={dashboardcss.linkSettings}>
+                <span className={dashboardcss.settings} >Settings</span>
+
+              </li>
+            </NavLink>
         </nav>
       </header>
 
