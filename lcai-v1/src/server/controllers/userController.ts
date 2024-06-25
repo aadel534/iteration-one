@@ -142,7 +142,7 @@ export async function updatePassword(req: Request, res: Response) {
   if (!oldPassword || !newPassword) {
     return res.status(400).json({ message: "Please provide both old and new passwords." });
   }
-  const user = await UserModel.findOne({ userId });
+  const user = await UserModel.findById(userId);
   if (!user) {
     return res.status(404).json({ message: `User not found. ${userId}` });
   }

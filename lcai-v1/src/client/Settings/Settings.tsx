@@ -100,7 +100,7 @@ export function Settings() {
       <main>
         <section className={dashboardcss.section}>
           <h2>Settings</h2>
-          {successPasswordChange && <p style={{ color: "green" }}>{successPasswordChange}</p>}
+          {successPasswordChange && <p style={{ color: "green", position: "absolute", top: "20vh", textAlign: "center" }}>{successPasswordChange}</p>}
 
           <form className={signup.form} onSubmit={(e) => e.preventDefault()}>
             <label htmlFor="change-password">Enter new password:</label>
