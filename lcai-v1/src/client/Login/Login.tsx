@@ -1,74 +1,83 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { NavLink, Link, useNavigate  } from "react-router-dom";
-import { useUser } from '../ContextAPI/UserContext'; 
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import { useUser } from '../ContextAPI/UserContext';
 import logincss from "./Login.module.css";
 
 export function Login() {
-  const { login } = useUser(); 
-useEffect(() => {
-document.title = "LCAI! | Log in";
-}, []);
+  // Retrieve login method shared to the component through the UserContext
+  const { login } = useUser();
+  useEffect(() => {
+    document.title = "LCAI! | Log in";
+  }, []);
 
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
-const [errorState, setErrors] = useState<string[]>([]);
-const navigate = useNavigate();
-const handleSubmit = (e: { preventDefault: () => void }) => {
-  // Prevent page refresh
-  e.preventDefault();
-  // Reset the error as there are different validation errors
-  let errorMessages = [];
-  if (!email) {
-    errorMessages.push("Email is required.");
-  }
-  if (!password) {
-    errorMessages.push("Password is required.");
-  }
-  if (errorMessages.length > 0) {
-    setErrors(errorMessages); // Set all accumulated errors
-    return;
-  }
-  axios
-    .post("/api/login", {
-      email,
-      password,
-    }, { withCredentials: true })
-    .then((result) => {
-      console.log(result);
-      const { userId } = result.data;
-      login(userId);
-      navigate("/dashboard");
-    })
-    .catch((error) => {
-      if (error.response) {
-        setErrors([error.response.data.message]);
-      } else {
-        setErrors(["Unable to connect to server. Please try again later."]);
-      }
-    });
-};
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // Store errors for login form
+  const [errorState, setErrors] = useState<string[]>([]);
+  // Navigate to a different page
+  const navigate = useNavigate();
 
-return (
+  // When login button is pressed and the form is submitted
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    // Prevent page refresh
+    e.preventDefault();
+    // Reset the error as there are different validation errors
+    let errorMessages = [];
+    if (!email) {
+      errorMessages.push("Email is required.");
+    }
+    if (!password) {
+      errorMessages.push("Password is required.");
+    }
+    if (errorMessages.length > 0) {
+      // Set total errors
+      setErrors(errorMessages);
+      return;
+    }
+    // Send login details to server
+    axios
+      .post("/api/login", {
+        email,
+        password,
+      }, { withCredentials: true })
+      .then((result) => {
+        console.log(result);
+        // Store userid retrieved from database in UserContext
+        const { userId } = result.data;
+        login(userId);
+        navigate("/dashboard");
+      })
+      // Handle error
+      .catch((error) => {
+        if (error.response) {
+          setErrors([error.response.data.message]);
+        } else {
+          setErrors(["Unable to connect to server. Please try again later."]);
+        }
+      });
+  };
+
+  return (
     <>
-   <header className={logincss.nav}>
+      <header className={logincss.nav}>
         <nav>
-        <NavLink to="/">
-          <h1>
-            LC<span>AI</span>!
-          </h1>
-          <h1>Lights, Camera, AI!</h1>
+          <NavLink to="/">
+            <h1>
+              LC<span>AI</span>!
+            </h1>
+            <h1>Lights, Camera, AI!</h1>
           </NavLink>
 
           <ul>
             <li className="login-link">
-              <NavLink to="/login" style= {{textDecoration: "none"}}>
-              <span >Log in</span>
+              <NavLink to="/login" style={{ textDecoration: "none" }}>
+                <span >Log in</span>
               </NavLink>
             </li>
             <li className="signup-link">
               <NavLink to="/register">
-              <span >Sign up</span>
+                <span >Sign up</span>
               </NavLink>
             </li>
           </ul>
@@ -76,60 +85,62 @@ return (
       </header>
       <main >
         <section className={logincss.section}>
-    
+
           <form
+            // Submit when login button is pressed
             onSubmit={handleSubmit}
             className={logincss.form}
           >
-          <h1>
-              Log In 
+            <h1>
+              Log In
             </h1>
+            {/* Display each error in a list if errors are present */}
             {errorState.length > 0 &&
-            <ul className={logincss.errorList}>
-            {errorState.map((err, index) => (
-              <li key={index} style={{color:"red"}}>
-                {err}
-              </li>
-            ))}
-          </ul>
-              }   
-          
-              <label
-                htmlFor="email"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                type="text"
-                placeholder="Email"
-                name="email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-          
-    
-                <label
-                  htmlFor="grid-password"
-                >
-                  Password
-                </label>
-                <input
-                  id="grid-password"
-                  type="password"
-                  name="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="******************"
-                />
-          
+              <ul className={logincss.errorList}>
+                {errorState.map((err, index) => (
+                  <li key={index} style={{ color: "red" }}>
+                    {err}
+                  </li>
+                ))}
+              </ul>
+            }
 
-              <button
-                type="submit">
-                Log in
-              </button>
+            <label
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              type="text"
+              placeholder="Email"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+
+            <label
+              htmlFor="grid-password"
+            >
+              Password
+            </label>
+            <input
+              id="grid-password"
+              type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="******************"
+            />
+
+
+            <button
+              type="submit">
+              Log in
+            </button>
           </form>
         </section>
       </main>
     </>
-)
-    
+  )
+
 }

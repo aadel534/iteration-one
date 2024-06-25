@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export function Register(){
+export function Register() {
   useEffect(() => {
     // Tab/Title
     document.title = "Sign Up";
@@ -23,6 +23,7 @@ export function Register(){
     // Prevent page refresh
     e.preventDefault();
     // Reset the error as there are different validation errors
+    // Same error functionality as login page 
     let errorMessages = [];
     if (password !== passwordConfirmation) {
       errorMessages.push("Please ensure both passwords match!");
@@ -66,27 +67,27 @@ export function Register(){
         }
       });
   };
-return (
+  return (
 
     <>
-   <header className={signup.nav}>
+      <header className={signup.nav}>
         <nav >
-        <NavLink to="/">
-          <h1>
-            LC<span>AI</span>!
-          </h1>
-          <h1>Lights, Camera, AI!</h1>
+          <NavLink to="/">
+            <h1>
+              LC<span>AI</span>!
+            </h1>
+            <h1>Lights, Camera, AI!</h1>
           </NavLink>
 
           <ul>
-          <li className="login-link">
-              <NavLink to="/login" style= {{textDecoration: "none"}}>
-              <span >Log in</span>
+            <li className="login-link">
+              <NavLink to="/login" style={{ textDecoration: "none" }}>
+                <span >Log in</span>
               </NavLink>
             </li>
             <li className="signup-link">
               <NavLink to="/register">
-              <span >Sign up</span>
+                <span >Sign up</span>
               </NavLink>
             </li>
           </ul>
@@ -94,7 +95,7 @@ return (
       </header>
       <main>
         <section className={signup.section}>
-        <form
+          <form
             onSubmit={handleSubmit}
             className={signup.form}
           >
@@ -102,91 +103,91 @@ return (
               Create Your Account
             </h1>
             <div>
-            {errorState.length > 0 &&
-            <ul className={signup.errorList}>
-            {errorState.map((err, index) => (
-              <li key={index} style={{color: "red"}}>
-                {err}
-              </li>
-            ))}
-          </ul>
-              }   
+              {errorState.length > 0 &&
+                <ul className={signup.errorList}>
+                  {errorState.map((err, index) => (
+                    <li key={index} style={{ color: "red" }}>
+                      {err}
+                    </li>
+                  ))}
+                </ul>
+              }
             </div>
 
-                <label
-                  htmlFor="grid-first-name"
-                >
-                  First Name
-                </label>
-                <input
-                  id="grid-first-name"
-                  type="text"
-                  placeholder="Jane"
-                  name="forename"
-                  onChange={(e) => setForename(e.target.value)}
-                />
-                <label
-                  htmlFor="grid-last-name"
-                >
-                  Last Name
-                </label>
-                <input
-                  id="grid-last-name"
-                  type="text"
-                  placeholder="Doe"
-                  name="surname"
-                  onChange={(e) => setSurname(e.target.value)}
-                />
-              <label
-                htmlFor="email"
-              >
-                Email{" "}
-              </label>
-              <input
-                id="email"
-                type="text"
-                placeholder="Email"
-                name="email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-                <label
-                  htmlFor="grid-password"
-                >
-                  Choose a Password
-                </label>
+            <label
+              htmlFor="grid-first-name"
+            >
+              First Name
+            </label>
+            <input
+              id="grid-first-name"
+              type="text"
+              placeholder="Jane"
+              name="forename"
+              onChange={(e) => setForename(e.target.value)}
+            />
+            <label
+              htmlFor="grid-last-name"
+            >
+              Last Name
+            </label>
+            <input
+              id="grid-last-name"
+              type="text"
+              placeholder="Doe"
+              name="surname"
+              onChange={(e) => setSurname(e.target.value)}
+            />
+            <label
+              htmlFor="email"
+            >
+              Email{" "}
+            </label>
+            <input
+              id="email"
+              type="text"
+              placeholder="Email"
+              name="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <label
+              htmlFor="grid-password"
+            >
+              Choose a Password
+            </label>
 
-                <input
-                  id="grid-password"
-                  type="password"
-                  name="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="******************"
-                />
-                <label
-                  htmlFor="grid-password"
-                >
-                  Confirm Password
-                </label>
-                <input
-                  id="grid-password"
-                  type="password"
-                  name="confirmpassword"
-                  onChange={(e) => setPasswordConfirmation(e.target.value)}
-                  placeholder="******************"
-                />
-                   <div>
-              <input id="consent-checkbox" style={{position: "absolute", left:"25vw", width: "10vw"}} type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
-              <label htmlFor="consent-checkbox" style={{fontSize: "1vw"}}>I agree to the processing of my personal data in accordance with the <Link to="/privacy">privacy policy</Link>.</label>
+            <input
+              id="grid-password"
+              type="password"
+              name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="******************"
+            />
+            <label
+              htmlFor="grid-password"
+            >
+              Confirm Password
+            </label>
+            <input
+              id="grid-password"
+              type="password"
+              name="confirmpassword"
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+              placeholder="******************"
+            />
+            <div>
+              <input id="consent-checkbox" style={{ position: "absolute", left: "25vw", width: "10vw" }} type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+              <label htmlFor="consent-checkbox" style={{ fontSize: "1vw" }}>I agree to the processing of my personal data in accordance with the <Link to="/privacy">privacy policy</Link>.</label>
             </div>
-              <button
-                type="submit"
-              >
-                Sign Up!
-              </button>
+            <button
+              type="submit"
+            >
+              Sign Up!
+            </button>
           </form>
         </section>
       </main>
     </>
-)
-    
+  )
+
 }

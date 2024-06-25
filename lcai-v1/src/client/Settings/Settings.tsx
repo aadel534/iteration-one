@@ -9,8 +9,7 @@ import Modal from 'react-modal';
 
 // Settings component for user to change password or delete account
 export function Settings() {
-  const { userId, navbarname } = useUser(); 
-  const [userFirstName, setUserFirstName] = useState<string>(""); 
+
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalAction, setModalAction] = useState("");
   const [successPasswordChange, setSuccessPasswordChange] = useState<string | null>(null);
@@ -21,7 +20,7 @@ export function Settings() {
     document.title = "Settings";
   }, []);
 
-  
+
   // Handle the logout functionality
   const handleLogout = async () => {
     try {
@@ -69,23 +68,23 @@ export function Settings() {
 
 
       })
-      .catch(error => {
-        console.error("Error changing password ", error);
-      })
+        .catch(error => {
+          console.error("Error changing password ", error);
+        })
 
-  }
-  else if (modalAction === "deleteAccount"){
-    axios.post("/api/deleteaccount", {oldPassword, userId})
-    .then(response => {
-      setModalAction("");
-      closeModal();
-      navigate("/");
-    })
-    .catch(error => {
-      console.error("Error deleting account ", error);
-    })
+    }
+    else if (modalAction === "deleteAccount") {
+      axios.post("/api/deleteaccount", { oldPassword, userId })
+        .then(response => {
+          setModalAction("");
+          closeModal();
+          navigate("/");
+        })
+        .catch(error => {
+          console.error("Error deleting account ", error);
+        })
 
-}
+    }
   }
   return (
     <>
@@ -114,31 +113,32 @@ export function Settings() {
 
           <form className={signup.form} onSubmit={(e) => e.preventDefault()}>
             <label htmlFor="change-password">Enter new password:</label>
-            <input type="password" name="change-password"onChange={(e) => setNewPassword(e.target.value)}/>
-            <button type="button" style={{position: "absolute", top: "20vh"}} onClick={handleChangePassword}>
+            <input type="password" name="change-password" onChange={(e) => setNewPassword(e.target.value)} />
+            <button type="button" style={{ position: "absolute", top: "20vh" }} onClick={handleChangePassword}>
               Change Password
             </button>
+            {/* Source: https://www.npmjs.com/package/react-modal */}
             <Modal
-        isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-        contentLabel="Confirm with your password">
-                    <form className={signup.form} onSubmit={(e) => e.preventDefault()}>
-                    <label style={{color: "black", fontFamily:"sans-serif"}} htmlFor="confirm-password">Enter old password:</label>
-            <input type="password" name="confirm-password" onChange={(e) => setOldPassword(e.target.value)}/>
-            <button type="button" style={{position: "absolute", top: "20vh"}} onClick={handleModalSubmit}>
-              Confirm
-            </button>
-                      </form>
+              isOpen={modalIsOpen}
+              onRequestClose={closeModal}
+              contentLabel="Confirm with your password">
+              <form className={signup.form} onSubmit={(e) => e.preventDefault()}>
+                <label style={{ color: "black", fontFamily: "sans-serif" }} htmlFor="confirm-password">Enter old password:</label>
+                <input type="password" name="confirm-password" onChange={(e) => setOldPassword(e.target.value)} />
+                <button type="button" style={{ position: "absolute", top: "20vh" }} onClick={handleModalSubmit}>
+                  Confirm
+                </button>
+              </form>
 
 
-          </Modal>
-                 <button name="confirm" type="button" style={{position: "absolute", top: "40vh", backgroundColor:"red", color: "white"}}  onClick={handleDeleteAccount}>
+            </Modal>
+            <button name="confirm" type="button" style={{ position: "absolute", top: "40vh", backgroundColor: "red", color: "white" }} onClick={handleDeleteAccount}>
               Delete Account
             </button>
           </form>
         </section>
       </main>
-  
+
     </>
   );
 
