@@ -16,6 +16,7 @@ export function Register() {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [errorState, setErrors] = useState<string[]>([]);
   const [consent, setConsent] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false); // Assuming this state tracks login status
 
 
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ export function Register() {
         passwordConfirmation,
       })
       .then((result) => {
-        navigate("/dashboard");
+       setIsRegistered(true);
       })
       .catch((error) => {
         if (error.response) {
@@ -102,6 +103,7 @@ export function Register() {
               Create Your Account
             </h1>
             <div>
+              {isRegistered && <p style={{position: "absolute", top: "-10vh", color:"green"}}>Account created successfully. Please log in. </p>}
               {errorState.length > 0 &&
                 <ul className={signup.errorList}>
                   {errorState.map((err, index) => (

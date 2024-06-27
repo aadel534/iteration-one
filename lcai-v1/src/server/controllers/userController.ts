@@ -93,6 +93,7 @@ export async function registerUser(req: Request, res: Response) {
         password: passwordHash
       });
       await newUser.save();
+      res.status(200).json({ message: "You are registered!" });
 
     }
     else {
