@@ -9,16 +9,20 @@ import Modal from 'react-modal';
 
 // Settings component for user to change password or delete account
 export function Settings() {
-  const { userId, navbarname, logout } = useUser();
-  const [userFirstName, setUserFirstName] = useState<string>("");
+  const { userId, firstName, logout } = useUser();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalAction, setModalAction] = useState("");
   const [successPasswordChange, setSuccessPasswordChange] = useState<string | null>(null);
   const [oldPassword, setOldPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
+  const [userFirstName, setUserFirstName] = useState("");
+
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Settings";
+    if (firstName){
+    setUserFirstName(capitalise(firstName));
+    }
   }, []);
 
 
@@ -89,6 +93,10 @@ export function Settings() {
         })
 
     }
+  }
+  const capitalise = (name:string) => {
+    if (!name) return '';
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
   return (
     <>
